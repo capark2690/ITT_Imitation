@@ -6,18 +6,29 @@ public class ITT : ModuleRules
 {
 	public ITT(ReadOnlyTargetRules Target) : base(Target)
 	{
+		// ========== PCH ========== //
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
-
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+		PrivatePCHHeaderFile = "ITT.h";
+		// ========================= //
 		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-
-		// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
+		
+		// ========== Paths ========== //
+		PrivateIncludePaths.Add("ITT");
+		PrivateIncludePaths.Add("ITT/Utility");
+		// =========================== //
+		
+		
+		// ========== Modules ========== //
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput"
+		});
+		
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			
+		});
+		// ============================= //
 	}
 }
