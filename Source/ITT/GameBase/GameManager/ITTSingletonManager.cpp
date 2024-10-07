@@ -5,7 +5,7 @@
 
 #include "ITTSingleton.h"
 
-#include "GameBase/GameManager/Table/ITTTableManager.h"
+#include "GameBase/GameManager/Data/ITTTableManager.h"
 
 
 TObjectPtr<UITTSingletonManager> UITTSingletonManager::Instance = nullptr;
