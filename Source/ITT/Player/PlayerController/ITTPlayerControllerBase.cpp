@@ -7,6 +7,10 @@
 AITTPlayerControllerBase::AITTPlayerControllerBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	// Set mouse cursor
+	SetShowMouseCursor(true);
+	DefaultMouseCursor = EMouseCursor::Default;
+	CurrentMouseCursor = EMouseCursor::Default;
 }
 
 
