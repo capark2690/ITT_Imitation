@@ -65,6 +65,12 @@ protected:
 	FVector ForwardVector;
 
 	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector CameraVector;
+	
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector ForwardVectorFromCameraVector;
+	
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FRotator ActorRotation;
 	
 	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

@@ -79,7 +79,14 @@ void UITTSubAnimInstance_Movement::UpdateMovementValue(float DeltaSeconds)
 		// Direction
 		ForwardVector = CharacterBase->GetActorForwardVector();
 		ITTLOG(Warning, TEXT("[%s] ForwardVector : %f, %f, %f"), *ITTSTRING_FUNC, ForwardVector.X, ForwardVector.Y, ForwardVector.Z);
+
+		// ToDo : Calc Camera Vector
+		CameraVector = FVector::Zero();
+		ITTLOG(Warning, TEXT("[%s] CameraVector : %f, %f, %f"), *ITTSTRING_FUNC, CameraVector.X, CameraVector.Y, CameraVector.Z);
 		
+		ForwardVectorFromCameraVector = ForwardVector - CameraVector;
+		ITTLOG(Warning, TEXT("[%s] ForwardVectorFromCameraVector : %f, %f, %f"), *ITTSTRING_FUNC, ForwardVectorFromCameraVector.X, ForwardVectorFromCameraVector.Y, ForwardVectorFromCameraVector.Z);
+
 		ControlRotation = CharacterBase->GetControlRotation();
 		ITTLOG(Warning, TEXT("[%s] ControlRotation : %f, %f, %f"), *ITTSTRING_FUNC, ControlRotation.Roll, ControlRotation.Pitch, ControlRotation.Yaw);
 		
