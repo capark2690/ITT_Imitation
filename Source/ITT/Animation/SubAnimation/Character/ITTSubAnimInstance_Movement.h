@@ -32,4 +32,54 @@ protected:
 	
 	virtual void UpdateMovementValue(float DeltaSeconds);
 	// ==================================== //
+
+	
+protected:
+	// ========== Movement Value ========== //
+	// ----- No Update ----- //
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float MinWalkSpeed;
+	
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float MaxJogSpeed;
+	
+
+	// ----- Update ----- //
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bShouldMove;
+
+	
+	// -- Speed -- //
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector Velocity;
+	
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float GroundSpeed;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float GroundSpeedPerMaxJogSpeed;
+
+	
+	// -- Direction -- //
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector ForwardVector;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FRotator ActorRotation;
+	
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FRotator ControlRotation;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float ActorYawFromControlYaw;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float FaceYaw_Cached;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float FaceYaw_Target;
+
+	UPROPERTY(Category = ITTAnim, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float FaceYaw;
+	// ==================================== //
 };
