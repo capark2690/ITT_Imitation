@@ -71,6 +71,10 @@ public:
 	virtual void OnStartSprint(int32 DataIndex);
 
 	virtual void OnStopSprint(int32 DataIndex);
+
+	
+	// -- Jump -- //
+	virtual bool DoJump(bool bReplayingMoves) override;
 	// ============================== //
 
 	

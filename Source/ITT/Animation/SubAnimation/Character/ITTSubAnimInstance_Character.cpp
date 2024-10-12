@@ -92,3 +92,14 @@ void UITTSubAnimInstance_Character::InitializeSubAnimData()
 	}
 }
 // ========================== //
+
+
+// ========== On State Event Function ========== //
+void UITTSubAnimInstance_Character::SetITTMovementMode(FITTMovementMode ITTMovementMode, bool bChangeImmediately)
+{
+	if (CharacterBase != nullptr && CharacterMovementComponent != nullptr)
+	{
+		CharacterMovementComponent->SetITTMovementMode(ITTMovementMode, bChangeImmediately);
+	}
+}
+// ============================================= //

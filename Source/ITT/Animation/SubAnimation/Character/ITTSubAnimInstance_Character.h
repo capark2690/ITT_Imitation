@@ -43,6 +43,12 @@ protected:
 	virtual void InitializeSubAnimData();
 	// ================================== //
 
+
+	// ========== On State Event Function ========== //
+	UFUNCTION(Category=ITT, BlueprintCallable, Meta = (BlueprintThreadSafe))
+	virtual void SetITTMovementMode(FITTMovementMode ITTMovementMode, bool bChangeImmediately = true);
+	// ============================================= //
+
 	
 protected:
 	TWeakObjectPtr<class AITTCharacterBase> CharacterBase;

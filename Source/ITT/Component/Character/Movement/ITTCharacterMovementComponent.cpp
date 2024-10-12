@@ -247,4 +247,20 @@ void UITTCharacterMovementComponent::OnStopSprint(int32 DataIndex)
 		}
 	}
 }
+
+
+// -- Jump -- //
+bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
+{
+	// Call SetITTMovementMode before the parent's to prevent changes to previous values due to duplicate calls
+	if ( CharacterOwner && CharacterOwner->CanJump() )
+	{
+		if (!bConstrainToPlane || FMath::Abs(PlaneConstraintNormal.Z) != 1.f)
+		{
+			SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_Jump);
+		}
+	}
+	
+	return Super::DoJump(bReplayingMoves);
+}
 // ============================== //

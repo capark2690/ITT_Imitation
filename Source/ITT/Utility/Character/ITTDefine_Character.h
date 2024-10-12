@@ -43,7 +43,7 @@ enum class EITTSubMovementMode_NavWalking : uint8
 UENUM(BlueprintType)
 enum class EITTSubMovementMode_Falling : uint8
 {
-	Falling_Falling,
+	Falling_InAir,
 	Falling_Jump,
 	Falling_DoubleJump,
 	Falling_LongJump,
