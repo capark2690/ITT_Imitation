@@ -7,6 +7,7 @@
 
 #include "GameBase/GameManager/Data/ITTTableManager.h"
 #include "GameBase/GameManager/GUI/ITTWidgetManager.h"
+#include "GameBase/GameManager/GameBase/ITTLevelManager.h"
 
 
 TObjectPtr<UITTSingletonManager> UITTSingletonManager::Instance = nullptr;
@@ -119,6 +120,7 @@ void UITTSingletonManager::RegisterSingletons()
 	// Singletons.Emplace([Class]::CreateInstance());
 	Singletons.Emplace(UITTTableManager::CreateInstance());
 	Singletons.Emplace(UITTWidgetManager::CreateInstance());
+	Singletons.Emplace(UITTLevelManager::CreateInstance());
 }
 
 void UITTSingletonManager::RegisterSingletonsForTick()
@@ -134,6 +136,7 @@ void UITTSingletonManager::UnregisterSingletons()
 	SingletonsForTick.Reset();
 	
 	// [Class]::DestroyInstance();
+	UITTLevelManager::DestroyInstance();
 	UITTWidgetManager::DestroyInstance();
 	UITTTableManager::DestroyInstance();
 }

@@ -8,6 +8,7 @@
 #include "GameBase/BasicUtility/ITTBasicUtility.h"
 
 #include "GameBase/GameManager/ITTSingletonManager.h"
+#include "GameBase/GameManager/GameBase/ITTLevelManager.h"
 
 
 UITTGameInstanceBase::UITTGameInstanceBase()
@@ -44,6 +45,11 @@ void UITTGameInstanceBase::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld)
 void UITTGameInstanceBase::LoadComplete(const float LoadTime, const FString& MapName)
 {
 	Super::LoadComplete(LoadTime, MapName);
+
+	if (IsValid(LevelMgr))
+	{
+		LevelMgr->LoadLevelComplete();
+	}
 }
 
 bool UITTGameInstanceBase::Tick(float DeltaSeconds)
