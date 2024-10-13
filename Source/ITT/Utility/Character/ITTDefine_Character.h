@@ -151,6 +151,7 @@ uint32 GetTypeHash(const FITTMovementMode& MovementMode);
 
 
 // ========== Movement Mode Data ========== //
+// -- Sprint -- //
 USTRUCT(Blueprintable)
 struct FITTSprintModeData
 {

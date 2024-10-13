@@ -93,7 +93,7 @@ protected:
 
 	// ========== Movement ========== //
 	// -- Sprint -- //
-	UPROPERTY(Category=ITT, EditAnywhere)
+	UPROPERTY(Category="ITT|Sprint", EditAnywhere)
 	TArray<FITTSprintModeData> SprintModeDatas;
 	// ============================== //
 };
