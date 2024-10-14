@@ -21,6 +21,23 @@ enum class EITTLaunchProcess : uint8
 	End
 };
 // ================================== //
+
+
+// ========== Scene ========== //
+UENUM()
+enum class EITTSceneType : uint32
+{
+	// MainScene * 8 / SubScene * 8 / Detail1 * 8 / Detail2 * 8
+	
+	None = 0b0,
+};
+
+UENUM()
+enum class EITTLoadingType : uint8
+{
+	None = 0,
+};
+// =========================== //
 // ============================================== //
 
 

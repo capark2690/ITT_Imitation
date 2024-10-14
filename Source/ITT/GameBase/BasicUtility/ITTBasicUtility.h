@@ -49,6 +49,10 @@ public:
 	// -- Table -- //
 	static const FString& GetTableListPath();
 	// ================================ //
+	
+	
+	// -- Scene -- //
+	static uint32 GetFirstSceneIndex();
 	// ================================================ //
 
 	
