@@ -102,6 +102,7 @@ UWorld* UITTBasicUtility::GetITTWorld()
 
 
 // ========== GameConfig ========== //
+// -- Table -- //
 const FString& UITTBasicUtility::GetTableListPath()
 {
 	ITTCHECK(Instance);
