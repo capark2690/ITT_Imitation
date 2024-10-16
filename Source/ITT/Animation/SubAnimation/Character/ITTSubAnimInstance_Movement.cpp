@@ -62,9 +62,6 @@ void UITTSubAnimInstance_Movement::UpdateMovementValue(float DeltaSeconds)
 {
 	if (CharacterBase != nullptr && CharacterMovementComponent != nullptr)
 	{
-		bShouldMove = CharacterMovementComponent->GetCurrentAcceleration() != FVector::Zero() && GroundSpeed > MinWalkSpeed;
-		ITTLOG(Warning, TEXT("[%s] ShouldMove : %d"), *ITTSTRING_FUNC, bShouldMove ? 1 : 0);
-		
 		// Speed
 		Velocity = CharacterMovementComponent->Velocity;
 		ITTLOG(Warning, TEXT("[%s] Velocity : %f, %f, %f"), *ITTSTRING_FUNC, Velocity.X, Velocity.Y, Velocity.Z);
@@ -74,6 +71,9 @@ void UITTSubAnimInstance_Movement::UpdateMovementValue(float DeltaSeconds)
 
 		GroundSpeedPerMaxJogSpeed = GroundSpeed / MaxJogSpeed;
 		ITTLOG(Warning, TEXT("[%s] GroundSpeedPerMaxJogSpeed : %f"), *ITTSTRING_FUNC, GroundSpeedPerMaxJogSpeed);
+
+		bShouldMove = CharacterMovementComponent->GetCurrentAcceleration() != FVector::Zero() && GroundSpeed > MinWalkSpeed;
+		ITTLOG(Warning, TEXT("[%s] ShouldMove : %d"), *ITTSTRING_FUNC, bShouldMove ? 1 : 0);
 
 		
 		// Direction
