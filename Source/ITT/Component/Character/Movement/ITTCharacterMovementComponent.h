@@ -75,6 +75,16 @@ public:
 	
 	// -- Jump -- //
 	virtual bool DoJump(bool bReplayingMoves) override;
+
+
+	// -- Dash -- //
+	virtual void Dash();
+	
+	virtual void DoDash();
+	
+	virtual bool CanDash() const;
+
+	virtual bool IsDash() const;
 	// ============================== //
 
 	

@@ -263,4 +263,36 @@ bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
 	
 	return Super::DoJump(bReplayingMoves);
 }
+
+
+// -- Dash -- //
+void UITTCharacterMovementComponent::Dash()
+{
+	if (CanDash())
+	{
+		DoDash();
+	}
+}
+
+void UITTCharacterMovementComponent::DoDash()
+{
+	SetITTMovementMode<EITTSubMovementMode_Walking>(EMovementMode::MOVE_Walking, EITTSubMovementMode_Walking::Walking_Dash);
+}
+
+bool UITTCharacterMovementComponent::CanDash() const
+{
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+	
+	return static_cast<EMovementMode>(CurrentMovementMode.MainMode) == EMovementMode::MOVE_Walking
+		&& static_cast<EITTSubMovementMode_Walking>(CurrentMovementMode.SubMode) == EITTSubMovementMode_Walking::Walking_Jogging
+		&& GetCurrentAcceleration() != FVector::Zero() && Velocity.Size2D() > 0.0f;
+}
+
+bool UITTCharacterMovementComponent::IsDash() const
+{
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	return static_cast<EMovementMode>(CurrentMovementMode.MainMode) == EMovementMode::MOVE_Walking
+		&& static_cast<EITTSubMovementMode_Walking>(CurrentMovementMode.SubMode) == EITTSubMovementMode_Walking::Walking_Dash;
+}
 // ============================== //
