@@ -64,6 +64,13 @@ public:
 	void InputFindOtherPlayer(const struct FInputActionValue& Value);
 	// =========================== //
 
+
+	// ========== Input Control ========== //
+	void LockMovementInput();
+
+	void UnlockMovementInput();
+	// =================================== //
+
 	
 private:
 	// ========== Owner ========== //
@@ -116,4 +123,9 @@ private:
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* FindOtherPlayerAction;
 	// =========================== //
+
+
+	// ========== Input Control ========== //
+	bool bLockMovementInput;
+	// =================================== //
 };

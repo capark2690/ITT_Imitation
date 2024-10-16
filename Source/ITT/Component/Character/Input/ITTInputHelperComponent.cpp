@@ -15,6 +15,7 @@
 
 
 UITTInputHelperComponent::UITTInputHelperComponent()
+	: bLockMovementInput(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
@@ -92,27 +93,33 @@ void UITTInputHelperComponent::SetupPlayerInputComponent(UInputComponent* Player
 // -- Movement -- //
 void UITTInputHelperComponent::InputMove(const FInputActionValue& Value)
 {
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+	if (!bLockMovementInput)
 	{
-		if (PlayerController != nullptr)
+		FVector2D MovementVector = Value.Get<FVector2D>();
+
+		if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
 		{
-			const FRotator Rotation = PlayerController->GetControlRotation();
-			const FRotator YawRotation(0, Rotation.Yaw, 0);
+			if (PlayerController != nullptr)
+			{
+				const FRotator Rotation = PlayerController->GetControlRotation();
+				const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-			const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-			const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+				const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+				const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-			Character->AddMovementInput(ForwardDirection, MovementVector.Y);
-			Character->AddMovementInput(RightDirection, MovementVector.X);
+				Character->AddMovementInput(ForwardDirection, MovementVector.Y);
+				Character->AddMovementInput(RightDirection, MovementVector.X);
+			}
 		}
 	}
 }
 
 void UITTInputHelperComponent::InputJump(const FInputActionValue& Value)
 {
-	Character->Jump();
+	if (!bLockMovementInput)
+	{
+		Character->Jump();
+	}
 }
 
 void UITTInputHelperComponent::InputStopJumping(const FInputActionValue& Value)
@@ -133,6 +140,13 @@ void UITTInputHelperComponent::InputLook(const FInputActionValue& Value)
 
 void UITTInputHelperComponent::InputDash(const FInputActionValue& Value)
 {
+	if (!bLockMovementInput)
+	{
+		if (Character != nullptr && CharacterMovementComponent != nullptr)
+		{
+			CharacterMovementComponent->Dash();
+		}
+	}
 }
 
 void UITTInputHelperComponent::InputGroundPound_Crouch(const FInputActionValue& Value)
@@ -153,9 +167,12 @@ void UITTInputHelperComponent::InputStopSwing_GrindGrapple(const FInputActionVal
 
 void UITTInputHelperComponent::InputToggleSprint(const FInputActionValue& Value)
 {
-	if (Character != nullptr && CharacterMovementComponent != nullptr)
+	if (!bLockMovementInput)
 	{
-		CharacterMovementComponent->StartSprint();
+		if (Character != nullptr && CharacterMovementComponent != nullptr)
+		{
+			CharacterMovementComponent->StartSprint();
+		}
 	}
 }
 
@@ -197,3 +214,19 @@ void UITTInputHelperComponent::InputFindOtherPlayer(const FInputActionValue& Val
 {
 }
 // =========================== //
+
+
+// ========== Input Control ========== //
+void UITTInputHelperComponent::LockMovementInput()
+{
+	bLockMovementInput = true;
+
+	InputStopJumping(FInputActionValue());
+	InputStopToggleSprint(FInputActionValue());
+}
+
+void UITTInputHelperComponent::UnlockMovementInput()
+{
+	bLockMovementInput = false;
+}
+// =================================== //

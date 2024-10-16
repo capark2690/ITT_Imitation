@@ -37,6 +37,10 @@ public:
 	class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
+	// -- Input -- //
+	class UITTInputHelperComponent* GetInputHelperComponent() const { return InputHelperComponent; }
 	// =============================== //
 	// ================================================ //
 
