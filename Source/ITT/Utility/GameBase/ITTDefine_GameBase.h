@@ -30,6 +30,11 @@ enum class EITTSceneType : uint32
 	// MainScene * 8 / SubScene * 8 / Detail1 * 8 / Detail2 * 8
 	
 	None = 0b0,
+
+	ProductionLogo = 0b01,
+	GameLogo = 0b10,
+	
+	Title = 0b11,
 };
 
 UENUM()
