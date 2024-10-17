@@ -26,6 +26,7 @@ void UITTWidget_ProductionLogo::NativeTick(const FGeometry& MyGeometry, float In
 
 	if (bWAnimFinished)
 	{
+		bWAnimFinished = false;
 		ChangeScene();
 	}
 }

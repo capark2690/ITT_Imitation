@@ -26,6 +26,7 @@ void UITTWidget_GameLogo::NativeTick(const FGeometry& MyGeometry, float InDeltaT
 
 	if (bWAnimFinished)
 	{
+		bWAnimFinished = false;
 		ChangeScene();
 	}
 }
