@@ -16,4 +16,9 @@ class ITT_API UITTScene_Title : public UITTSceneBase
 
 public:
 	UITTScene_Title();
+
+	
+	virtual void Initialize(EITTSceneType _SceneType) override;
+	virtual void Finalize() override;
+	virtual void Tick(float DeltaTime) override;
 };
