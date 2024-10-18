@@ -27,7 +27,7 @@ enum class EITTLaunchProcess : uint8
 UENUM()
 enum class EITTSceneType : uint32
 {
-	// MainScene * 8 / SubScene * 8 / Detail1 * 8 / Detail2 * 8
+	// MainScene * 7 / SubScene * 8 / Detail1 * 8 / Detail2 * 8
 	
 	None = 0b0,
 
@@ -37,6 +37,10 @@ enum class EITTSceneType : uint32
 	Title = 0b11,
 	LocalPlay_SelectInput = 0b100,
 	LocalPlay_SelectCharacter = 0b101,
+
+	Ch1_Start = 0b01 << 24 | 0b01 << 16,
+	Ch2_Nail = 0b10 << 24 | 0b01 << 16,
+	Ch2_Machine = 0b10 << 24 | 0b10 << 16,
 };
 
 UENUM()
