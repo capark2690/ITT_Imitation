@@ -13,4 +13,13 @@ UCLASS()
 class ITT_API UITTScene_LocalPlay_SelectInput : public UITTSceneBase
 {
 	GENERATED_BODY()
+
+public:
+	UITTScene_LocalPlay_SelectInput();
+
+	
+	virtual void Initialize(EITTSceneType _SceneType) override;
+	virtual void BeginPlay() override;
+	virtual void Finalize() override;
+	virtual void Tick(float DeltaTime) override;
 };

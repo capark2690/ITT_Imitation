@@ -16,6 +16,30 @@ void UITTScene_GameLogo::Initialize(EITTSceneType _SceneType)
 {
 	Super::Initialize(_SceneType);
 
+	CreateWidget();
+}
+
+void UITTScene_GameLogo::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void UITTScene_GameLogo::Finalize()
+{
+	DestroyWidget();
+	
+	Super::Finalize();
+}
+
+void UITTScene_GameLogo::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+
+// ========== Widget ========== //
+void UITTScene_GameLogo::CreateWidget()
+{
 	if (WidgetMgr)
 	{
 		TObjectPtr<UITTWidget> Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_GameLogo::GetClassWidgetKey());
@@ -27,17 +51,11 @@ void UITTScene_GameLogo::Initialize(EITTSceneType _SceneType)
 	}
 }
 
-void UITTScene_GameLogo::Finalize()
+void UITTScene_GameLogo::DestroyWidget()
 {
 	if (WidgetMgr)
 	{
 		WidgetMgr->ITTDestroyWidget(UITTWidget_GameLogo::GetClassWidgetKey());
 	}
-	
-	Super::Finalize();
 }
-
-void UITTScene_GameLogo::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
+// ============================ //

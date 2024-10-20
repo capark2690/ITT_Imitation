@@ -60,8 +60,18 @@ private:
 	
 	// ========== Scene ========== //
 	void LoadFirstScene();
+
+	void BeginScene();
 	// =========================== //
-	
+
+
+public:
+	// ==================== Getter ==================== //
+	// ========== Scene ========== //
+	TObjectPtr<class UITTSceneBase> GetCurrentScene() { return CurrentScene; }
+	// =========================== //
+	// ================================================ //
+
 	
 private:
 	// ========== Helper ========== //

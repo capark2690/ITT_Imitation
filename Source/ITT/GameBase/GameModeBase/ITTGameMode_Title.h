@@ -16,4 +16,14 @@ class ITT_API AITTGameMode_Title : public AITTGameModeBase
 
 public:
 	AITTGameMode_Title();
+
+	
+protected:
+	virtual void BeginPlay() override;
+
+	
+protected:
+	// ========== Player ========== //
+	virtual void AdjustPlayer();
+	// ============================ //
 };

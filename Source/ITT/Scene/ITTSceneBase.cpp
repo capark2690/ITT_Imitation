@@ -20,6 +20,10 @@ void UITTSceneBase::Initialize(EITTSceneType _SceneType)
 	ITTLOG(Log, TEXT("[%s] Initialize scene [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
 }
 
+void UITTSceneBase::BeginPlay()
+{
+}
+
 void UITTSceneBase::Finalize()
 {
 	FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(FString("EITTSceneType"), SceneType);

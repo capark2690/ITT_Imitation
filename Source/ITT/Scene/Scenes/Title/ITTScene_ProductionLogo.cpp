@@ -16,6 +16,30 @@ void UITTScene_ProductionLogo::Initialize(EITTSceneType _SceneType)
 {
 	Super::Initialize(_SceneType);
 
+	CreateWidget();
+}
+
+void UITTScene_ProductionLogo::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void UITTScene_ProductionLogo::Finalize()
+{
+	DestroyWidget();
+	
+	Super::Finalize();
+}
+
+void UITTScene_ProductionLogo::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+
+// ========== Widget ========== //
+void UITTScene_ProductionLogo::CreateWidget()
+{
 	if (WidgetMgr)
 	{
 		TObjectPtr<UITTWidget> Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_ProductionLogo::GetClassWidgetKey());
@@ -27,17 +51,11 @@ void UITTScene_ProductionLogo::Initialize(EITTSceneType _SceneType)
 	}
 }
 
-void UITTScene_ProductionLogo::Finalize()
+void UITTScene_ProductionLogo::DestroyWidget()
 {
 	if (WidgetMgr)
 	{
 		WidgetMgr->ITTDestroyWidget(UITTWidget_ProductionLogo::GetClassWidgetKey());
 	}
-	
-	Super::Finalize();
 }
-
-void UITTScene_ProductionLogo::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
+// ============================ //
