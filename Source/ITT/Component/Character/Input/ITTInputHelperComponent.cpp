@@ -47,7 +47,7 @@ void UITTInputHelperComponent::SetupPlayerInputComponent(UInputComponent* Player
 		{
 			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 			{
-				Subsystem->AddMappingContext(MappingContext, 0);
+				Subsystem->AddMappingContext(MappingContext, 1);
 			}
 		}
 

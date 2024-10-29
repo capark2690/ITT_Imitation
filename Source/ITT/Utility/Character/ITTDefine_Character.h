@@ -11,6 +11,8 @@
 UENUM(BlueprintType)
 enum class EITTCharacter_Player : uint8
 {
+	None,
+	
 	Cody,
 	May
 };

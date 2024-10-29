@@ -4,6 +4,7 @@
 #include "ITTPlayerController_LocalMultiplay.h"
 
 #include "Engine/LocalPlayer.h"
+#include "GameBase/GameManager/GameBase/ITTGameProcessManager.h"
 
 
 AITTPlayerController_LocalMultiplay::AITTPlayerController_LocalMultiplay(const FObjectInitializer& ObjectInitializer)
@@ -15,13 +16,21 @@ AITTPlayerController_LocalMultiplay::AITTPlayerController_LocalMultiplay(const F
 void AITTPlayerController_LocalMultiplay::PreInitialize(ULocalPlayer* LocalPlayer)
 {
 	Super::PreInitialize(LocalPlayer);
-	
-	if (LocalPlayer->GetPlatformUserId().GetInternalId() == 0)
+
+	if (GameProcessMgr)
 	{
-		PlayerCharacter = EITTCharacter_Player::Cody;
+		PlayerCharacter = GameProcessMgr->GetControllerCharacter(LocalPlayer->GetPlatformUserId().GetInternalId());
 	}
-	else
+
+	if (PlayerCharacter == EITTCharacter_Player::None)
 	{
-		PlayerCharacter = EITTCharacter_Player::May;
+		if (LocalPlayer->GetPlatformUserId().GetInternalId() == 0)
+		{
+			PlayerCharacter = EITTCharacter_Player::Cody;
+		}
+		else
+		{
+			PlayerCharacter = EITTCharacter_Player::May;
+		}
 	}
 }

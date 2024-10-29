@@ -23,7 +23,7 @@ public:
 	virtual void Finalize() override;
 	virtual void Tick(float DeltaTime) override;
 
-
+	
 private:
 	// ========== Widget ========== //
 	void CreateWidget();
@@ -33,5 +33,11 @@ private:
 
 	// ========== Camera ========== //
 	void SetTargetCamera();
+	// ============================ //
+
+	
+private:
+	// ========== Widget ========== //
+	TObjectPtr<class UITTWidget_CharacterSelect> Widget_CharacterSelect;
 	// ============================ //
 };

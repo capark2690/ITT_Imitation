@@ -25,4 +25,20 @@ public:
 	// ========== Input ========== //
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// =========================== //
+
+
+	// ==================== Getter ==================== //
+	// ========== Component ========== //
+	// -- Input -- //
+	class UITTInputHelperComponent_GUI* GetInputHelperComponent_GUI() const { return InputHelperComponent_GUI; }
+	// =============================== //
+	// ================================================ //
+	
+	
+protected:
+	// ========== Component ========== //
+	// -- Input -- //
+	UPROPERTY(Category = ITTComponent, VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<class UITTInputHelperComponent_GUI> InputHelperComponent_GUI;
+	// =============================== //
 };

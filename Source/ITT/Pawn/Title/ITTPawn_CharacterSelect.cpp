@@ -3,10 +3,15 @@
 
 #include "ITTPawn_CharacterSelect.h"
 
+#include "Component/Character/Input/ITTInputHelperComponent_GUI.h"
+
 
 AITTPawn_CharacterSelect::AITTPawn_CharacterSelect()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	// Create input helper component
+	InputHelperComponent_GUI = CreateDefaultSubobject<UITTInputHelperComponent_GUI>(TEXT("InputHelperComponent_GUI"));
 }
 
 
@@ -26,5 +31,10 @@ void AITTPawn_CharacterSelect::Tick(float DeltaTime)
 void AITTPawn_CharacterSelect::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	if (InputHelperComponent_GUI)
+	{
+		InputHelperComponent_GUI->SetupPlayerInputComponent(PlayerInputComponent);
+	}
 }
 // =========================== //

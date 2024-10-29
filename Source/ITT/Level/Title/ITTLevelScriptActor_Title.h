@@ -34,12 +34,6 @@ public:
 	// -- Character Select -- //
 	class ACameraActor* GetCharacterSelectCamera() const { return CharacterSelectCamera; }
 	// ============================ //
-
-
-	// ========== Actor ========== //
-	// -- Character Select -- //
-	class AITTPawn_CharacterSelect* GetCharacterSelectActor() const { return CharacterSelectPawn; }
-	// =========================== //
 	// ================================================ //
 
 	
@@ -54,11 +48,4 @@ protected:
 	UPROPERTY(Category=ITT, EditAnywhere)
 	TObjectPtr<class ACameraActor> CharacterSelectCamera;
 	// ============================ //
-
-
-	// ========== Actor ========== //
-	// -- Character Select -- //
-	UPROPERTY(Category=ITT, EditAnywhere)
-	TObjectPtr<class AITTPawn_CharacterSelect> CharacterSelectPawn;
-	// =========================== //
 };
