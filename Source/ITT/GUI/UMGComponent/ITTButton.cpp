@@ -39,6 +39,9 @@ void UITTButton::SetStringIndex(int32 _StringIndex)
 // ========== String Index ========== //
 void UITTButton::OnChangeStringIndex()
 {
-	TXT_Button->SetStringIndex(StringIndex);
+	if (TXT_Button)
+	{
+		TXT_Button->SetStringIndex(StringIndex);
+	}
 }
 // ================================== //
