@@ -26,7 +26,6 @@ public:
 private:
 	// ========== Widget ========== //
 	void CreateWidget();
-	void DestroyWidget();
 	// ============================ //
 
 

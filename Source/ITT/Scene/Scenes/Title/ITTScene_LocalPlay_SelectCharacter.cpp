@@ -33,8 +33,6 @@ void UITTScene_LocalPlay_SelectCharacter::Initialize(EITTSceneType _SceneType)
 
 void UITTScene_LocalPlay_SelectCharacter::Finalize()
 {
-	DestroyWidget();
-	
 	Super::Finalize();
 }
 
@@ -58,14 +56,6 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 				Widget_CharacterSelect->ChangeActivation(true);
 			}
 		}
-	}
-}
-
-void UITTScene_LocalPlay_SelectCharacter::DestroyWidget()
-{
-	if (WidgetMgr)
-	{
-		WidgetMgr->ITTDestroyWidget(UITTWidget_CharacterSelect::GetClassWidgetKey());
 	}
 }
 // ============================ //

@@ -4,6 +4,7 @@
 #include "ITTWidget_Button_CharacterSelect.h"
 
 #include "Components/Image.h"
+#include "Components/WidgetSwitcher.h"
 #include "Components/VerticalBox.h"
 
 #include "GUI/Widget/Key/ITTWidget_Key.h"
@@ -73,5 +74,10 @@ void UITTWidget_Button_CharacterSelect::SetKeyImageByPlayerId()
 
 		WBP_ConfirmKey->UpdateKeyImage(ControllerId);
 	}
+}
+
+void UITTWidget_Button_CharacterSelect::SetConfirmWidgetSwitcher(bool bConfirm)
+{
+	WS_Confirm->SetActiveWidgetIndex(bConfirm ? 1 : 0);
 }
 // ============================ //

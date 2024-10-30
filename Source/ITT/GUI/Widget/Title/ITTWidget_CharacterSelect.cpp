@@ -15,7 +15,7 @@
 
 
 UITTWidget_CharacterSelect::UITTWidget_CharacterSelect(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), MaxConfirmTime(3.f), ConfirmTime_Player1(0.f), ConfirmTime_Player2(0.f), bInputConfirm_Player1(false), bInputConfirm_Player2(false)
+	: Super(ObjectInitializer), bConfirm_Player1(false), bConfirm_Player2(false)
 {
 }
 
@@ -32,7 +32,6 @@ void UITTWidget_CharacterSelect::NativeConstruct()
 	Super::NativeConstruct();
 
 	UpdateDesign_BTN();
-	ResetConfirm();
 }
 
 void UITTWidget_CharacterSelect::NativeDestruct()
@@ -45,10 +44,25 @@ void UITTWidget_CharacterSelect::NativeDestruct()
 void UITTWidget_CharacterSelect::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
-	CheckConfirm();
-	CalcConfirmTime(InDeltaTime);
 }
+
+
+// ========== Close ========== //
+void UITTWidget_CharacterSelect::PrepareToFinish()
+{
+	PlayDisappearanceWidgetAnimation();
+}
+
+void UITTWidget_CharacterSelect::Finish()
+{
+	Super::Finish();
+
+	if (SceneMgr)
+	{
+		SceneMgr->ChangeScene(EITTSceneType::Ch1_Start, EITTLoadingType::None, true);
+	}
+}
+// =========================== //
 
 
 // ========== Input Action ========== //
@@ -59,7 +73,6 @@ void UITTWidget_CharacterSelect::BindInputAction()
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player1->InputComponent))
 		{
 			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Player1);
-			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Player1);
 	
 			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player1);
 		
@@ -72,7 +85,6 @@ void UITTWidget_CharacterSelect::BindInputAction()
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player2->InputComponent))
 		{
 			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Player2);
-			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Player2);
 	
 			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player2);
 		
@@ -108,13 +120,11 @@ void UITTWidget_CharacterSelect::InputConfirm_Player1()
 {
 	if (SelectCharacter_Player1 != EITTCharacter_Player::None)
 	{
-		bInputConfirm_Player1 = true;
+		bConfirm_Player1 = true;
+		CheckConfirm();
 	}
-}
 
-void UITTWidget_CharacterSelect::InputStopConfirm_Player1()
-{
-	bInputConfirm_Player1 = false;
+	UpdateDesign_BTN();
 }
 
 void UITTWidget_CharacterSelect::InputRight_Player1()
@@ -127,9 +137,8 @@ void UITTWidget_CharacterSelect::InputRight_Player1()
 	if (SelectCharacter_Player1 == EITTCharacter_Player::May)
 	{
 		SelectCharacter_Player1 = EITTCharacter_Player::None;
-
-		ConfirmTime_Player1 = 0.f;
-		bInputConfirm_Player1 = false;
+		
+		bConfirm_Player1 = false;
 	}
 
 	UpdateDesign_BTN();
@@ -145,9 +154,8 @@ void UITTWidget_CharacterSelect::InputLeft_Player1()
 	if (SelectCharacter_Player1 == EITTCharacter_Player::Cody)
 	{
 		SelectCharacter_Player1 = EITTCharacter_Player::None;
-
-		ConfirmTime_Player1 = 0.f;
-		bInputConfirm_Player1 = false;
+		
+		bConfirm_Player1 = false;
 	}
 
 	UpdateDesign_BTN();
@@ -159,13 +167,11 @@ void UITTWidget_CharacterSelect::InputConfirm_Player2()
 {
 	if (SelectCharacter_Player2 != EITTCharacter_Player::None)
 	{
-		bInputConfirm_Player2 = true;
+		bConfirm_Player2 = true;
+		CheckConfirm();
 	}
-}
-
-void UITTWidget_CharacterSelect::InputStopConfirm_Player2()
-{
-	bInputConfirm_Player2 = false;
+	
+	UpdateDesign_BTN();
 }
 
 void UITTWidget_CharacterSelect::InputRight_Player2()
@@ -178,9 +184,8 @@ void UITTWidget_CharacterSelect::InputRight_Player2()
 	if (SelectCharacter_Player2 == EITTCharacter_Player::May)
 	{
 		SelectCharacter_Player2 = EITTCharacter_Player::None;
-
-		ConfirmTime_Player2 = 0.f;
-		bInputConfirm_Player2 = false;
+		
+		bConfirm_Player2 = false;
 	}
 
 	UpdateDesign_BTN();
@@ -196,9 +201,8 @@ void UITTWidget_CharacterSelect::InputLeft_Player2()
 	if (SelectCharacter_Player2 == EITTCharacter_Player::Cody)
 	{
 		SelectCharacter_Player2 = EITTCharacter_Player::None;
-
-		ConfirmTime_Player2 = 0.f;
-		bInputConfirm_Player2 = false;
+		
+		bConfirm_Player2 = false;
 	}
 
 	UpdateDesign_BTN();
@@ -207,46 +211,9 @@ void UITTWidget_CharacterSelect::InputLeft_Player2()
 
 
 // ========== Progress ========== //
-void UITTWidget_CharacterSelect::ResetConfirm()
-{
-	ConfirmTime_Player1 = 0.f;
-	ConfirmTime_Player2 = 0.f;
-	bInputConfirm_Player1 = false;
-	bInputConfirm_Player2 = false;
-}
-
-void UITTWidget_CharacterSelect::CalcConfirmTime(float InDeltaTime)
-{
-	// Player1
-	if (bInputConfirm_Player1)
-	{
-		if (ConfirmTime_Player1 >= MaxConfirmTime)
-		{
-			bInputConfirm_Player1 = false;
-		}
-		else
-		{
-			ConfirmTime_Player1 += InDeltaTime;
-		}
-	}
-
-	// Player2
-	if (bInputConfirm_Player2)
-	{
-		if (ConfirmTime_Player2 >= MaxConfirmTime)
-		{
-			bInputConfirm_Player2 = false;
-		}
-		else
-		{
-			ConfirmTime_Player2 += InDeltaTime;
-		}
-	}
-}
-
 void UITTWidget_CharacterSelect::CheckConfirm()
 {
-	if (ConfirmTime_Player1 >= MaxConfirmTime && ConfirmTime_Player2 >= MaxConfirmTime)
+	if (bConfirm_Player1  && bConfirm_Player2)
 	{
 		if (GameProcessMgr)
 		{
@@ -255,11 +222,8 @@ void UITTWidget_CharacterSelect::CheckConfirm()
 			GameProcessMgr->AddControllerIdToCharacter(0, SelectCharacter_Player1);
 			GameProcessMgr->AddControllerIdToCharacter(1, SelectCharacter_Player2);
 		}
-		
-		if (SceneMgr)
-		{
-			SceneMgr->ChangeScene(EITTSceneType::Ch1_Start, EITTLoadingType::None, true);
-		}
+
+		ITTCloseWidget(false);
 	}
 }
 // ============================== //
@@ -273,43 +237,87 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 	ESlateVisibility Visibility_ConfirmBTN_Right = ESlateVisibility::Hidden;
 	ESlateVisibility Visibility_ConfirmBTN_Left = ESlateVisibility::Hidden;
 	
+	bool bConfirm_ConfirmBTN_Right = false;
+	bool bConfirm_ConfirmBTN_Left = false;
+	
 	switch (SelectCharacter_Player1)
 	{
 	case EITTCharacter_Player::None:
-		Visibility_SelectBTN_Player1 = ESlateVisibility::SelfHitTestInvisible;
-		break;
-
+		{
+			Visibility_SelectBTN_Player1 = ESlateVisibility::SelfHitTestInvisible;
+			break;
+		}
+		
 	case EITTCharacter_Player::Cody:
-		Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
-		WBP_ConfirmBTN_Right->SetControllerId(0);
-		break;
+		{
+			Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
+			WBP_ConfirmBTN_Right->SetControllerId(0);
+
+			bConfirm_ConfirmBTN_Right = bConfirm_Player1;
+			break;
+		}
 
 	case EITTCharacter_Player::May:
-		Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
-		WBP_ConfirmBTN_Left->SetControllerId(0);
-		break;
+		{
+			Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
+			WBP_ConfirmBTN_Left->SetControllerId(0);
+
+			bConfirm_ConfirmBTN_Left = bConfirm_Player1;
+			break;
+		}
 	}
 	
 	switch (SelectCharacter_Player2)
 	{
 	case EITTCharacter_Player::None:
-		Visibility_SelectBTN_Player2 = ESlateVisibility::SelfHitTestInvisible;
-		break;
-
+		{
+			Visibility_SelectBTN_Player2 = ESlateVisibility::SelfHitTestInvisible;
+			break;
+		}
+		
 	case EITTCharacter_Player::Cody:
-		Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
-		WBP_ConfirmBTN_Right->SetControllerId(1);
-		break;
+		{
+			Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
+			WBP_ConfirmBTN_Right->SetControllerId(1);
+			
+			bConfirm_ConfirmBTN_Right = bConfirm_Player2;
+			break;
+		}
 
 	case EITTCharacter_Player::May:
-		Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
-		WBP_ConfirmBTN_Left->SetControllerId(1);
-		break;
+		{
+			Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
+			WBP_ConfirmBTN_Left->SetControllerId(1);
+
+			bConfirm_ConfirmBTN_Left = bConfirm_Player2;
+			break;
+		}
 	}
 
 	WBP_SelectBTN_Player1->SetVisibility(Visibility_SelectBTN_Player1);
 	WBP_SelectBTN_Player2->SetVisibility(Visibility_SelectBTN_Player2);
 	WBP_ConfirmBTN_Right->SetVisibility(Visibility_ConfirmBTN_Right);
 	WBP_ConfirmBTN_Left->SetVisibility(Visibility_ConfirmBTN_Left);
+	
+	WBP_ConfirmBTN_Right->SetConfirmWidgetSwitcher(bConfirm_ConfirmBTN_Right);
+	WBP_ConfirmBTN_Left->SetConfirmWidgetSwitcher(bConfirm_ConfirmBTN_Left);
 }
 // ============================ //
+
+
+// ========== Widget Animation ========== //
+void UITTWidget_CharacterSelect::PlayDisappearanceWidgetAnimation()
+{
+	PlayAnimation(WAnim_Disappearance);
+}
+
+void UITTWidget_CharacterSelect::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
+{
+	Super::OnAnimationFinished_Implementation(Animation);
+
+	if (Animation == WAnim_Disappearance)
+	{
+		Finish();
+	}
+}
+// ====================================== //

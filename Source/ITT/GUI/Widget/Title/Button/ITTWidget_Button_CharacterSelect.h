@@ -34,6 +34,9 @@ private:
 	void InitializeDesign();
 
 	void SetKeyImageByPlayerId();
+
+public:
+	void SetConfirmWidgetSwitcher(bool bConfirm);
 	// ============================ //
 
 	
@@ -59,6 +62,9 @@ protected:
 	
 	UPROPERTY(Meta = (BindWidget))
 	class UImage* IMG_Arrow_L;
+
+	UPROPERTY(Meta = (BindWidget))
+	class UWidgetSwitcher* WS_Confirm;
 	
 	UPROPERTY(Meta = (BindWidget))
 	class UVerticalBox* VBX_Confirm;

@@ -27,6 +27,14 @@ public:
 	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
+
+protected:
+	// ========== Close ========== //
+	virtual void PrepareToFinish() override;
+	
+	virtual void Finish() override;
+	// =========================== //
+
 	
 	// ========== Input Action ========== //
 	void BindInputAction();
@@ -39,7 +47,6 @@ private:
 	// ========== Input ========== //
 	// -- Player1 -- //
 	void InputConfirm_Player1();
-	void InputStopConfirm_Player1();
 	
 	void InputRight_Player1();
 	
@@ -48,7 +55,6 @@ private:
 
 	// -- Player2 -- //
 	void InputConfirm_Player2();
-	void InputStopConfirm_Player2();
 	
 	void InputRight_Player2();
 	
@@ -57,10 +63,6 @@ private:
 
 
 	// ========== Progress ========== //
-	void ResetConfirm();
-	
-	void CalcConfirmTime(float InDeltaTime);
-
 	void CheckConfirm();
 	// ============================== //
 
@@ -68,6 +70,14 @@ private:
 	// ========== Design ========== //
 	void UpdateDesign_BTN();
 	// ============================ //
+
+
+public:
+	// ========== Widget Animation ========== //
+	void PlayDisappearanceWidgetAnimation();
+
+	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
+	// ====================================== //
 
 	
 protected:
@@ -89,15 +99,9 @@ protected:
 	// ========== Progress ========== //
 	EITTCharacter_Player SelectCharacter_Player1;
 	EITTCharacter_Player SelectCharacter_Player2;
-
-	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	float MaxConfirmTime;
 	
-	float ConfirmTime_Player1;
-	float ConfirmTime_Player2;
-
-	bool bInputConfirm_Player1;
-	bool bInputConfirm_Player2;
+	bool bConfirm_Player1;
+	bool bConfirm_Player2;
 	// ============================== //
 
 
@@ -114,5 +118,13 @@ protected:
 	UPROPERTY(Meta = (BindWidget))
 	class UITTWidget_Button_CharacterSelect* WBP_ConfirmBTN_Right;
 	// ========================= //
+
+	
+	// ========== Widget Animation ========== //
+	bool bWAnimFinished;
+	
+	UPROPERTY(Transient, Meta = (BindWidgetAnim))
+	class UWidgetAnimation* WAnim_Disappearance;
+	// ====================================== //
 };
 // ToDo : Processing when using the same controller device
