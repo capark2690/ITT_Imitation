@@ -38,6 +38,8 @@ void UITTTable_Scene::Initialize()
 		SceneClasses.Emplace(Row->SceneType, Row->ITTSceneClass);
 		
 		SceneLevelNames.Emplace(Row->SceneType, Row->LevelName);
+
+		SceneCameraDatas.Emplace(Row->SceneType, Row->SceneCameraData);
 	}
 }
 
@@ -69,5 +71,19 @@ FName UITTTable_Scene::GetSceneLevelName(EITTSceneType SceneType)
 	}
 	
 	return *SceneLevelNames.Find(SceneType);
+}
+
+UITTData_SceneCamera* UITTTable_Scene::GetSceneCameraData(EITTSceneType SceneType)
+{
+	ITTCHECK(GetDataTable());
+
+	if (!SceneCameraDatas.Contains(SceneType))
+	{
+		FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(TEXT("EITTSceneType"), static_cast<uint32>(SceneType));
+		ITTLOG(Error, TEXT("[%s] SceneType doesn't exist in SceneCameraDatas [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
+		return nullptr;
+	}
+	
+	return *SceneCameraDatas.Find(SceneType);
 }
 // =========================== //

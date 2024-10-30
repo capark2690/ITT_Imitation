@@ -23,10 +23,4 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
-
-private:
-	// ========== Scene ========== //
-	void BeginScene();
-	// =========================== //
 };

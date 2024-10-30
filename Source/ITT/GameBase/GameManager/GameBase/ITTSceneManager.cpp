@@ -220,8 +220,6 @@ void UITTSceneManager::OnChangeSceneState(int64 PreviousSceneId, int64 CurrentSc
 	if (!bOpenLevel)
 	{
 		OnLoadLevelComplete.ExecuteIfBound(FString());
-
-		BeginScene();
 	}
 
 	// Destroy previous scene
@@ -283,10 +281,5 @@ void UITTSceneManager::LoadFirstScene()
 	ITTCHECK(SceneHelper);
 	
 	ChangeScene(SceneHelper->GetFirstSceneType(), EITTLoadingType::None, true);
-}
-
-void UITTSceneManager::BeginScene()
-{
-	CurrentScene->BeginPlay();
 }
 // =========================== //

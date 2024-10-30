@@ -16,23 +16,11 @@ AITTLevelScriptActor::AITTLevelScriptActor()
 void AITTLevelScriptActor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	BeginScene();
+	
 }
 
 void AITTLevelScriptActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-
-
-// ========== Scene ========== //
-void AITTLevelScriptActor::BeginScene()
-{
-	if (SceneMgr)
-	{
-		SceneMgr->GetCurrentScene()->BeginPlay();
-	}
-}
-// =========================== //
 

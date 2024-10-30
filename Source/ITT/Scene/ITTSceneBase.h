@@ -20,7 +20,6 @@ public:
 
 	
 	virtual void Initialize(EITTSceneType _SceneType);
-	virtual void BeginPlay();
 	virtual void Finalize();
 	virtual void Tick(float DeltaTime);
 
@@ -38,6 +37,12 @@ public:
 	EITTSceneType GetSceneType() const { return SceneType; }
 	// =========================== //
 	// ================================================ //
+
+
+protected:
+	// ========== Camera ========== //
+	void SetSceneCamera();
+	// ============================ //
 
 	
 private:

@@ -19,7 +19,6 @@ public:
 
 	
 	virtual void Initialize(EITTSceneType _SceneType) override;
-	virtual void BeginPlay() override;
 	virtual void Finalize() override;
 	virtual void Tick(float DeltaTime) override;
 

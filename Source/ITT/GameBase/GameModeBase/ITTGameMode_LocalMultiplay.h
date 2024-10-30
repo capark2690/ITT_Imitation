@@ -23,6 +23,9 @@ protected:
 	virtual void AdjustPlayer() override;
 	// ============================ //
 
+	
 private:
+	// ========== Player ========== //
 	const int32 LocalPlayerNum = 2;
+	// ============================ //
 };

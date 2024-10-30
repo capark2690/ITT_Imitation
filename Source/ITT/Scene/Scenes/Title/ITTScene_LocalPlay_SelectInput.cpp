@@ -22,11 +22,6 @@ void UITTScene_LocalPlay_SelectInput::Initialize(EITTSceneType _SceneType)
 	}
 }
 
-void UITTScene_LocalPlay_SelectInput::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UITTScene_LocalPlay_SelectInput::Finalize()
 {
 	Super::Finalize();

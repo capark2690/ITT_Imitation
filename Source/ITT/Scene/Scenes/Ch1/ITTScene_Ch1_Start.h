@@ -13,4 +13,18 @@ UCLASS()
 class ITT_API UITTScene_Ch1_Start : public UITTSceneBase
 {
 	GENERATED_BODY()
+
+public:
+	UITTScene_Ch1_Start();
+
+	
+	virtual void Initialize(EITTSceneType _SceneType) override;
+	virtual void Finalize() override;
+	virtual void Tick(float DeltaTime) override;
+
+	
+private:
+	// ========== Camera ========== //
+	void SetCamera();
+	// ============================ //
 };

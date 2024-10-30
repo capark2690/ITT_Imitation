@@ -10,6 +10,9 @@
 
 #include "Button/ITTWidget_Button_CharacterSelect.h"
 
+#include "GameFramework/GameStateBase.h"
+#include "Kismet/GameplayStatics.h"
+
 
 UITTWidget_CharacterSelect::UITTWidget_CharacterSelect(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), MaxConfirmTime(3.f), ConfirmTime_Player1(0.f), ConfirmTime_Player2(0.f), bInputConfirm_Player1(false), bInputConfirm_Player2(false)
@@ -51,36 +54,46 @@ void UITTWidget_CharacterSelect::NativeTick(const FGeometry& MyGeometry, float I
 // ========== Input Action ========== //
 void UITTWidget_CharacterSelect::BindInputAction()
 {
-	if (IsValid(GetOwningPlayer()))
+	if (APlayerController* Player1 = UGameplayStatics::GetPlayerControllerFromID(this, 0))
 	{
-		// Set up action bindings
-		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(GetOwningPlayer()->InputComponent))
+		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player1->InputComponent))
 		{
-			// -- Keyboard -- //
-			EnhancedInputComponent->BindAction(ConfirmAction_Keyboard, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Keyboard);
-			EnhancedInputComponent->BindAction(ConfirmAction_Keyboard, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Keyboard);
+			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Player1);
+			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Player1);
 	
-			EnhancedInputComponent->BindAction(RightAction_Keyboard, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Keyboard);
+			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player1);
 		
-			EnhancedInputComponent->BindAction(LeftAction_Keyboard, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Keyboard);
+			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Player1);
+		}
+	}
 
-
-			// -- Gamepad -- //
-			FEnhancedInputActionEventBinding& BindEvnet = EnhancedInputComponent->BindAction(ConfirmAction_Gamepad, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Gamepad);
-			EnhancedInputComponent->BindAction(ConfirmAction_Gamepad, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Gamepad);
+	if (APlayerController* Player2 = UGameplayStatics::GetPlayerControllerFromID(this, 1))
+	{
+		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player2->InputComponent))
+		{
+			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputConfirm_Player2);
+			EnhancedInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &UITTWidget_CharacterSelect::InputStopConfirm_Player2);
 	
-			EnhancedInputComponent->BindAction(RightAction_Gamepad, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Gamepad);
+			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player2);
 		
-			EnhancedInputComponent->BindAction(LeftAction_Gamepad, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Gamepad);
+			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Player2);
 		}
 	}
 }
 
 void UITTWidget_CharacterSelect::ClearInputActionBindings()
 {
-	if (IsValid(GetOwningPlayer()))
+	if (APlayerController* Player1 = UGameplayStatics::GetPlayerControllerFromID(this, 0))
 	{
-		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(GetOwningPlayer()->InputComponent))
+		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player1->InputComponent))
+		{
+			EnhancedInputComponent->ClearActionBindings();
+		}
+	}
+
+	if (APlayerController* Player2 = UGameplayStatics::GetPlayerControllerFromID(this, 1))
+	{
+		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(Player2->InputComponent))
 		{
 			EnhancedInputComponent->ClearActionBindings();
 		}
@@ -90,8 +103,8 @@ void UITTWidget_CharacterSelect::ClearInputActionBindings()
 
 
 // ========== Input ========== //
-// -- Keyboard -- //
-void UITTWidget_CharacterSelect::InputConfirm_Keyboard()
+// -- Player1 -- //
+void UITTWidget_CharacterSelect::InputConfirm_Player1()
 {
 	if (SelectCharacter_Player1 != EITTCharacter_Player::None)
 	{
@@ -99,12 +112,12 @@ void UITTWidget_CharacterSelect::InputConfirm_Keyboard()
 	}
 }
 
-void UITTWidget_CharacterSelect::InputStopConfirm_Keyboard()
+void UITTWidget_CharacterSelect::InputStopConfirm_Player1()
 {
 	bInputConfirm_Player1 = false;
 }
 
-void UITTWidget_CharacterSelect::InputRight_Keyboard()
+void UITTWidget_CharacterSelect::InputRight_Player1()
 {
 	if (SelectCharacter_Player1 == EITTCharacter_Player::None && SelectCharacter_Player2 != EITTCharacter_Player::Cody)
 	{
@@ -122,7 +135,7 @@ void UITTWidget_CharacterSelect::InputRight_Keyboard()
 	UpdateDesign_BTN();
 }
 
-void UITTWidget_CharacterSelect::InputLeft_Keyboard()
+void UITTWidget_CharacterSelect::InputLeft_Player1()
 {
 	if (SelectCharacter_Player1 == EITTCharacter_Player::None && SelectCharacter_Player2 != EITTCharacter_Player::May)
 	{
@@ -141,8 +154,8 @@ void UITTWidget_CharacterSelect::InputLeft_Keyboard()
 }
 
 
-// -- Gamepad -- //
-void UITTWidget_CharacterSelect::InputConfirm_Gamepad()
+// -- Player2 -- //
+void UITTWidget_CharacterSelect::InputConfirm_Player2()
 {
 	if (SelectCharacter_Player2 != EITTCharacter_Player::None)
 	{
@@ -150,12 +163,12 @@ void UITTWidget_CharacterSelect::InputConfirm_Gamepad()
 	}
 }
 
-void UITTWidget_CharacterSelect::InputStopConfirm_Gamepad()
+void UITTWidget_CharacterSelect::InputStopConfirm_Player2()
 {
 	bInputConfirm_Player2 = false;
 }
 
-void UITTWidget_CharacterSelect::InputRight_Gamepad()
+void UITTWidget_CharacterSelect::InputRight_Player2()
 {
 	if (SelectCharacter_Player2 == EITTCharacter_Player::None && SelectCharacter_Player1 != EITTCharacter_Player::Cody)
 	{
@@ -173,7 +186,7 @@ void UITTWidget_CharacterSelect::InputRight_Gamepad()
 	UpdateDesign_BTN();
 }
 
-void UITTWidget_CharacterSelect::InputLeft_Gamepad()
+void UITTWidget_CharacterSelect::InputLeft_Player2()
 {
 	if (SelectCharacter_Player2 == EITTCharacter_Player::None && SelectCharacter_Player1 != EITTCharacter_Player::May)
 	{
@@ -273,7 +286,7 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 
 	case EITTCharacter_Player::May:
 		Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
-		WBP_ConfirmBTN_Left->SetControllerId(1);
+		WBP_ConfirmBTN_Left->SetControllerId(0);
 		break;
 	}
 	

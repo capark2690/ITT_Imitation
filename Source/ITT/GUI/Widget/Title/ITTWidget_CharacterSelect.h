@@ -37,22 +37,22 @@ public:
 
 private:
 	// ========== Input ========== //
-	// -- Keyboard -- //
-	void InputConfirm_Keyboard();
-	void InputStopConfirm_Keyboard();
+	// -- Player1 -- //
+	void InputConfirm_Player1();
+	void InputStopConfirm_Player1();
 	
-	void InputRight_Keyboard();
+	void InputRight_Player1();
 	
-	void InputLeft_Keyboard();
+	void InputLeft_Player1();
 
 
-	// -- Gamepad -- //
-	void InputConfirm_Gamepad();
-	void InputStopConfirm_Gamepad();
+	// -- Player2 -- //
+	void InputConfirm_Player2();
+	void InputStopConfirm_Player2();
 	
-	void InputRight_Gamepad();
+	void InputRight_Player2();
 	
-	void InputLeft_Gamepad();
+	void InputLeft_Player2();
 	// =========================== //
 
 
@@ -75,26 +75,14 @@ protected:
 	
 	
 	// ========== Input Action ========== //
-	// -- Keyboard -- //
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ConfirmAction_Keyboard;
+	class UInputAction* ConfirmAction;
 	
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* RightAction_Keyboard;
+	class UInputAction* RightAction;
 
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LeftAction_Keyboard;
-
-	
-	// -- Gamepad -- //
-	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ConfirmAction_Gamepad;
-	
-	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* RightAction_Gamepad;
-
-	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LeftAction_Gamepad;
+	class UInputAction* LeftAction;
 	// ================================== //
 
 

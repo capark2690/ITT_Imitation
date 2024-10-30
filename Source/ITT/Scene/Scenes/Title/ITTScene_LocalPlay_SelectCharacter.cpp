@@ -25,13 +25,9 @@ UITTScene_LocalPlay_SelectCharacter::UITTScene_LocalPlay_SelectCharacter()
 void UITTScene_LocalPlay_SelectCharacter::Initialize(EITTSceneType _SceneType)
 {
 	Super::Initialize(_SceneType);
-}
-
-void UITTScene_LocalPlay_SelectCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-
+	
 	CreateWidget();
+	
 	SetTargetCamera();
 }
 

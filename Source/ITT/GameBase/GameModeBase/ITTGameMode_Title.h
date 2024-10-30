@@ -26,4 +26,10 @@ protected:
 	// ========== Player ========== //
 	virtual void AdjustPlayer();
 	// ============================ //
+
+
+private:
+	// ========== Player ========== //
+	const int32 LocalPlayerNum = 2;
+	// ============================ //
 };

@@ -25,9 +25,11 @@ void AITTGameMode_Title::AdjustPlayer()
 {
 	int32 CurrentPlayerNum = GetNumPlayers();
 	
-	for (int32 i = CurrentPlayerNum - 1; i > 0; --i)
+	ITTCHECKF(CurrentPlayerNum <= LocalPlayerNum, TEXT("[%s] Current number of players is greater than allowed"), *ITTSTRING_FUNC);
+	
+	for (int32 i = CurrentPlayerNum; i < LocalPlayerNum; ++i)
 	{
-		UGameplayStatics::RemovePlayer(UGameplayStatics::GetPlayerController(this, i), true);
+		UGameplayStatics::CreatePlayer(this, i);
 	}
 }
 // ============================ //

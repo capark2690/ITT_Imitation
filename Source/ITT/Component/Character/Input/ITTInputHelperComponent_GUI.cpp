@@ -7,8 +7,6 @@
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputSubsystems.h"
 
-#include "GameBase/BasicUtility/ITTBasicUtility.h"
-
 
 UITTInputHelperComponent_GUI::UITTInputHelperComponent_GUI()
 {
@@ -26,11 +24,14 @@ void UITTInputHelperComponent_GUI::BeginPlay()
 void UITTInputHelperComponent_GUI::SetupPlayerInputComponent(UInputComponent* _PlayerInputComponent)
 {
 	// Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(UITTBasicUtility::GetITTWorld()->GetFirstPlayerController()))
+	if (GetOwner())
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetOwner()))
 		{
-			Subsystem->AddMappingContext(MappingContext, 0);
+			if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+			{
+				Subsystem->AddMappingContext(MappingContext, 0);
+			}
 		}
 	}
 }

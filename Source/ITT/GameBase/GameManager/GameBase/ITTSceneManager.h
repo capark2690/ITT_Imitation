@@ -60,8 +60,6 @@ private:
 	
 	// ========== Scene ========== //
 	void LoadFirstScene();
-
-	void BeginScene();
 	// =========================== //
 
 

@@ -19,11 +19,6 @@ void UITTScene_ProductionLogo::Initialize(EITTSceneType _SceneType)
 	CreateWidget();
 }
 
-void UITTScene_ProductionLogo::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UITTScene_ProductionLogo::Finalize()
 {
 	DestroyWidget();

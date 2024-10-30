@@ -25,12 +25,7 @@ void UITTScene_Title::Initialize(EITTSceneType _SceneType)
 	Super::Initialize(_SceneType);
 
 	CreateWidget();
-}
-
-void UITTScene_Title::BeginPlay()
-{
-	Super::BeginPlay();
-
+	
 	SetTargetCamera();
 }
 

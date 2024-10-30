@@ -7,6 +7,7 @@
 
 #include "GameBase/GameManager/Data/ITTTableManager.h"
 #include "GameBase/GameManager/GUI/ITTWidgetManager.h"
+#include "GameBase/GameManager/Camera/ITTCameraManager.h"
 #include "GameBase/GameManager/GameBase/ITTLevelManager.h"
 #include "GameBase/GameManager/GameBase/ITTSceneManager.h"
 #include "GameBase/GameManager/GameBase/ITTGameProcessManager.h"
@@ -122,6 +123,7 @@ void UITTSingletonManager::RegisterSingletons()
 	// Singletons.Emplace([Class]::CreateInstance());
 	Singletons.Emplace(UITTTableManager::CreateInstance());
 	Singletons.Emplace(UITTWidgetManager::CreateInstance());
+	Singletons.Emplace(UITTCameraManager::CreateInstance());
 	Singletons.Emplace(UITTLevelManager::CreateInstance());
 	Singletons.Emplace(UITTSceneManager::CreateInstance());
 	Singletons.Emplace(UITTGameProcessManager::CreateInstance());
@@ -132,6 +134,7 @@ void UITTSingletonManager::RegisterSingletonsForTick()
 	SingletonsForTick.Reset();
 	
 	// SingletonsForTick.Emplace([Class]::CreateInstance());
+	SingletonsForTick.Emplace(UITTCameraManager::CreateInstance());
 	SingletonsForTick.Emplace(UITTSceneManager::CreateInstance());
 }
 
@@ -144,6 +147,7 @@ void UITTSingletonManager::UnregisterSingletons()
 	UITTGameProcessManager::DestroyInstance();
 	UITTSceneManager::DestroyInstance();
 	UITTLevelManager::DestroyInstance();
+	UITTCameraManager::DestroyInstance();
 	UITTWidgetManager::DestroyInstance();
 	UITTTableManager::DestroyInstance();
 }

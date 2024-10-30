@@ -4,6 +4,12 @@
 #include "ITTSceneBase.h"
 
 #include "ITTUtilityFunctionLibrary.h"
+#include "Data/DataAssets/Camera/SceneCamera/ITTData_SceneCamera.h"
+
+#include "GameBase/GameManager/Data/ITTTableManager.h"
+#include "Data/Table/Tables/GameBase/ITTTable_Scene.h"
+
+#include "GameBase/GameManager/Camera/ITTCameraManager.h"
 
 
 UITTSceneBase::UITTSceneBase()
@@ -18,10 +24,8 @@ void UITTSceneBase::Initialize(EITTSceneType _SceneType)
 
 	FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(FString("EITTSceneType"), SceneType);
 	ITTLOG(Log, TEXT("[%s] Initialize scene [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
-}
-
-void UITTSceneBase::BeginPlay()
-{
+	
+	SetSceneCamera();
 }
 
 void UITTSceneBase::Finalize()
@@ -57,6 +61,25 @@ void UITTSceneBase::PrepareToFinish_Immediately(EITTSceneType NextSceneType, EIT
 		FString NextSceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(TEXT("EITTSceneType"), NextSceneType);
 		ITTLOG(Error, TEXT("[%s] OnReadyToFinishDelegate isn't bound [CurrentSceneType : %s] [NextSceneType : %s]")
 			, *ITTSTRING_FUNC, *CurrentSceneTypeName, *NextSceneTypeName);
+	}
+}
+// ============================ //
+
+
+// ========== Camera ========== //
+void UITTSceneBase::SetSceneCamera()
+{
+	if (TableMgr && CameraMgr)
+	{
+		if (UITTTable_Scene* SceneTable = TableMgr->GetITTTable<UITTTable_Scene>(UITTTable_Scene::GetTableName()))
+		{
+			UITTData_SceneCamera* SceneCameraData = SceneTable->GetSceneCameraData(SceneType);
+
+			if (SceneCameraData)
+			{
+				CameraMgr->SetForceDisableSplitscreen(SceneCameraData->bForceDisableSplitscreen);
+			}
+		}
 	}
 }
 // ============================ //

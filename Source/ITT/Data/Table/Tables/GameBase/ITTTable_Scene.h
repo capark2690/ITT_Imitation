@@ -30,6 +30,9 @@ struct FITTTableRow_Scene : public FTableRowBase
 
 	UPROPERTY(EditAnywhere)
 	FName LevelName;
+
+	UPROPERTY(EditAnywhere)
+	class UITTData_SceneCamera* SceneCameraData;
 };
 
 
@@ -54,6 +57,8 @@ public:
 	TSubclassOf<class UITTSceneBase> GetSceneClass(EITTSceneType SceneType);
 	
 	FName GetSceneLevelName(EITTSceneType SceneType);
+	
+	class UITTData_SceneCamera* GetSceneCameraData(EITTSceneType SceneType);
 	// =========================== //
 	
 	
@@ -70,5 +75,8 @@ private:
 
 	UPROPERTY()
 	TMap<EITTSceneType, FName> SceneLevelNames;
+
+	UPROPERTY()
+	TMap<EITTSceneType, class UITTData_SceneCamera*> SceneCameraDatas;
 	// =========================== //
 };

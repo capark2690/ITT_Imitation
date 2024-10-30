@@ -13,4 +13,12 @@ UCLASS()
 class ITT_API UITTScene_Ch2_Nail : public UITTSceneBase
 {
 	GENERATED_BODY()
+
+public:
+	UITTScene_Ch2_Nail();
+
+	
+	virtual void Initialize(EITTSceneType _SceneType) override;
+	virtual void Finalize() override;
+	virtual void Tick(float DeltaTime) override;
 };
