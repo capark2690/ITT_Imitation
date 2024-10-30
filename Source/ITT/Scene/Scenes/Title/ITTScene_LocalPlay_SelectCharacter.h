@@ -28,11 +28,6 @@ private:
 	void CreateWidget();
 	// ============================ //
 
-
-	// ========== Camera ========== //
-	void SetTargetCamera();
-	// ============================ //
-
 	
 private:
 	// ========== Widget ========== //

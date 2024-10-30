@@ -23,4 +23,16 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	
+	// ========== Camera ========== //
+	class AActor* GetViewTargetActor(const FName& Key);
+	// ============================ //
+
+	
+protected:
+	// ========== Camera ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	TMap<FName, AActor*> ViewTargetActors;
+	// ============================ //
 };

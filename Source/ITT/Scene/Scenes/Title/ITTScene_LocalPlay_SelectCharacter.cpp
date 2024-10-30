@@ -27,8 +27,6 @@ void UITTScene_LocalPlay_SelectCharacter::Initialize(EITTSceneType _SceneType)
 	Super::Initialize(_SceneType);
 	
 	CreateWidget();
-	
-	SetTargetCamera();
 }
 
 void UITTScene_LocalPlay_SelectCharacter::Finalize()
@@ -55,21 +53,6 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 			{
 				Widget_CharacterSelect->ChangeActivation(true);
 			}
-		}
-	}
-}
-// ============================ //
-
-
-// ========== Camera ========== //
-void UITTScene_LocalPlay_SelectCharacter::SetTargetCamera()
-{
-	if (UWorld* World = UITTBasicUtility::GetITTWorld())
-	{
-		AITTLevelScriptActor_Title* TitleLevelScript = Cast<AITTLevelScriptActor_Title>(World->GetLevel(0)->GetLevelScriptActor());
-		if (TitleLevelScript)
-		{
-			World->GetFirstPlayerController()->SetViewTarget(TitleLevelScript->GetCharacterSelectCamera());
 		}
 	}
 }

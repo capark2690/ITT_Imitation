@@ -24,3 +24,16 @@ void AITTLevelScriptActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+
+// ========== Camera ========== //
+AActor* AITTLevelScriptActor::GetViewTargetActor(const FName& Key)
+{
+	if (ViewTargetActors.Contains(Key))
+	{
+		return *ViewTargetActors.Find(Key);
+	}
+
+	return nullptr;
+}
+// ============================ //
+

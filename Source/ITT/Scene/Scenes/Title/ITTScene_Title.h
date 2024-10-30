@@ -28,9 +28,4 @@ private:
 	void CreateWidget();
 	void DestroyWidget();
 	// ============================ //
-
-
-	// ========== Camera ========== //
-	void SetTargetCamera();
-	// ============================ //
 };

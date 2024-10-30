@@ -25,8 +25,6 @@ void UITTScene_Title::Initialize(EITTSceneType _SceneType)
 	Super::Initialize(_SceneType);
 
 	CreateWidget();
-	
-	SetTargetCamera();
 }
 
 void UITTScene_Title::Finalize()
@@ -61,21 +59,6 @@ void UITTScene_Title::DestroyWidget()
 	if (WidgetMgr)
 	{
 		WidgetMgr->ITTDestroyWidget(UITTWidget_Title::GetClassWidgetKey());
-	}
-}
-// ============================ //
-
-
-// ========== Camera ========== //
-void UITTScene_Title::SetTargetCamera()
-{
-	if (UWorld* World = UITTBasicUtility::GetITTWorld())
-	{
-		AITTLevelScriptActor_Title* TitleLevelScript = Cast<AITTLevelScriptActor_Title>(World->GetLevel(0)->GetLevelScriptActor());
-		if (TitleLevelScript)
-		{
-			World->GetFirstPlayerController()->SetViewTarget(TitleLevelScript->GetMainMenuCamera());
-		}
 	}
 }
 // ============================ //
