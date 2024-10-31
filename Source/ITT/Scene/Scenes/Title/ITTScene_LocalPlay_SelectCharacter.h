@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Scene/ITTSceneBase.h"
+#include "Character/ITTDefine_Character.h"
 #include "ITTScene_LocalPlay_SelectCharacter.generated.h"
 
 /**
@@ -27,6 +28,13 @@ private:
 	// ========== Widget ========== //
 	void CreateWidget();
 	// ============================ //
+
+
+public:
+	// ========== Character Select State ========== //
+	void GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
+	EITTCharacter_Player& OutSelectCharacter_Player2) const;
+	// ============================================ //
 
 	
 private:

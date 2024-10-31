@@ -79,6 +79,13 @@ public:
 	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
 	// ====================================== //
 
+
+	// ==================== Getter ==================== //
+	// ========== Character Select State ========== //
+	void GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1, EITTCharacter_Player& OutSelectCharacter_Player2) const;
+	// ============================================ //
+	// ================================================ //
+	
 	
 protected:
 	static constexpr char ClassWidgetKey[] = "WBP_CharacterSelect";

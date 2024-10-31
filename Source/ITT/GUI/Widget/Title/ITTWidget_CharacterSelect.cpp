@@ -321,3 +321,15 @@ void UITTWidget_CharacterSelect::OnAnimationFinished_Implementation(const UWidge
 	}
 }
 // ====================================== //
+
+
+// ==================== Getter ==================== //
+// ========== Character Select State ========== //
+void UITTWidget_CharacterSelect::GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
+	EITTCharacter_Player& OutSelectCharacter_Player2) const
+{
+	OutSelectCharacter_Player1 = SelectCharacter_Player1;
+	OutSelectCharacter_Player2 = SelectCharacter_Player2;
+}
+// ============================================ //
+// ================================================ //

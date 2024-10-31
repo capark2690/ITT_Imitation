@@ -4,17 +4,13 @@
 #include "ITTScene_LocalPlay_SelectCharacter.h"
 
 #include "Engine/World.h"
-#include "Engine/Level.h"
-#include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
-#include "Camera/CameraActor.h"
 
 #include "GameBase/BasicUtility/ITTBasicUtility.h"
 #include "Level/Title/ITTLevelScriptActor_Title.h"
 
 #include "GameBase/GameManager/GUI/ITTWidgetManager.h"
 #include "GUI/Widget/Title/ITTWidget_CharacterSelect.h"
-#include "Pawn/Title/ITTPawn_CharacterSelect.h"
 
 
 UITTScene_LocalPlay_SelectCharacter::UITTScene_LocalPlay_SelectCharacter()
@@ -57,3 +53,15 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 	}
 }
 // ============================ //
+
+
+// ========== Character Select State ========== //
+void UITTScene_LocalPlay_SelectCharacter::GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
+	EITTCharacter_Player& OutSelectCharacter_Player2) const
+{
+	if (IsValid(Widget_CharacterSelect))
+	{
+		Widget_CharacterSelect->GetCharacterSelectState(OutSelectCharacter_Player1, OutSelectCharacter_Player2);
+	}
+}
+// ============================================ //
