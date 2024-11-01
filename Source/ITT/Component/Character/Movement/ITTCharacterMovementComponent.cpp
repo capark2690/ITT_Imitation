@@ -39,6 +39,8 @@ void UITTCharacterMovementComponent::UninitializeComponent()
 void UITTCharacterMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitializeMovementValue();
 }
 
 void UITTCharacterMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -145,6 +147,25 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 
 
 // ========== Movement ========== //
+// -- Init -- //
+void UITTCharacterMovementComponent::InitializeMovementValue()
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		if (UITTCharacterStatComponent* CharacterStatComponent = CharacterBase->GetCharacterStatComponent())
+		{
+			Mass = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::Mass);
+			
+			MaxWalkSpeed = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::MaxJogSpeed);
+
+			CharacterBase->JumpMaxCount = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::JumpMaxCount);
+			
+			JumpZVelocity = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::JumpZVelocity);
+		}
+	}
+}
+
+
 // -- Sprint -- //
 void UITTCharacterMovementComponent::StartSprint()
 {

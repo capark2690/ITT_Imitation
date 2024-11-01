@@ -55,6 +55,10 @@ public:
 
 	
 	// ========== Movement ========== //
+	// -- Init -- //
+	virtual void InitializeMovementValue();
+
+	
 	// -- Sprint -- //
 	virtual void StartSprint();
 

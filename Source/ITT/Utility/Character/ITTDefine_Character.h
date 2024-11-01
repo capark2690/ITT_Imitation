@@ -82,12 +82,17 @@ UENUM(BlueprintType)
 enum class EITTCharacterStat : uint8
 {
 	None,
+
+	Mass,
 	
 	MinWalkSpeed,
 	MaxJogSpeed,
 	MaxWalkSpeedPerMaxJogSpeed,
 	MaxSprintSpeed,
 	MaxCrouchSpeed,
+
+	JumpMaxCount,
+	JumpZVelocity,
 	
 	EITTCharacterStat_Max
 };
@@ -186,7 +191,8 @@ struct FITTCharacterStat
 	GENERATED_BODY()
 
 	FITTCharacterStat()
-		: MinWalkSpeed(0.03f), MaxJogSpeed(500.f), MaxWalkSpeedPerMaxJogSpeed(0.4f), MaxSprintSpeed(1000.f)
+		: Mass(100.f), MinWalkSpeed(0.03f), MaxJogSpeed(500.f), MaxWalkSpeedPerMaxJogSpeed(0.4f), MaxSprintSpeed(1000.f)
+		, JumpMaxCount(2.f), JumpZVelocity(500.f)
 	{
 	}
 
@@ -197,6 +203,9 @@ struct FITTCharacterStat
 
 	virtual void CopyStat(const FITTCharacterStat* Original, bool ExactClass = true);
 	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Mass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float MinWalkSpeed;
@@ -209,6 +218,12 @@ struct FITTCharacterStat
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float MaxSprintSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float JumpMaxCount;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float JumpZVelocity;
 };
 
 USTRUCT(Blueprintable)

@@ -82,7 +82,12 @@ float FITTCharacterStat::GetCharacterStat(EITTCharacterStat StatName) const
 			ITTLOG(Error, TEXT("Get character stat 'None'"));
 			return 0.f;
 		}
-	
+
+	case EITTCharacterStat::Mass :
+		{
+			return Mass;
+		}
+		
 	case EITTCharacterStat::MinWalkSpeed :
 		{
 			return MinWalkSpeed;
@@ -102,6 +107,16 @@ float FITTCharacterStat::GetCharacterStat(EITTCharacterStat StatName) const
 		{
 			return MaxSprintSpeed;
 		}
+
+	case EITTCharacterStat::JumpMaxCount :
+		{
+			return JumpMaxCount;
+		}
+		
+	case EITTCharacterStat::JumpZVelocity :
+		{
+			return JumpZVelocity;
+		}
 		
 	default:
 		{
@@ -114,10 +129,15 @@ float FITTCharacterStat::GetCharacterStat(EITTCharacterStat StatName) const
 
 void FITTCharacterStat::CopyStat(const FITTCharacterStat* Original, bool ExactClass)
 {
+	Mass = Original->Mass;
+	
 	MinWalkSpeed = Original->MinWalkSpeed;
 	MaxJogSpeed = Original->MaxJogSpeed;
 	MaxWalkSpeedPerMaxJogSpeed = Original->MaxWalkSpeedPerMaxJogSpeed;
 	MaxSprintSpeed = Original->MaxSprintSpeed;
+
+	JumpZVelocity = Original->JumpZVelocity;
+	JumpMaxCount = Original->JumpMaxCount;
 }
 
 
