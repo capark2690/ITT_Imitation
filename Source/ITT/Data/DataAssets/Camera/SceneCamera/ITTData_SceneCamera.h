@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Data/DataAssets/Camera/CameraSettings/ITTData_CameraSettings.h"
 #include "ITTData_SceneCamera.generated.h"
 
 /**
@@ -29,4 +30,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FName ViewTargetName_Player2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UITTData_CameraSettings* CameraSettings_Player1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UITTData_CameraSettings* CameraSettings_Player2;
 };

@@ -29,6 +29,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// =========================== //
 
+
+	// ========== Camera ========== //
+	virtual void SetCameraSettings(class UITTData_CameraSettings* Data_CameraSettings);
+	// ============================ //
+
 	
 public:
 	// ==================== Getter ==================== //

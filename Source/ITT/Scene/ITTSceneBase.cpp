@@ -18,6 +18,8 @@
 #include "GameBase/GameManager/Camera/ITTCameraManager.h"
 #include "Data/DataAssets/Camera/SceneCamera/ITTData_SceneCamera.h"
 
+#include "Character/Player/ITTCharacter_Player.h"
+
 
 UITTSceneBase::UITTSceneBase()
 	: SceneType(EITTSceneType::None)
@@ -102,7 +104,13 @@ void UITTSceneBase::SetSceneCamera()
 				{
 					if (SceneCameraData->bViewTargetPlayer1IsPawn)
 					{
-						Player1->SetViewTarget(Player1->GetPawn());
+						if (AITTCharacter_Player* Player1Character = Cast<AITTCharacter_Player>(Player1->GetPawn()))
+						{
+							Player1->SetViewTarget(Player1Character);
+
+							Player1Character->SetCameraSettings(SceneCameraData->CameraSettings_Player1);
+						}
+						
 					}
 					else
 					{
@@ -117,7 +125,12 @@ void UITTSceneBase::SetSceneCamera()
 				{
 					if (SceneCameraData->bViewTargetPlayer2IsPawn)
 					{
-						Player2->SetViewTarget(Player2->GetPawn());
+						if (AITTCharacter_Player* Player2Character = Cast<AITTCharacter_Player>(Player2->GetPawn()))
+						{
+							Player2->SetViewTarget(Player2Character);
+
+							Player2Character->SetCameraSettings(SceneCameraData->CameraSettings_Player2);
+						}
 					}
 					else
 					{

@@ -11,6 +11,8 @@
 #include "Component/Character/Movement/ITTCharacterMovementComponent_Player.h"
 #include "Component/Character/Stat/ITTCharacterStatComponent_Player.h"
 
+#include "Data/DataAssets/Camera/CameraSettings/ITTData_CameraSettings_WithSpringArm.h"
+
 
 AITTCharacter_Player::AITTCharacter_Player(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UITTCharacterMovementComponent_Player>(ACharacter::CharacterMovementComponentName)
@@ -51,6 +53,26 @@ void AITTCharacter_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+
+// ========== Camera ========== //
+void AITTCharacter_Player::SetCameraSettings(UITTData_CameraSettings* Data_CameraSettings)
+{
+	if (UITTData_CameraSettings_WithSpringArm* Data_CameraSettings_WithSpringArm = Cast<UITTData_CameraSettings_WithSpringArm>(Data_CameraSettings))
+	{
+		if (CameraBoom)
+		{
+			CameraBoom->TargetArmLength = Data_CameraSettings_WithSpringArm->SpringArm_TargetArmLength;
+			CameraBoom->TargetOffset = Data_CameraSettings_WithSpringArm->SpringArm_TargetOffset;
+		}
+
+		if (FollowCamera)
+		{
+			FollowCamera->SetRelativeRotation(Data_CameraSettings_WithSpringArm->Camera_Rotator);
+		}
+	}
+}
+// ============================ //
 
 
 // ========== Input ========== //
