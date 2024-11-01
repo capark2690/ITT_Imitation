@@ -72,6 +72,10 @@ enum class EITTSubMovementMode_Flying : uint8
 UENUM(BlueprintType)
 enum class EITTSubMovementMode_Custom : uint8
 {
+	EITTSubMovementMode_Custom_None,
+	
+	EITTSubMovementMode_Custom_WallSlide,
+	
 	EITTSubMovementMode_Custom_Max
 };
 // =================================== //

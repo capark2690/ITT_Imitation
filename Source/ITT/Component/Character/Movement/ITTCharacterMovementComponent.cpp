@@ -3,10 +3,14 @@
 
 #include "ITTCharacterMovementComponent.h"
 
+#include "DrawDebugHelpers.h"
+#include "ITTUtilityFunctionLibrary.h"
 #include "Character/ITTCharacterFunctionLibrary.h"
 
 #include "Character/ITTCharacterBase.h"
 #include "Component/Character/Stat/ITTCharacterStatComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "PhysicsEngine/PhysicsAsset.h"
 
 #include "StateMachine/ITTStateMachine.h"
 
@@ -40,6 +44,8 @@ void UITTCharacterMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InitializeBodyInstance();
+	
 	InitializeMovementValue();
 }
 
@@ -47,6 +53,11 @@ void UITTCharacterMovementComponent::TickComponent(float DeltaTime, ELevelTick T
                                                    FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (IsFalling())
+	{
+		OnFalling();
+	}
 }
 
 
@@ -136,14 +147,37 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 	{
 		OnStopSprint(DataIndex);
 	}
+
+	else if (IsWallSlideMode(PreviousMovementMode))
+	{
+		OnStopWallSlide();
+	}
 	
 	// Current Movement Mode
 	if (IsSprintMode(CurrentMovementMode, DataIndex))
 	{
 		OnStartSprint(DataIndex);
 	}
+
+	else if (IsWallSlideMode(CurrentMovementMode))
+	{
+		OnStartWallSlide();
+	}
 }
 // =========================================== //
+
+
+// ========== Body ========== //
+// -- Init -- //
+void UITTCharacterMovementComponent::InitializeBodyInstance()
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		LeftHandThumb = CharacterBase->GetMesh()->GetBodyInstance("LeftHandThumb1");
+		RightHandThumb = CharacterBase->GetMesh()->GetBodyInstance("RightHandThumb1");
+	}
+}
+// ========================== //
 
 
 // ========== Movement ========== //
@@ -285,6 +319,11 @@ bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
 	return Super::DoJump(bReplayingMoves);
 }
 
+void UITTCharacterMovementComponent::OnFalling()
+{
+	CheckCollideWall_OnFalling();
+}
+
 
 // -- Dash -- //
 void UITTCharacterMovementComponent::Dash()
@@ -315,5 +354,79 @@ bool UITTCharacterMovementComponent::IsDash() const
 
 	return static_cast<EMovementMode>(CurrentMovementMode.MainMode) == EMovementMode::MOVE_Walking
 		&& static_cast<EITTSubMovementMode_Walking>(CurrentMovementMode.SubMode) == EITTSubMovementMode_Walking::Walking_Dash;
+}
+
+
+// -- Wall -- //
+void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		if (Velocity.Z <= 0.0f)
+		{
+			FVector ForwardOffset = CharacterBase->GetActorForwardVector() * 100.f;
+		
+			FHitResult OutHit_Right;
+			FHitResult OutHit_Left;
+
+			FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+			CollisionQueryParams.AddIgnoredActor(CharacterBase);
+
+			FVector RightAttachLocation = CharacterBase->GetMesh()->GetBoneLocation(FName("RightAttach"));
+			FVector LeftAttachLocation = CharacterBase->GetMesh()->GetBoneLocation(FName("LeftAttach"));
+
+			DrawDebugLine(GetWorld(), RightAttachLocation, RightAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
+			DrawDebugLine(GetWorld(), LeftAttachLocation, LeftAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
+			
+			if (GetWorld()->LineTraceSingleByChannel(OutHit_Right, RightAttachLocation, RightAttachLocation + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
+			{
+				if (GetWorld()->LineTraceSingleByChannel(OutHit_Left, LeftAttachLocation, LeftAttachLocation + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
+				{
+					if (OutHit_Right.GetActor() == OutHit_Left.GetActor())
+					{
+						ITTLOG(Warning, TEXT("[%s] HitActor : %s"), *ITTSTRING_FUNC, *OutHit_Right.GetActor()->GetName());
+
+						WallSlide();
+					}
+				}
+			}
+		}
+	}
+}
+
+
+// -- Wall Slide -- //
+void UITTCharacterMovementComponent::WallSlide()
+{
+	if (CanWallSlide())
+	{
+		SetITTMovementMode<EITTSubMovementMode_Custom>(EMovementMode::MOVE_Custom, EITTSubMovementMode_Custom::EITTSubMovementMode_Custom_WallSlide);
+	}
+}
+
+void UITTCharacterMovementComponent::OnStartWallSlide()
+{
+}
+
+void UITTCharacterMovementComponent::OnStopWallSlide()
+{
+}
+
+bool UITTCharacterMovementComponent::CanWallSlide() const
+{
+	return true;
+}
+
+bool UITTCharacterMovementComponent::IsWallSlide() const
+{
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	return IsWallSlideMode(CurrentMovementMode);
+}
+
+bool UITTCharacterMovementComponent::IsWallSlideMode(const FITTMovementMode& InMovementMode) const
+{
+	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Custom)
+	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Custom::EITTSubMovementMode_Custom_WallSlide);
 }
 // ============================== //

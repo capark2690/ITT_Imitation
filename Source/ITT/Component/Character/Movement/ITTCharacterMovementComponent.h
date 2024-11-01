@@ -53,6 +53,12 @@ public:
 	virtual void OnChangeMovementMode(int64 PreviousMovementModeId, int64 CurrentMovementModeId);
 	// =========================================== //
 
+
+	// ========== Body ========== //
+	// -- Init -- //
+	virtual void InitializeBodyInstance();
+	// ========================== //
+	
 	
 	// ========== Movement ========== //
 	// -- Init -- //
@@ -79,6 +85,8 @@ public:
 	
 	// -- Jump -- //
 	virtual bool DoJump(bool bReplayingMoves) override;
+	
+	virtual void OnFalling();
 
 
 	// -- Dash -- //
@@ -89,6 +97,24 @@ public:
 	virtual bool CanDash() const;
 
 	virtual bool IsDash() const;
+
+
+	// -- Wall -- //
+	virtual void CheckCollideWall_OnFalling();
+
+	
+	// -- Wall Slide -- //
+	virtual void WallSlide();
+	
+	virtual void OnStartWallSlide();
+	
+	virtual void OnStopWallSlide();
+	
+	virtual bool CanWallSlide() const;
+	
+	virtual bool IsWallSlide() const;
+
+	virtual bool IsWallSlideMode(const FITTMovementMode& InMovementMode) const;
 	// ============================== //
 
 	
@@ -105,6 +131,13 @@ protected:
 	// =========================================== //
 
 
+	// ========== Body ========== //
+	// -- Init -- //
+	FBodyInstance* LeftHandThumb;
+	FBodyInstance* RightHandThumb;
+	// ========================== //
+
+	
 	// ========== Movement ========== //
 	// -- Sprint -- //
 	UPROPERTY(Category="ITT|Sprint", EditAnywhere)

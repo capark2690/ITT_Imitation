@@ -31,4 +31,9 @@ public:
 		return ConvertEnumToName(EnumName, static_cast<int64>(EnumValue));
 	}
 	// ================================== //
+
+
+	// ========== Math ========== //
+	static float CalculateMiddleAngle(FVector BaseVector, FVector TargetVector, bool bCalulateOnly2D = false);
+	// ========================== //
 };
