@@ -423,7 +423,7 @@ void UITTCharacterMovementComponent::WallSlide()
 {
 	if (CanWallSlide())
 	{
-		SetITTMovementMode<EITTSubMovementMode_Custom>(EMovementMode::MOVE_Custom, EITTSubMovementMode_Custom::EITTSubMovementMode_Custom_WallSlide);
+		SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::EITTSubMovementMode_Falling_WallSlide);
 	}
 }
 
@@ -449,7 +449,7 @@ bool UITTCharacterMovementComponent::IsWallSlide() const
 
 bool UITTCharacterMovementComponent::IsWallSlideMode(const FITTMovementMode& InMovementMode) const
 {
-	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Custom)
-	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Custom::EITTSubMovementMode_Custom_WallSlide);
+	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Falling)
+	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Falling::EITTSubMovementMode_Falling_WallSlide);
 }
 // ============================== //
