@@ -112,10 +112,10 @@ void UITTCharacterMovementComponent::SetITTMovementMode(FITTMovementMode ITTMove
 	{
 		if (UITTCharacterFunctionLibrary::CheckMovementModeValid(ITTMovementMode))
 		{
-			MovementModeMachine->SetNextState(ITTMovementMode.GetFullMode(), bChangeImmediately);
-		
 			FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
-		
+			
+			MovementModeMachine->SetNextState(ITTMovementMode.GetFullMode(), bChangeImmediately);
+			
 			if (CurrentMovementMode.MainMode != ITTMovementMode.MainMode)
 			{
 				Super::SetMovementMode(static_cast<EMovementMode>(ITTMovementMode.MainMode), ITTMovementMode.SubMode);
@@ -195,6 +195,29 @@ void UITTCharacterMovementComponent::InitializeMovementValue()
 			CharacterBase->JumpMaxCount = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::JumpMaxCount);
 			
 			JumpZVelocity = CharacterStatComponent->GetCharacterStat(EITTCharacterStat::JumpZVelocity);
+		}
+	}
+}
+
+
+// -- Move -- //
+void UITTCharacterMovementComponent::Move(FVector2d MovementVector)
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(CharacterBase->GetController()))
+		{
+			if (PlayerController != nullptr)
+			{
+				const FRotator Rotation = PlayerController->GetControlRotation();
+				const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+				const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+				const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+				CharacterBase->AddMovementInput(ForwardDirection, MovementVector.Y);
+				CharacterBase->AddMovementInput(RightDirection, MovementVector.X);
+			}
 		}
 	}
 }

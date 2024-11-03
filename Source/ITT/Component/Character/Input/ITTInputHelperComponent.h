@@ -76,7 +76,7 @@ private:
 	// ========== Owner ========== //
 	TWeakObjectPtr<class AITTCharacter_Player> Character;
 	
-	TWeakObjectPtr<class UITTCharacterMovementComponent> CharacterMovementComponent;
+	TWeakObjectPtr<class UITTCharacterMovementComponent_Player> CharacterMovementComponent;
 	// =========================== //
 
 	

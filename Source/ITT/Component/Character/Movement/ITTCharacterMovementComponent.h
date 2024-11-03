@@ -64,6 +64,10 @@ public:
 	// -- Init -- //
 	virtual void InitializeMovementValue();
 
+
+	// -- Move -- //
+	virtual void Move(FVector2d MovementVector);
+
 	
 	// -- Sprint -- //
 	virtual void StartSprint();

@@ -24,4 +24,10 @@ protected:
 public:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType,
                                FActorComponentTickFunction* ThisTickFunction) override;
+
+    
+    // ========== Movement ========== //
+    // -- Move -- //
+    virtual void InputMove(FVector2d MovementVector);
+    // ============================== //
 };

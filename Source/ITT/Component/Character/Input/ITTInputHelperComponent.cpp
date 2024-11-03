@@ -11,7 +11,7 @@
 #include "Components/InputComponent.h"
 
 #include "Character/Player/ITTCharacter_Player.h"
-#include "Component/Character/Movement/ITTCharacterMovementComponent.h"
+#include "Component/Character/Movement/ITTCharacterMovementComponent_Player.h"
 
 
 UITTInputHelperComponent::UITTInputHelperComponent()
@@ -38,7 +38,7 @@ void UITTInputHelperComponent::SetupPlayerInputComponent(UInputComponent* Player
 {
 	Character = Cast<AITTCharacter_Player>(GetOwner());
 
-	CharacterMovementComponent = Cast<UITTCharacterMovementComponent>(Character->GetMovementComponent());
+	CharacterMovementComponent = Cast<UITTCharacterMovementComponent_Player>(Character->GetMovementComponent());
 	
 	// Add Input Mapping Context
 	if (Character.IsValid())
@@ -97,19 +97,9 @@ void UITTInputHelperComponent::InputMove(const FInputActionValue& Value)
 	{
 		FVector2D MovementVector = Value.Get<FVector2D>();
 
-		if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+		if (CharacterMovementComponent != nullptr)
 		{
-			if (PlayerController != nullptr)
-			{
-				const FRotator Rotation = PlayerController->GetControlRotation();
-				const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-				const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-				const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-				Character->AddMovementInput(ForwardDirection, MovementVector.Y);
-				Character->AddMovementInput(RightDirection, MovementVector.X);
-			}
+			CharacterMovementComponent->InputMove(MovementVector);
 		}
 	}
 }

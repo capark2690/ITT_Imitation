@@ -20,3 +20,17 @@ void UITTCharacterMovementComponent_Player::TickComponent(float DeltaTime, ELeve
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
+
+
+// ========== Movement ========== //
+// -- Move -- //
+void UITTCharacterMovementComponent_Player::InputMove(FVector2d MovementVector)
+{
+	if (IsWallSlide())
+	{
+		return;
+	}
+
+	Move(MovementVector);
+}
+// ============================== //
