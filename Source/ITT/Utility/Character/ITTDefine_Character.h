@@ -50,7 +50,7 @@ enum class EITTSubMovementMode_Falling : uint8
 	Falling_DoubleJump,
 	Falling_LongJump,
 
-	EITTSubMovementMode_Falling_WallSlide,
+	Falling_WallSlide,
 	
 	EITTSubMovementMode_Falling_Max
 };
@@ -74,7 +74,7 @@ enum class EITTSubMovementMode_Flying : uint8
 UENUM(BlueprintType)
 enum class EITTSubMovementMode_Custom : uint8
 {
-	EITTSubMovementMode_Custom_None,
+	Custom_None,
 	
 	EITTSubMovementMode_Custom_Max
 };

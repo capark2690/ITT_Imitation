@@ -329,6 +329,14 @@ void UITTCharacterMovementComponent::OnStopSprint(int32 DataIndex)
 
 
 // -- Falling -- //
+void UITTCharacterMovementComponent::SetFallingModeToInAir()
+{
+	if (IsFalling())
+	{
+		SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_InAir);
+	}
+}
+
 void UITTCharacterMovementComponent::PhysFalling(float deltaTime, int32 Iterations)
 {
 	Super::PhysFalling(deltaTime, Iterations);
@@ -345,6 +353,11 @@ void UITTCharacterMovementComponent::PhysFalling(float deltaTime, int32 Iteratio
 	}
 }
 
+void UITTCharacterMovementComponent::OnFalling()
+{
+	CheckCollideWall_OnFalling();
+}
+
 
 // -- Jump -- //
 bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
@@ -359,11 +372,6 @@ bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
 	}
 	
 	return Super::DoJump(bReplayingMoves);
-}
-
-void UITTCharacterMovementComponent::OnFalling()
-{
-	CheckCollideWall_OnFalling();
 }
 
 
@@ -428,11 +436,21 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 					{
 						ITTLOG(Warning, TEXT("[%s] HitActor : %s"), *ITTSTRING_FUNC, *OutHit_Right.GetActor()->GetName());
 
-						WallSlide();
+						if (!IsWallSlide())
+						{
+							WallSlide();
+						}
+
+						return;
 					}
 				}
 			}
 		}
+	}
+
+	if (IsWallSlide())
+	{
+		SetFallingModeToInAir();
 	}
 }
 
@@ -442,7 +460,7 @@ void UITTCharacterMovementComponent::WallSlide()
 {
 	if (CanWallSlide())
 	{
-		SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::EITTSubMovementMode_Falling_WallSlide);
+		SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_WallSlide);
 	}
 }
 
@@ -469,6 +487,6 @@ bool UITTCharacterMovementComponent::IsWallSlide() const
 bool UITTCharacterMovementComponent::IsWallSlideMode(const FITTMovementMode& InMovementMode) const
 {
 	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Falling)
-	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Falling::EITTSubMovementMode_Falling_WallSlide);
+	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Falling::Falling_WallSlide);
 }
 // ============================== //

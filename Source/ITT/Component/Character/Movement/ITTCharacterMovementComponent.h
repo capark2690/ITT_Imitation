@@ -88,15 +88,17 @@ public:
 
 
 	// -- Falling -- //
+	virtual void SetFallingModeToInAir();
+	
 	virtual void PhysFalling(float deltaTime, int32 Iterations) override;
+
+	virtual void OnFalling();
 
 	
 	// -- Jump -- //
 	virtual bool DoJump(bool bReplayingMoves) override;
+
 	
-	virtual void OnFalling();
-
-
 	// -- Dash -- //
 	virtual void Dash();
 	
