@@ -86,6 +86,10 @@ public:
 
 	virtual void OnStopSprint(int32 DataIndex);
 
+
+	// -- Falling -- //
+	virtual void PhysFalling(float deltaTime, int32 Iterations) override;
+
 	
 	// -- Jump -- //
 	virtual bool DoJump(bool bReplayingMoves) override;
@@ -146,5 +150,13 @@ protected:
 	// -- Sprint -- //
 	UPROPERTY(Category="ITT|Sprint", EditAnywhere)
 	TArray<FITTSprintModeData> SprintModeDatas;
+
+
+	// -- WallSlide -- //
+	UPROPERTY(Category="ITT|WallSlide", EditAnywhere)
+	bool bUseZVelotityOnlyOnWallSide;
+	
+	UPROPERTY(Category="ITT|WallSlide", EditAnywhere)
+	float ZVelocityMultiplyOnWallSlide;
 	// ============================== //
 };

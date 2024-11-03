@@ -16,6 +16,7 @@
 
 
 UITTCharacterMovementComponent::UITTCharacterMovementComponent()
+	: bUseZVelotityOnlyOnWallSide(true), ZVelocityMultiplyOnWallSlide(0.7f)
 {
 	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = true;
@@ -323,6 +324,24 @@ void UITTCharacterMovementComponent::OnStopSprint(int32 DataIndex)
 			EITTCharacterStat SprintSpeedStat = SprintModeDatas[DataIndex].NoneSprintSpeedStat;
 			MaxWalkSpeed = CharacterStatComponent->GetCharacterStat(SprintSpeedStat);
 		}
+	}
+}
+
+
+// -- Falling -- //
+void UITTCharacterMovementComponent::PhysFalling(float deltaTime, int32 Iterations)
+{
+	Super::PhysFalling(deltaTime, Iterations);
+
+	if (IsWallSlide())
+	{
+		if (bUseZVelotityOnlyOnWallSide)
+		{
+			Velocity.X = 0;
+			Velocity.Y = 0;
+		}
+
+		Velocity.Z *= ZVelocityMultiplyOnWallSlide;
 	}
 }
 
