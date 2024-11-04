@@ -99,6 +99,7 @@ public:
 	virtual bool DoJump(bool bReplayingMoves) override;
 
 	
+public:
 	// -- Dash -- //
 	virtual void Dash();
 	
@@ -125,8 +126,28 @@ public:
 	virtual bool IsWallSlide() const;
 
 	virtual bool IsWallSlideMode(const FITTMovementMode& InMovementMode) const;
+
+
+	// -- Ledge Grab -- //
+	virtual void LedgeGrab();
+	
+	virtual void OnStartLedgeGrab();
+	
+	virtual void OnStopLedgeGrab();
+	
+	virtual bool CanLedgeGrab() const;
+	
+	virtual bool IsLedgeGrab() const;
+
+	virtual bool IsLedgeGrabMode(const FITTMovementMode& InMovementMode) const;
 	// ============================== //
 
+
+	// ========== Character Transform ========== //
+	virtual void AttachCharacterTransformTo(const FVector& BasePoint1, const FVector& BasePoint2,
+		const FVector& TargetPoint1, const FVector& TargetPoint2);
+	// ========================================= //
+	
 	
 	// ==================== Getter ==================== //
 	// ========== Movement Mode Machine ========== //
@@ -156,7 +177,7 @@ protected:
 
 	// -- WallSlide -- //
 	UPROPERTY(Category="ITT|WallSlide", EditAnywhere)
-	bool bUseZVelotityOnlyOnWallSide;
+	bool bUseZVelotityOnlyOnWallSlide;
 	
 	UPROPERTY(Category="ITT|WallSlide", EditAnywhere)
 	float ZVelocityMultiplyOnWallSlide;

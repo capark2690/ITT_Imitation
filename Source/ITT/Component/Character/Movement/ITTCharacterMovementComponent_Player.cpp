@@ -26,7 +26,7 @@ void UITTCharacterMovementComponent_Player::TickComponent(float DeltaTime, ELeve
 // -- Move -- //
 void UITTCharacterMovementComponent_Player::InputMove(FVector2d MovementVector)
 {
-	if (IsWallSlide())
+	if (IsWallSlide() || IsLedgeGrab())
 	{
 		return;
 	}

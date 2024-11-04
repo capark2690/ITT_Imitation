@@ -35,5 +35,7 @@ public:
 
 	// ========== Math ========== //
 	static float CalculateMiddleAngle(FVector BaseVector, FVector TargetVector, bool bCalulateOnly2D = false);
+	
+	static void CalculateMovingValue_TwoPointsToProjectionPoint(float& OutAngle, FVector& OutVector, const FVector& InBasePoint1, const FVector& InBasePoint2, const FVector& InTargetPoint1, const FVector& InTargetPoint2);
 	// ========================== //
 };

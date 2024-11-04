@@ -16,7 +16,7 @@
 
 
 UITTCharacterMovementComponent::UITTCharacterMovementComponent()
-	: bUseZVelotityOnlyOnWallSide(true), ZVelocityMultiplyOnWallSlide(0.7f)
+	: bUseZVelotityOnlyOnWallSlide(true), ZVelocityMultiplyOnWallSlide(0.7f)
 {
 	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = true;
@@ -100,6 +100,9 @@ void UITTCharacterMovementComponent::SetMovementMode(EMovementMode NewMovementMo
 			if (CurrentMovementMode.MainMode != MainMode)
 			{
 				MovementModeMachine->SetNextState(FITTMovementMode(MainMode, SubMode).GetFullMode());
+
+				ITTLOG(Warning, TEXT("[%s] Set Movement Mode [Main : %d, Sub: %d, Additive1 : %d, Additive2 : %d"), *ITTSTRING_FUNC,
+					MainMode, SubMode, 0, 0);
 			}
 		}
 	}
@@ -116,6 +119,9 @@ void UITTCharacterMovementComponent::SetITTMovementMode(FITTMovementMode ITTMove
 			FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
 			
 			MovementModeMachine->SetNextState(ITTMovementMode.GetFullMode(), bChangeImmediately);
+			
+			ITTLOG(Warning, TEXT("[%s] Set Movement Mode [Main : %d, Sub: %d, Additive1 : %d, Additive2 : %d"), *ITTSTRING_FUNC,
+				ITTMovementMode.MainMode, ITTMovementMode.SubMode, ITTMovementMode.AdditiveMode1, ITTMovementMode.AdditiveMode2);
 			
 			if (CurrentMovementMode.MainMode != ITTMovementMode.MainMode)
 			{
@@ -153,6 +159,11 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 	{
 		OnStopWallSlide();
 	}
+
+	else if (IsLedgeGrabMode(PreviousMovementMode))
+	{
+		OnStopLedgeGrab();
+	}
 	
 	// Current Movement Mode
 	if (IsSprintMode(CurrentMovementMode, DataIndex))
@@ -163,6 +174,11 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 	else if (IsWallSlideMode(CurrentMovementMode))
 	{
 		OnStartWallSlide();
+	}
+
+	else if (IsLedgeGrabMode(CurrentMovementMode))
+	{
+		OnStartLedgeGrab();
 	}
 }
 // =========================================== //
@@ -343,7 +359,7 @@ void UITTCharacterMovementComponent::PhysFalling(float deltaTime, int32 Iteratio
 
 	if (IsWallSlide())
 	{
-		if (bUseZVelotityOnlyOnWallSide)
+		if (bUseZVelotityOnlyOnWallSlide)
 		{
 			Velocity.X = 0;
 			Velocity.Y = 0;
@@ -436,6 +452,32 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 					{
 						ITTLOG(Warning, TEXT("[%s] HitActor : %s"), *ITTSTRING_FUNC, *OutHit_Right.GetActor()->GetName());
 
+						// Transform
+						AttachCharacterTransformTo(RightAttachLocation, LeftAttachLocation, OutHit_Left.ImpactPoint, OutHit_Right.ImpactPoint);
+						
+						// -- Up -- //
+						FHitResult OutHit_Right_Up;
+						FHitResult OutHit_Left_Up;
+						
+						FVector RightAttachLocation_Up = RightAttachLocation + FVector(0.f, 0.f, 30.f);
+						FVector LeftAttachLocation_Up = LeftAttachLocation + FVector(0.f, 0.f, 30.f);
+
+						DrawDebugLine(GetWorld(), RightAttachLocation_Up, RightAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
+						DrawDebugLine(GetWorld(), LeftAttachLocation_Up, LeftAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
+						
+						if (!GetWorld()->LineTraceSingleByChannel(OutHit_Right_Up, RightAttachLocation_Up, RightAttachLocation_Up + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
+						{
+							if (!GetWorld()->LineTraceSingleByChannel(OutHit_Left_Up, LeftAttachLocation_Up, LeftAttachLocation_Up + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
+							{
+								if (!IsLedgeGrab())
+								{
+									LedgeGrab();
+									return;
+								}
+							}
+						}
+						// -------- //
+						
 						if (!IsWallSlide())
 						{
 							WallSlide();
@@ -448,10 +490,10 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 		}
 	}
 
-	if (IsWallSlide())
-	{
-		SetFallingModeToInAir();
-	}
+	// if (IsWallSlide())
+	// {
+	// 	SetFallingModeToInAir();
+	// }
 }
 
 
@@ -489,4 +531,59 @@ bool UITTCharacterMovementComponent::IsWallSlideMode(const FITTMovementMode& InM
 	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Falling)
 	&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Falling::Falling_WallSlide);
 }
+
+
+// -- Ledge Grab -- //
+void UITTCharacterMovementComponent::LedgeGrab()
+{
+	if (CanLedgeGrab())
+	{
+		SetITTMovementMode<EITTSubMovementMode_Custom>(EMovementMode::MOVE_Custom, EITTSubMovementMode_Custom::Custom_LedgeGrab);
+	}
+}
+
+void UITTCharacterMovementComponent::OnStartLedgeGrab()
+{
+}
+
+void UITTCharacterMovementComponent::OnStopLedgeGrab()
+{
+}
+
+bool UITTCharacterMovementComponent::CanLedgeGrab() const
+{
+	return true;
+}
+
+bool UITTCharacterMovementComponent::IsLedgeGrab() const
+{
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	return IsLedgeGrabMode(CurrentMovementMode);
+}
+
+bool UITTCharacterMovementComponent::IsLedgeGrabMode(const FITTMovementMode& InMovementMode) const
+{
+	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Custom)
+		&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Custom::Custom_LedgeGrab);
+}
 // ============================== //
+
+
+// ========== Character Transform ========== //
+void UITTCharacterMovementComponent::AttachCharacterTransformTo(const FVector& BasePoint1,
+	const FVector& BasePoint2, const FVector& TargetPoint1, const FVector& TargetPoint2)
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		float Angle = 0.f;
+		FVector Vector = FVector::Zero();
+		
+		UITTUtilityFunctionLibrary::CalculateMovingValue_TwoPointsToProjectionPoint(Angle, Vector,
+			BasePoint1, BasePoint2, TargetPoint1, TargetPoint2);
+
+		CharacterBase->AddActorWorldRotation(FRotator(0.f, Angle, 0.f), true);
+		CharacterBase->SetActorLocation(CharacterBase->GetActorLocation() + Vector, true);
+	}
+}
+// ========================================= //

@@ -75,6 +75,22 @@ void AITTCharacter_Player::SetCameraSettings(UITTData_CameraSettings* Data_Camer
 // ============================ //
 
 
+// ========== Movement ========== //
+// -- Jump -- //
+bool AITTCharacter_Player::CanJumpInternal_Implementation() const
+{
+	if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
+	{
+		if (MovementComponent_Player->IsWallSlide() || MovementComponent_Player->IsLedgeGrab())
+		{
+			return true;
+		}
+	}
+	return Super::CanJumpInternal_Implementation();
+}
+// ============================== //
+
+
 // ========== Input ========== //
 void AITTCharacter_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

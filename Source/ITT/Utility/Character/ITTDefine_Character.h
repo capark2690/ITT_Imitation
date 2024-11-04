@@ -75,6 +75,8 @@ UENUM(BlueprintType)
 enum class EITTSubMovementMode_Custom : uint8
 {
 	Custom_None,
+
+	Custom_LedgeGrab,
 	
 	EITTSubMovementMode_Custom_Max
 };

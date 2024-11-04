@@ -40,4 +40,20 @@ float UITTUtilityFunctionLibrary::CalculateMiddleAngle(FVector BaseVector, FVect
     
 	return Degree*Sign;
 }
+
+void UITTUtilityFunctionLibrary::CalculateMovingValue_TwoPointsToProjectionPoint(float& OutAngle, FVector& OutVector,
+	const FVector& InBasePoint1, const FVector& InBasePoint2, const FVector& InTargetPoint1,
+	const FVector& InTargetPoint2)
+{
+	FVector Diff_P1 = InTargetPoint1 - InBasePoint1;
+	FVector Diff_P2 = InTargetPoint2 - InBasePoint2;
+	FVector Diff_P1ToP2 = InBasePoint2 - InBasePoint1;
+
+	float X = Diff_P1ToP2.Length();
+	float H = Diff_P2.Length() - Diff_P1.Length();
+
+	OutAngle = - UKismetMathLibrary::DegAtan2(H , X);
+
+	OutVector = (Diff_P1 + Diff_P2) / 2;
+}
 // ========================== //
