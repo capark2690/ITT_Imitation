@@ -14,6 +14,11 @@
 UITTGameInstanceBase::UITTGameInstanceBase()
 {
 	FWorldDelegates::OnStartGameInstance.AddUObject(this, &UITTGameInstanceBase::OnStartGameInstance);
+
+	// This is a hack to disable Virtual Accept
+	// Associated with FCommonAnalogCursor::HandleKeyDownEvent and FAnalogCursor::HandleKeyDownEvent
+	FKey& Virtual_key = const_cast<FKey&>(EKeys::Virtual_Accept);
+	Virtual_key = EKeys::Invalid;
 }
 
 UITTGameInstanceBase::~UITTGameInstanceBase()
