@@ -11,14 +11,26 @@
 UITTWidgetComponent::UITTWidgetComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	bWantsInitializeComponent = true;
 }
 
+
+void UITTWidgetComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	BindOverlapEvent();
+}
+
+void UITTWidgetComponent::UninitializeComponent()
+{
+	Super::UninitializeComponent();
+}
 
 void UITTWidgetComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	BindOverlapEvent();
 }
 
 void UITTWidgetComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -90,9 +102,9 @@ void UITTWidgetComponent::UpdateCurrentState()
 {
 	int32 CollisionPriority = -1;
 	
-	for (UPrimitiveComponent* CollisionComponent : OverlappedComponents)
+	for (TWeakObjectPtr<UPrimitiveComponent> CollisionComponent : OverlappedComponents)
 	{
-		if (!IsValid(CollisionComponent))
+		if (CollisionComponent == nullptr)
 		{
 			continue;
 		}
