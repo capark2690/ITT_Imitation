@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 #include "Component/Character/Input/ITTInputHelperComponent.h"
+#include "Component/Character/Interaction/ITTPlayerInteractionComponent.h"
 #include "Component/Character/Movement/ITTCharacterMovementComponent_Player.h"
 #include "Component/Character/Stat/ITTCharacterStatComponent_Player.h"
 
@@ -41,6 +42,9 @@ AITTCharacter_Player::AITTCharacter_Player(const FObjectInitializer& ObjectIniti
 		
 	// Create input helper component
 	InputHelperComponent = CreateDefaultSubobject<UITTInputHelperComponent>(TEXT("InputHelperComponent"));
+
+	// Create player interaction component
+	PlayerInteractionComponent = CreateDefaultSubobject<UITTPlayerInteractionComponent>(TEXT("PlayerInteractionComponent"));
 }
 
 

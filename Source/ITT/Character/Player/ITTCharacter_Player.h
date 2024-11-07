@@ -53,6 +53,10 @@ public:
 
 	// -- Input -- //
 	class UITTInputHelperComponent* GetInputHelperComponent() const { return InputHelperComponent; }
+
+
+	// -- Interaction -- //
+	class UITTPlayerInteractionComponent* GetPlayerInteractionComponent() const { return PlayerInteractionComponent; }
 	// =============================== //
 	// ================================================ //
 
@@ -70,5 +74,10 @@ protected:
 	// -- Input -- //
 	UPROPERTY(Category = ITTComponent, VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class UITTInputHelperComponent> InputHelperComponent;
+
+
+	// -- Interaction -- //
+	UPROPERTY(Category = ITTComponent, VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<class UITTPlayerInteractionComponent> PlayerInteractionComponent;
 	// =============================== //
 };

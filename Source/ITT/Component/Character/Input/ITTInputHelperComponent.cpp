@@ -12,6 +12,7 @@
 
 #include "Character/Player/ITTCharacter_Player.h"
 #include "Component/Character/Movement/ITTCharacterMovementComponent_Player.h"
+#include "Component/Character/Interaction/ITTPlayerInteractionComponent.h"
 
 
 UITTInputHelperComponent::UITTInputHelperComponent()
@@ -39,6 +40,7 @@ void UITTInputHelperComponent::SetupPlayerInputComponent(UInputComponent* Player
 	Character = Cast<AITTCharacter_Player>(GetOwner());
 
 	CharacterMovementComponent = Cast<UITTCharacterMovementComponent_Player>(Character->GetMovementComponent());
+	PlayerInteractionComponent = Cast<UITTPlayerInteractionComponent>(Character->GetPlayerInteractionComponent());
 	
 	// Add Input Mapping Context
 	if (Character.IsValid())
@@ -194,6 +196,13 @@ void UITTInputHelperComponent::InputStopAbility2_Aim(const FInputActionValue& Va
 
 void UITTInputHelperComponent::InputInteract(const FInputActionValue& Value)
 {
+	if (!bLockMovementInput)
+	{
+		if (Character != nullptr && PlayerInteractionComponent != nullptr)
+		{
+			PlayerInteractionComponent->InputInteraction();
+		}
+	}
 }
 
 void UITTInputHelperComponent::InputCancel(const FInputActionValue& Value)

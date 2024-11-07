@@ -6,7 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "ITTInputHelperComponent_GUI.generated.h"
 
-
+/**
+ * 
+ */
 UCLASS(ClassGroup=ITTComponent, meta=(BlueprintSpawnableComponent))
 class ITT_API UITTInputHelperComponent_GUI : public UActorComponent
 {

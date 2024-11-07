@@ -77,6 +77,7 @@ private:
 	TWeakObjectPtr<class AITTCharacter_Player> Character;
 	
 	TWeakObjectPtr<class UITTCharacterMovementComponent_Player> CharacterMovementComponent;
+	TWeakObjectPtr<class UITTPlayerInteractionComponent> PlayerInteractionComponent;
 	// =========================== //
 
 	
