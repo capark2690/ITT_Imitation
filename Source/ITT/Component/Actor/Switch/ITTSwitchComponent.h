@@ -17,6 +17,9 @@ class ITT_API UITTSwitchComponent : public UActorComponent
 public:
 	UITTSwitchComponent();
 
+
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -47,7 +50,7 @@ protected:
 	FName Tag_TargetComponet;
 
 	UPROPERTY()
-	TArray<class IITTSwitchTargetComponentInterface*> TargetComponents;
+	TArray<TWeakObjectPtr<class UActorComponent>> TargetComponents;
 	// ===================================== //
 
 

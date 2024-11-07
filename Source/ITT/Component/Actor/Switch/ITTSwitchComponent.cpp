@@ -12,15 +12,27 @@ UITTSwitchComponent::UITTSwitchComponent()
 	: bSwitchOnOnly(true), bSwitchOn(false)
 {
 	PrimaryComponentTick.bCanEverTick = false;
+
+	bWantsInitializeComponent = true;
 }
 
+
+void UITTSwitchComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	InitializeTarget();
+}
+
+void UITTSwitchComponent::UninitializeComponent()
+{
+	Super::UninitializeComponent();
+}
 
 void UITTSwitchComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	InitializeTarget();
-
 	if (CheckAllConditionSatisfied())
 	{
 		SwitchOn();
@@ -38,9 +50,9 @@ void UITTSwitchComponent::InitializeTarget()
 		TArray<UActorComponent*> TaggedComponents = GetOwner()->GetComponentsByTag(UActorComponent::StaticClass(), Tag_TargetComponet);
 		for (UActorComponent* TaggedComponent : TaggedComponents)
 		{
-			if (IITTSwitchTargetComponentInterface* TargetComponent = Cast<IITTSwitchTargetComponentInterface>(TaggedComponent))
+			if (IITTSwitchTargetComponentInterface* SwitchTargetComponent = Cast<IITTSwitchTargetComponentInterface>(TaggedComponent))
 			{
-				TargetComponents.Add(TargetComponent);
+				TargetComponents.Add(TaggedComponent);
 			}
 			else
 			{
@@ -98,9 +110,12 @@ void UITTSwitchComponent::SwitchOn()
 	{
 		bSwitchOn = true;
 	
-		for (IITTSwitchTargetComponentInterface* TargetComponent : TargetComponents)
+		for (TWeakObjectPtr<UActorComponent> TargetComponent : TargetComponents)
 		{
-			TargetComponent->ActiveComponent();
+			if (IITTSwitchTargetComponentInterface* SwitchTargetComponent = Cast<IITTSwitchTargetComponentInterface>(TargetComponent.Get()))
+			{
+				SwitchTargetComponent->ActiveComponent();
+			}
 		}
 	}
 }
@@ -110,10 +125,13 @@ void UITTSwitchComponent::SwitchOff()
 	if (bSwitchOn)
 	{
 		bSwitchOn = false;
-	
-		for (IITTSwitchTargetComponentInterface* TargetComponent : TargetComponents)
+
+		for (TWeakObjectPtr<UActorComponent> TargetComponent : TargetComponents)
 		{
-			TargetComponent->DeactiveComponent();
+			if (IITTSwitchTargetComponentInterface* SwitchTargetComponent = Cast<IITTSwitchTargetComponentInterface>(TargetComponent.Get()))
+			{
+				SwitchTargetComponent->DeactiveComponent();
+			}
 		}
 	}
 }

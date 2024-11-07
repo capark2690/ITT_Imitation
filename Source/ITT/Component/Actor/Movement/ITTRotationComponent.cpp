@@ -13,14 +13,26 @@ UITTRotationComponent::UITTRotationComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	PrimaryComponentTick.bStartWithTickEnabled = false;
+
+	bWantsInitializeComponent = true;
 }
 
+
+void UITTRotationComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	InitializeTarget();
+}
+
+void UITTRotationComponent::UninitializeComponent()
+{
+	Super::UninitializeComponent();
+}
 
 void UITTRotationComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	InitializeTarget();
 	
 	if (bActiveMovement_OnStart)
 	{
@@ -140,9 +152,12 @@ void UITTRotationComponent::TickMovement(float DeltaTime)
 			ElapsedTimeInPhase += DeltaTime;
 		}
 
-		for (USceneComponent* TargetComponent : TargetComponents)
+		for (TWeakObjectPtr<USceneComponent> TargetComponent : TargetComponents)
 		{
-			TargetComponent->AddRelativeRotation(RotationValueForSec * DeltaTime, true);
+			if (TargetComponent != nullptr)
+			{
+				TargetComponent->AddRelativeRotation(RotationValueForSec * DeltaTime, true);
+			}
 		}
 	}
 }

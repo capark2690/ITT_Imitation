@@ -19,6 +19,9 @@ class ITT_API UITTRotationComponent : public UActorComponent, public IITTSwitchT
 public:
 	UITTRotationComponent();
 
+
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -67,7 +70,7 @@ protected:
 	FName Tag_TargetComponet;
 	
 	UPROPERTY()
-	TArray<TObjectPtr<USceneComponent>> TargetComponents;
+	TArray<TWeakObjectPtr<USceneComponent>> TargetComponents;
 	// ===================================== //
 
 	

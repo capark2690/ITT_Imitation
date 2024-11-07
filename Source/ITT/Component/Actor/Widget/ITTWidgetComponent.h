@@ -17,6 +17,9 @@ class ITT_API UITTWidgetComponent : public UWidgetComponent
 public:
 	UITTWidgetComponent();
 
+
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -55,7 +58,7 @@ protected:
 	TArray<FName> CollisionTags;
 
 	UPROPERTY()
-	TArray<TObjectPtr<class UPrimitiveComponent>> OverlappedComponents;
+	TArray<TWeakObjectPtr<class UPrimitiveComponent>> OverlappedComponents;
 	// =========================================== //
 
 
