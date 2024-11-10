@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/PrimitiveComponent.h"
 
+#include "Character/Player/ITTCharacter_Player.h"
+
 #include "Component/ComponentInterface/Actor/ITTCollisionBaseInterface.h"
 #include "Component/ComponentInterface/Actor/ITTInteractableCollisionInterface.h"
 
@@ -31,9 +33,12 @@ void UITTPlayerInteractionComponent::TickComponent(float DeltaTime, ELevelTick T
 // ========== Interaction ========== //
 void UITTPlayerInteractionComponent::InputInteraction()
 {
-	if (IITTInteractableCollisionInterface* TargetCollision = GetOverridedInteractionCollision())
+	if (AITTCharacter_Player* OwnerPlayer = Cast<AITTCharacter_Player>(GetOwner()))
 	{
-		TargetCollision->Interact();
+		if (IITTInteractableCollisionInterface* TargetCollision = GetOverridedInteractionCollision())
+		{
+			TargetCollision->Interact(OwnerPlayer);
+		}
 	}
 }
 

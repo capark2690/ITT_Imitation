@@ -5,7 +5,12 @@
 
 
 // ========== Interact ========== //
-void IITTInteractableCollisionInterface::Interact()
+void IITTInteractableCollisionInterface::Interact(AITTCharacterBase* InteractorCharacter)
 {
+}
+
+FITTOnActorComponentInteractDelegate* IITTInteractableCollisionInterface::GetInteractDelegate()
+{
+	return nullptr;
 }
 // ============================== //

@@ -79,7 +79,7 @@ void UITTWidgetComponent::RegisterOverlappedComponent(UPrimitiveComponent* Overl
 {
 	if (IsValid(OverlappedComponent))
 	{
-		OverlappedComponents.AddUnique(OverlappedComponent);
+		BindCollisionComponents.AddUnique(OverlappedComponent);
 
 		UpdateCurrentState();
 	}
@@ -87,9 +87,9 @@ void UITTWidgetComponent::RegisterOverlappedComponent(UPrimitiveComponent* Overl
 
 void UITTWidgetComponent::UnregisterOverlappedComponent(UPrimitiveComponent* OverlappedComponent)
 {
-	if (OverlappedComponents.Contains(OverlappedComponent))
+	if (BindCollisionComponents.Contains(OverlappedComponent))
 	{
-		OverlappedComponents.Remove(OverlappedComponent);
+		BindCollisionComponents.Remove(OverlappedComponent);
 
 		UpdateCurrentState();
 	}
@@ -102,7 +102,7 @@ void UITTWidgetComponent::UpdateCurrentState()
 {
 	int32 CollisionPriority = -1;
 	
-	for (TWeakObjectPtr<UPrimitiveComponent> CollisionComponent : OverlappedComponents)
+	for (TWeakObjectPtr<UPrimitiveComponent> CollisionComponent : BindCollisionComponents)
 	{
 		if (CollisionComponent == nullptr)
 		{

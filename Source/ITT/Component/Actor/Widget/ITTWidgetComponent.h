@@ -53,13 +53,13 @@ public:
 
 	
 protected:
-	// ========== Overlapped Components ========== //
+	// ========== Bind Collision ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
 	TArray<FName> CollisionTags;
 
 	UPROPERTY()
-	TArray<TWeakObjectPtr<class UPrimitiveComponent>> OverlappedComponents;
-	// =========================================== //
+	TArray<TWeakObjectPtr<class UPrimitiveComponent>> BindCollisionComponents;
+	// ===================================== //
 
 
 	// ========== State ========== //

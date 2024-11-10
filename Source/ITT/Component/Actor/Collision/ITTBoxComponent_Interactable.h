@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "ITTBoxComponent.h"
 #include "Component/ComponentInterface/Actor/ITTInteractableCollisionInterface.h"
+#include "Actor/ITTDefine_Actor.h"
 #include "ITTBoxComponent_Interactable.generated.h"
 
 /**
@@ -29,6 +30,16 @@ public:
 
 	// ========== Interact ========== //
 	UFUNCTION()
-	virtual void Interact() override;
+	virtual void Interact(class AITTCharacterBase* InteractorCharacter) override;
+
+	virtual FITTOnActorComponentInteractDelegate* GetInteractDelegate() override;
 	// ============================== //
+
+
+public:
+	// ==================== Delegate ==================== //
+	// ========== Interact ========== //
+	FITTOnActorComponentInteractDelegate OnActorComponentInteractDelegate;
+	// ============================== //
+	// ================================================== //
 };

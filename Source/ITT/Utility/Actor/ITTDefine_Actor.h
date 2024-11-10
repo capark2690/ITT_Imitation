@@ -52,7 +52,8 @@ struct FITTRotationData
 // ==================== Delegate ==================== //
 // ========== Component ========== //
 DECLARE_DELEGATE(FITTActorComponentActiveDelegate);
-
 DECLARE_DELEGATE(FITTActorComponentDeactiveDelegate);
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FITTOnActorComponentInteractDelegate, class UPrimitiveComponent*, class AITTCharacterBase*);
 // =============================== //
 // ================================================== //

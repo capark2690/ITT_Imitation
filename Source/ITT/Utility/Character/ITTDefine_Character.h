@@ -78,6 +78,8 @@ enum class EITTSubMovementMode_Custom : uint8
 
 	Custom_LedgeGrab,
 	
+	Custom_JumpTo,
+	
 	EITTSubMovementMode_Custom_Max
 };
 // =================================== //
@@ -254,4 +256,19 @@ struct FITTCharacterStat_Player : public FITTCharacterStat
 	float MaxCrouchSpeed;
 };
 // ========================== //
+
+
+// ========== Change Value ========== //
+USTRUCT(Blueprintable)
+struct FITTChangeValue_CharacterMovementMode
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FITTMovementMode MovementMode;
+};
+// ================================== //
 // ================================================ //

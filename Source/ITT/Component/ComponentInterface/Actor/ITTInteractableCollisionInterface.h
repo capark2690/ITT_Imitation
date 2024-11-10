@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "ITTCollisionBaseInterface.h"
+#include "Actor/ITTDefine_Actor.h"
 #include "ITTInteractableCollisionInterface.generated.h"
 
 /**
@@ -24,6 +24,8 @@ class ITT_API IITTInteractableCollisionInterface
 public:
 	// ========== Interact ========== //
 	UFUNCTION()
-	virtual void Interact();
+	virtual void Interact(class AITTCharacterBase* InteractorCharacter);
+
+	virtual FITTOnActorComponentInteractDelegate* GetInteractDelegate();
 	// ============================== //
 };

@@ -23,7 +23,13 @@ void UITTBoxComponent_Interactable::TickComponent(float DeltaTime, ELevelTick Ti
 
 
 // ========== Interact ========== //
-void UITTBoxComponent_Interactable::Interact()
+void UITTBoxComponent_Interactable::Interact(AITTCharacterBase* InteractorCharacter)
 {
+	OnActorComponentInteractDelegate.Broadcast(this, InteractorCharacter);
+}
+
+FITTOnActorComponentInteractDelegate* UITTBoxComponent_Interactable::GetInteractDelegate()
+{
+	return &OnActorComponentInteractDelegate;
 }
 // ============================== //
