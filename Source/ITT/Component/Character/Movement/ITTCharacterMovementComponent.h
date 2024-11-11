@@ -151,7 +151,7 @@ public:
 	
 	// ==================== Getter ==================== //
 	// ========== Movement Mode Machine ========== //
-	class UITTStateMachine* GetMovementModeMachine() { return MovementModeMachine; }
+	class UITTStateMachine* GetMovementModeMachine() const { return MovementModeMachine; }
 	// =========================================== //
 	// ================================================ //
 
