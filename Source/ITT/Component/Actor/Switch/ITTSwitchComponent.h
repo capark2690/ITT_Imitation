@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Actor/ITTDefine_Actor.h"
+#include "Character/ITTDefine_Character.h"
 #include "ITTSwitchComponent.generated.h"
 
 /**
@@ -24,8 +26,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	
 public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+							   FActorComponentTickFunction* ThisTickFunction) override;
+
+
 	// ========== Target Componet ========== //
 	void InitializeTarget();
 	// ===================================== //
@@ -35,6 +40,8 @@ public:
 	void SetConditionSatisfaction(const FName& Key, bool bSatisfied);
 
 	bool CheckAllConditionSatisfied();
+
+	void CheckCondition();
 	// =============================== //
 
 
@@ -56,15 +63,15 @@ protected:
 
 	// ========== Condition ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
-	TMap<FName, bool> Conditions;
+	TMap<FName, FITTSwitchCondition> Conditions;
+
+	UPROPERTY(Category=ITT, EditAnywhere)
+	TMap<FName, bool> ConditionStates;
 	// =============================== //
 
 
-	// ========== Switch ========== //
-	UPROPERTY(Category=ITT, EditAnywhere)
-	bool bSwitchOnOnly;
-
+	// ========== All Switch ========== //
 	UPROPERTY()
 	bool bSwitchOn;
-	// ============================ //
+	// ================================ //
 };

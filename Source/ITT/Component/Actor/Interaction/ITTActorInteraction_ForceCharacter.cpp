@@ -4,6 +4,7 @@
 #include "ITTActorInteraction_ForceCharacter.h"
 
 #include "Character/ITTCharacterBase.h"
+#include "Component/Actor/Switch/ITTSwitchComponent.h"
 #include "Component/Character/Movement/ITTCharacterMovementComponent.h"
 #include "Component/ComponentInterface/Actor/ITTInteractableCollisionInterface.h"
 #include "Components/PrimitiveComponent.h"
@@ -48,6 +49,8 @@ void UITTActorInteraction_ForceCharacter::TickComponent(float DeltaTime, ELevelT
 		ForceChangeCharacterMovementMode(ElapsedTime);
 		ForceChangeCharacterLocation(ElapsedTime);
 		ForceChangeCharacterMovementMode(ElapsedTime);
+
+		CheckTriggerSwitch(ElapsedTime);
 
 		if (ElapsedTime > MaxTime)
 		{
@@ -104,6 +107,8 @@ void UITTActorInteraction_ForceCharacter::OnInteract(UPrimitiveComponent* _Inter
 	ElapsedTime = 0.f;
 
 	MovementChangeValueIndex = -1;
+
+	SwitchTriggerDataIndex = -1;
 	
 	if (bChange_Location_Static)
 	{
@@ -142,3 +147,26 @@ void UITTActorInteraction_ForceCharacter::ForceChangeCharacterRocation(float Tim
 	InteractorCharacter->SetActorRotation(ChangeCurve_Rotation->GetVectorValue(Time).ToOrientationRotator());
 }
 // ===================================== //
+
+
+// ========== Switch ========== //
+void UITTActorInteraction_ForceCharacter::CheckTriggerSwitch(float Time)
+{
+	if (SwitchTriggerData.IsValidIndex(SwitchTriggerDataIndex + 1))
+	{
+		if (Time >= SwitchTriggerData[SwitchTriggerDataIndex + 1].Time)
+		{
+			TArray<UActorComponent*> TaggedComponents = GetOwner()->GetComponentsByTag(UITTSwitchComponent::StaticClass(), SwitchTriggerData[SwitchTriggerDataIndex + 1].SwitchTag);
+			for (UActorComponent* TaggedComponent : TaggedComponents)
+			{
+				if (UITTSwitchComponent* SwitchComponent = Cast<UITTSwitchComponent>(TaggedComponent))
+				{
+					SwitchComponent->SetConditionSatisfaction(SwitchTriggerData[SwitchTriggerDataIndex + 1].SwitchConditionKey, SwitchTriggerData[SwitchTriggerDataIndex + 1].bSatisfy);
+				}
+			}
+			
+			SwitchTriggerDataIndex += 1;
+		}
+	}
+}
+// ============================ //

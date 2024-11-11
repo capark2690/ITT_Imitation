@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Actor/ITTDefine_Actor.h"
 #include "Character/ITTDefine_Character.h"
 #include "ITTActorInteraction_ForceCharacter.generated.h"
 
@@ -47,7 +48,12 @@ public:
 	
 	virtual void ForceChangeCharacterRocation(float Time);
 	// ===================================== //
-	
+
+
+	// ========== Switch ========== //
+	virtual void CheckTriggerSwitch(float Time);
+	// ============================ //
+
 	
 protected:
 	// ========== Bind Collision ========== //
@@ -57,6 +63,15 @@ protected:
 	UPROPERTY()
 	TArray<TWeakObjectPtr<class UPrimitiveComponent>> BindCollisionComponents;
 	// ==================================== //
+
+	
+	// ========== Switch ========== //
+	UPROPERTY(Category="ITT|Switch", EditAnywhere)
+	TArray<FITTSwitchTriggerData> SwitchTriggerData;
+
+	UPROPERTY()
+	int32 SwitchTriggerDataIndex;
+	// ============================ //
 
 	
 	// ========== Interactor ========== //

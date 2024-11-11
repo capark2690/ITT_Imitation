@@ -3,15 +3,24 @@
 
 #include "ITTSwitchComponent.h"
 
+#include "Character/ITTCharacterBase.h"
+#include "Character/Player/ITTCharacter_Player.h"
+#include "Component/Character/Movement/ITTCharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
+
+#include "GameBase/BasicUtility/ITTBasicUtility.h"
 
 #include "Component/ComponentInterface/Actor/ITTSwitchTargetComponentInterface.h"
 
+#include "Data/DataAssets/Actor/Switch/Condition/ITTData_SwitchCondition.h"
+#include "Data/DataAssets/Actor/Switch/Condition/ITTData_SwitchCondition_PlayerMovementMode.h"
+#include "StateMachine/ITTStateMachine.h"
+
 
 UITTSwitchComponent::UITTSwitchComponent()
-	: bSwitchOnOnly(true), bSwitchOn(false)
+	: bSwitchOn(false)
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	bWantsInitializeComponent = true;
 }
@@ -37,6 +46,14 @@ void UITTSwitchComponent::BeginPlay()
 	{
 		SwitchOn();
 	}
+}
+
+void UITTSwitchComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+	FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	CheckCondition();
 }
 
 
@@ -69,20 +86,22 @@ void UITTSwitchComponent::SetConditionSatisfaction(const FName& ConditionKey, bo
 {
 	if (Conditions.Contains(ConditionKey))
 	{
-		*Conditions.Find(ConditionKey) = bSatisfied;
+		ConditionStates.FindOrAdd(ConditionKey) = bSatisfied;
 	}
 	else
 	{
 		ITTLOG(Error, TEXT("[%s] Condition Key is not valid."), *ITTSTRING_FUNC);
 	}
 
+	
+	// Switch
 	if (!bSwitchOn && CheckAllConditionSatisfied())
 	{
 		SwitchOn();
 		return;
 	}
 
-	if (!bSwitchOnOnly && bSwitchOn && !CheckAllConditionSatisfied())
+	if (bSwitchOn && !CheckAllConditionSatisfied())
 	{
 		SwitchOff();
 	}
@@ -90,15 +109,51 @@ void UITTSwitchComponent::SetConditionSatisfaction(const FName& ConditionKey, bo
 
 bool UITTSwitchComponent::CheckAllConditionSatisfied()
 {
-	for (auto& Condition : Conditions)
+	for (auto& ConditionState : ConditionStates)
 	{
-		if (Condition.Value == false)
+		if (ConditionState.Value == false)
 		{
 			return false;
 		}
 	}
 
 	return true;
+}
+
+void UITTSwitchComponent::CheckCondition()
+{
+	for (auto& ConditionIter : Conditions)
+	{
+		const FITTSwitchCondition& Conditon = ConditionIter.Value;
+
+		bool ConditionStateOn = ConditionStates.Contains(ConditionIter.Key) && *ConditionStates.Find(ConditionIter.Key);
+		
+		UITTData_SwitchCondition* TestData = ConditionStateOn ? Conditon.OffConditionData : Conditon.OnConditionData;
+		
+		if (TestData)
+		{
+			if (TestData->ConditionTriggerType == EITTSwitchConditionTriggerType::ChangeInteractorCharacterMovementMode)
+			{
+				if (UITTData_SwitchCondition_PlayerMovementMode* CastData = Cast<UITTData_SwitchCondition_PlayerMovementMode>(TestData))
+				{
+					if (AITTCharacter_Player* PlayerCharacter = UITTBasicUtility::GetPlayerCharacter(CastData->TargetPlayer))
+					{
+						if (UITTCharacterMovementComponent* MovementComponent = Cast<UITTCharacterMovementComponent>(PlayerCharacter->GetCharacterMovement()))
+						{
+							if (UITTStateMachine* MovementModeMachine = MovementComponent->GetMovementModeMachine())
+							{
+								FITTMovementMode CurrentMovementMode = FITTMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+								if (CastData->MovementModes.Contains(CurrentMovementMode) == CastData->bInclude)
+								{
+									SetConditionSatisfaction(ConditionIter.Key, !ConditionStateOn);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 // =============================== //
 

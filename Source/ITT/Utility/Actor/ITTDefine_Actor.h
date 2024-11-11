@@ -6,7 +6,62 @@
 #include "ITTDefine_Actor.generated.h"
 
 
+// ==================== Enum ==================== //
+// ========== Switch ========== //
+UENUM(BlueprintType)
+enum class EITTSwitchConditionTriggerType : uint8
+{
+	None,
+
+	TriggerFromOther,
+	ChangeInteractorCharacterMovementMode,
+};
+// ============================== //
+// ============================================== //
+
+
 // ==================== Struct ==================== //
+// ========== Switch ========== //
+USTRUCT(Blueprintable)
+struct FITTSwitchTriggerData
+{
+	GENERATED_BODY()
+	
+	FITTSwitchTriggerData()
+	{
+	}
+	
+	UPROPERTY(Category=ITT, EditAnywhere)
+	float Time;
+
+	UPROPERTY(Category=ITT, EditAnywhere)
+	FName SwitchTag;
+
+	UPROPERTY(Category=ITT, EditAnywhere)
+	FName SwitchConditionKey;
+
+	UPROPERTY(Category=ITT, EditAnywhere)
+	bool bSatisfy;
+};
+
+USTRUCT(Blueprintable)
+struct FITTSwitchCondition
+{
+	GENERATED_BODY()
+
+	FITTSwitchCondition()
+	{
+	}
+	
+	UPROPERTY(Category=ITT, EditAnywhere)
+	class UITTData_SwitchCondition* OnConditionData;
+	
+	UPROPERTY(Category=ITT, EditAnywhere)
+	class UITTData_SwitchCondition* OffConditionData;
+};
+// ============================== //
+
+
 // ========== Rotation ========== //
 USTRUCT(Blueprintable)
 struct FITTRotationPhaseData

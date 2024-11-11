@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "Character/ITTDefine_Character.h"
 #include "ITTBasicUtility.generated.h"
 
 /**
@@ -42,6 +43,8 @@ public:
 	static TWeakObjectPtr<class UITTGameInstanceBase> GetITTGameInstance();
 	
 	static class UWorld* GetITTWorld();
+
+	static class AITTCharacter_Player* GetPlayerCharacter(EITTCharacter_Player PlayerCharacter);
 	// ================================== //
 
 	
