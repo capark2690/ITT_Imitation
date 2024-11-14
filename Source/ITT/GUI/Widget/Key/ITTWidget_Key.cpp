@@ -25,6 +25,7 @@ void UITTWidget_Key::NativeConstruct()
 }
 
 
+// ========== Key ========== //
 void UITTWidget_Key::UpdateKeyImage(int8 ControllerId)
 {
 	if (TableMgr)
@@ -36,11 +37,32 @@ void UITTWidget_Key::UpdateKeyImage(int8 ControllerId)
 
 			// ToDo : Set Device for each controller
 			FKey Key = ControllerId == 0 ? Key_Keyboard : Key_Gamepad;
-			
-			KeyTable->GetKeyBrush(Key, SlateBrush_Bg, SlateBrush_Key);
 
-			IMG_Bg->SetBrush(SlateBrush_Bg);
-			IMG_Key->SetBrush(SlateBrush_Key);
+			if (Key.IsValid())
+			{
+				SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+				
+				KeyTable->GetKeyBrush(Key, SlateBrush_Bg, SlateBrush_Key);
+
+				IMG_Bg->SetBrush(SlateBrush_Bg);
+				IMG_Key->SetBrush(SlateBrush_Key);
+			}
+			else
+			{
+				SetVisibility(ESlateVisibility::Collapsed);
+			}
 		}
 	}
 }
+// ================================== //
+
+
+// ==================== Getter / Setter ==================== //
+// ========== Key ========== //
+void UITTWidget_Key::SetKey(const FKey& _Key_Keyboard, const FKey& _Key_Gamepad)
+{
+	Key_Keyboard = _Key_Keyboard;
+	Key_Gamepad = _Key_Gamepad;
+}
+// ================================== //
+// ========================================================= //

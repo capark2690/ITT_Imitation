@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GUI/Widget/ITTWidget.h"
 #include "Character/ITTDefine_Character.h"
+#include "GameBase/ITTDefine_GameBase.h"
 #include "ITTWidget_CharacterSelect.generated.h"
 
 /**
@@ -35,6 +36,15 @@ protected:
 	virtual void Finish() override;
 	// =========================== //
 
+
+	// ========== Button ========== //
+	void BindButtons();
+
+	
+	UFUNCTION()
+	void OnClickButton_Back();
+	// ============================ //
+	
 	
 	// ========== Input Action ========== //
 	void BindInputAction();
@@ -59,6 +69,10 @@ private:
 	void InputRight_Player2();
 	
 	void InputLeft_Player2();
+
+
+	// -- Both -- //
+	void InputBack();
 	// =========================== //
 
 
@@ -89,7 +103,10 @@ public:
 	
 protected:
 	static constexpr char ClassWidgetKey[] = "WBP_CharacterSelect";
+
 	
+	EITTSceneType NextSceneType;
+
 	
 	// ========== Input Action ========== //
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
@@ -100,6 +117,9 @@ protected:
 
 	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LeftAction;
+
+	UPROPERTY(Category = ITT, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* BackAction;
 	// ================================== //
 
 
@@ -124,6 +144,9 @@ protected:
 	
 	UPROPERTY(Meta = (BindWidget))
 	class UITTWidget_Button_CharacterSelect* WBP_ConfirmBTN_Right;
+
+	UPROPERTY(Meta = (BindWidget))
+	class UITTButton_WithKey* BTN_Back;
 	// ========================= //
 
 	

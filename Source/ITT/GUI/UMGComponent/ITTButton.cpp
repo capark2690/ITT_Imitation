@@ -26,6 +26,14 @@ void UITTButton::SynchronizeProperties()
 }
 
 
+void UITTButton::NativeOnCurrentTextStyleChanged()
+{
+	Super::NativeOnCurrentTextStyleChanged();
+
+	TXT_Button->SetStyle(GetCurrentTextStyleClass());
+}
+
+
 // ==================== Getter / Setter ==================== //
 // ========== String Index ========== //
 void UITTButton::SetStringIndex(int32 _StringIndex)

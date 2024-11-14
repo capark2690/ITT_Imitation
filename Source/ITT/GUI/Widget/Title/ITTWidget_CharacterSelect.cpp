@@ -9,13 +9,14 @@
 #include "GameBase/GameManager/GameBase/ITTSceneManager.h"
 
 #include "Button/ITTWidget_Button_CharacterSelect.h"
+#include "GUI/UMGComponent/Additive/Button/ITTButton_WithKey.h"
 
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
 
 
 UITTWidget_CharacterSelect::UITTWidget_CharacterSelect(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bConfirm_Player1(false), bConfirm_Player2(false)
+	: Super(ObjectInitializer), NextSceneType(EITTSceneType::Title), bConfirm_Player1(false), bConfirm_Player2(false)
 {
 }
 
@@ -24,6 +25,7 @@ void UITTWidget_CharacterSelect::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
+	BindButtons();
 	BindInputAction();
 }
 
@@ -59,10 +61,23 @@ void UITTWidget_CharacterSelect::Finish()
 
 	if (SceneMgr)
 	{
-		SceneMgr->ChangeScene(EITTSceneType::Ch1_Start, EITTLoadingType::None, true);
+		SceneMgr->ChangeScene(NextSceneType, EITTLoadingType::None, true);
 	}
 }
 // =========================== //
+
+
+// ========== Button ========== //
+void UITTWidget_CharacterSelect::BindButtons()
+{
+	BTN_Back->OnClicked().AddUObject(this, &UITTWidget_CharacterSelect::OnClickButton_Back);
+}
+
+void UITTWidget_CharacterSelect::OnClickButton_Back()
+{
+	InputBack();
+}
+// ============================ //
 
 
 // ========== Input Action ========== //
@@ -76,7 +91,9 @@ void UITTWidget_CharacterSelect::BindInputAction()
 	
 			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player1);
 		
-			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Player1);
+			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputLeft_Player1);
+
+			EnhancedInputComponent->BindAction(BackAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputBack);
 		}
 	}
 
@@ -88,7 +105,9 @@ void UITTWidget_CharacterSelect::BindInputAction()
 	
 			EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputRight_Player2);
 		
-			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Triggered, this, &UITTWidget_CharacterSelect::InputLeft_Player2);
+			EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputLeft_Player2);
+
+			EnhancedInputComponent->BindAction(BackAction, ETriggerEvent::Started, this, &UITTWidget_CharacterSelect::InputBack);
 		}
 	}
 }
@@ -207,6 +226,14 @@ void UITTWidget_CharacterSelect::InputLeft_Player2()
 
 	UpdateDesign_BTN();
 }
+
+
+// -- Both -- //
+void UITTWidget_CharacterSelect::InputBack()
+{
+	NextSceneType = EITTSceneType::Title;
+	ITTCloseWidget(true);
+}
 // =========================== //
 
 
@@ -223,6 +250,7 @@ void UITTWidget_CharacterSelect::CheckConfirm()
 			GameProcessMgr->AddControllerIdToCharacter(1, SelectCharacter_Player2);
 		}
 
+		NextSceneType = EITTSceneType::Ch1_Start;
 		ITTCloseWidget(false);
 	}
 }

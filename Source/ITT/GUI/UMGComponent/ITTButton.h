@@ -24,6 +24,11 @@ protected:
 
 	
 public:
+	// ========== Text Style ========== //
+	virtual void NativeOnCurrentTextStyleChanged() override;
+	// ================================ //
+
+	
 	// ==================== Getter / Setter ==================== //
 	// ========== String Index ========== //
 	UFUNCTION(Category=ITT, BlueprintCallable)
