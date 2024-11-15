@@ -50,5 +50,8 @@ protected:
 	
 	UPROPERTY(Meta = (BindWidget))
 	class UImage* IMG_Key;
+
+	UPROPERTY(Meta = (BindWidget))
+	class UCommonTextBlock* TXT_Key;
 	// ========================= //
 };

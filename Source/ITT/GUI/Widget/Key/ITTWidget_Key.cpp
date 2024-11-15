@@ -4,8 +4,10 @@
 #include "ITTWidget_Key.h"
 
 #include "Components/Image.h"
-#include "Data/Table/Tables/GUI/ITTTable_Key.h"
+#include "CommonTextBlock.h"
+
 #include "GameBase/GameManager/Data/ITTTableManager.h"
+#include "Data/Table/Tables/GUI/ITTTable_Key.h"
 
 
 UITTWidget_Key::UITTWidget_Key(const FObjectInitializer& ObjectInitializer)
@@ -34,6 +36,7 @@ void UITTWidget_Key::UpdateKeyImage(int8 ControllerId)
 		{
 			FSlateBrush SlateBrush_Bg;
 			FSlateBrush SlateBrush_Key;
+			FText Text_Key;
 
 			// ToDo : Set Device for each controller
 			FKey Key = ControllerId == 0 ? Key_Keyboard : Key_Gamepad;
@@ -42,10 +45,11 @@ void UITTWidget_Key::UpdateKeyImage(int8 ControllerId)
 			{
 				SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 				
-				KeyTable->GetKeyBrush(Key, SlateBrush_Bg, SlateBrush_Key);
+				KeyTable->GetKeyBrush(Key, SlateBrush_Bg, SlateBrush_Key, Text_Key);
 
 				IMG_Bg->SetBrush(SlateBrush_Bg);
 				IMG_Key->SetBrush(SlateBrush_Key);
+				TXT_Key->SetText(Text_Key);
 			}
 			else
 			{

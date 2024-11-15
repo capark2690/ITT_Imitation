@@ -26,6 +26,9 @@ struct FITTTableRow_Key : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere)
 	FSlateBrush SlateBrush_Key;
+
+	UPROPERTY(EditAnywhere)
+	FText Text_Key;
 };
 
 
@@ -42,7 +45,7 @@ public:
 
 	
 	// ========== Key ========== //
-	void GetKeyBrush(const FKey& InKey, FSlateBrush& OutSlateBrush_Bg, FSlateBrush& OutSlateBrush_Key) const;
+	void GetKeyBrush(const FKey& InKey, FSlateBrush& OutSlateBrush_Bg, FSlateBrush& OutSlateBrush_Key, FText& OutText_Key) const;
 	// ========================= //
 
 	
