@@ -44,6 +44,9 @@ protected:
 	
 public:
 	// ==================== Getter ==================== //
+	EITTCharacter_Player GetCharacterType() const { return CharacterType; }
+
+	
 	// ========== Component ========== //
 	// -- Camera -- //
 	class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -62,6 +65,10 @@ public:
 
 	
 protected:
+	UPROPERTY(Category = ITT, EditAnywhere, BlueprintReadOnly)
+	EITTCharacter_Player CharacterType;
+
+	
 	// ========== Component ========== //
 	// -- Camera -- //
 	UPROPERTY(Category = ITTComponent, VisibleAnywhere, BlueprintReadOnly)

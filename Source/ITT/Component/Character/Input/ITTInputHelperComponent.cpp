@@ -5,10 +5,13 @@
 
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/Controller.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
+
+#include "GameBase/BasicUtility/ITTBasicUtility.h"
 
 #include "Character/Player/ITTCharacter_Player.h"
 #include "Component/Character/Movement/ITTCharacterMovementComponent_Player.h"
@@ -211,6 +214,30 @@ void UITTInputHelperComponent::InputCancel(const FInputActionValue& Value)
 
 void UITTInputHelperComponent::InputFindOtherPlayer(const FInputActionValue& Value)
 {
+	AITTCharacter_Player* OtherPlayerCharacter;
+	
+	if (Character != nullptr)
+	{
+		if (Character->GetCharacterType() == EITTCharacter_Player::Cody)
+		{
+			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May);
+		}
+		else
+		{
+			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody);
+		}
+
+		if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetOwner()))
+		{
+			FRotator OldControllerRotation = PlayerController->GetControlRotation();
+			ITTLOG(Warning, TEXT("[%s] Old Controller Rotation [Pitch : %f, Yaw : %f, Roll : %f]"), *ITTSTRING_FUNC, OldControllerRotation.Pitch, OldControllerRotation.Yaw, OldControllerRotation.Roll);
+			
+			FRotator NewControllerRotation = UKismetMathLibrary::FindLookAtRotation(Character->GetActorLocation(), OtherPlayerCharacter->GetActorLocation());
+			ITTLOG(Warning, TEXT("[%s] New Controller Rotation [Pitch : %f, Yaw : %f, Roll : %f]"), *ITTSTRING_FUNC, NewControllerRotation.Pitch, NewControllerRotation.Yaw, NewControllerRotation.Roll);
+
+			PlayerController->SetControlRotation(NewControllerRotation);
+		}
+	}
 }
 // =========================== //
 
