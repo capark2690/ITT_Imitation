@@ -34,10 +34,12 @@ public:
 	virtual void SetCameraSettings(class UITTData_CameraSettings* Data_CameraSettings);
 	// ============================ //
 
-
-protected:
+	
 	// ========== Movement ========== //
 	// -- Jump -- //
+	virtual void Jump() override;
+
+protected:
 	virtual bool CanJumpInternal_Implementation() const override;
 	// ============================== //
 

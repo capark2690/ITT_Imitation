@@ -5,6 +5,7 @@
 
 
 UITTCharacterMovementComponent_Player::UITTCharacterMovementComponent_Player()
+	: LaunchVelocityZAdditive(1.f), LaunchVelocityMultiply(1.f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }

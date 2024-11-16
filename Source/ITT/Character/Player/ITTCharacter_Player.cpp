@@ -81,15 +81,31 @@ void AITTCharacter_Player::SetCameraSettings(UITTData_CameraSettings* Data_Camer
 
 // ========== Movement ========== //
 // -- Jump -- //
-bool AITTCharacter_Player::CanJumpInternal_Implementation() const
+void AITTCharacter_Player::Jump()
 {
-	if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
+	if (!CanJump())
 	{
-		if (MovementComponent_Player->IsWallSlide() || MovementComponent_Player->IsLedgeGrab())
+		if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
 		{
-			return true;
+			if (MovementComponent_Player->IsWallSlide() || MovementComponent_Player->IsLedgeGrab())
+			{
+				MovementComponent_Player->SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_InAir);
+				
+				FVector LaunchVelocity = -GetActorForwardVector() * MovementComponent_Player->LaunchVelocityMultiply;
+				LaunchVelocity.Z += MovementComponent_Player->LaunchVelocityZAdditive;
+				
+				LaunchCharacter(LaunchVelocity, true, false);
+			}
 		}
 	}
+	else
+	{
+		Super::Jump();
+	}
+}
+
+bool AITTCharacter_Player::CanJumpInternal_Implementation() const
+{
 	return Super::CanJumpInternal_Implementation();
 }
 // ============================== //

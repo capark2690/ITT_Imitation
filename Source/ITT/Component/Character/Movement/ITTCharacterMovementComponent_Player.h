@@ -30,4 +30,15 @@ public:
     // -- Move -- //
     virtual void InputMove(FVector2d MovementVector);
     // ============================== //
+
+
+public:
+    // ========== Movement ========== //
+    // -- Jump -- //
+    UPROPERTY(Category="ITT|Jump", EditAnywhere)
+    float LaunchVelocityZAdditive;
+    
+    UPROPERTY(Category="ITT|Jump", EditAnywhere)
+    float LaunchVelocityMultiply;
+    // ============================== //
 };
