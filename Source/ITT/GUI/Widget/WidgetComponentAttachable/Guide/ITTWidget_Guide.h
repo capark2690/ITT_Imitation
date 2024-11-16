@@ -18,6 +18,9 @@ class ITT_API UITTWidget_Guide : public UITTWidget, public IITTWidgetComponentAt
 public:
 	UITTWidget_Guide(const FObjectInitializer& ObjectInitializer);
 
+
+	virtual void NativeOnInitialized() override;
+
 	
 	// ========== Widget Component ========== //
 	UFUNCTION()
@@ -28,7 +31,24 @@ public:
 	// ============================== //
 
 
+private:
+	// ========== Design ========== //
+	void InitializeDesign();
+	// ============================ //
+
+	
 protected:
+	// ========== Design ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	FSlateColor BgColor;
+	// ============================ //
+
+
+	// ========== UMG ========== //
+	UPROPERTY(Meta = (BindWidget))
+	class UImage* IMG_Bg;
+	
 	UPROPERTY(Meta = (BindWidget))
 	class UWidgetSwitcher* WS_Guide;
+	// ========================= //
 };
