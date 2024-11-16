@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Actor/ITTDefine_Actor.h"
 #include "ITTData_SwitchCondition.generated.h"
 
 /**

@@ -16,6 +16,16 @@ enum class EITTSwitchConditionTriggerType : uint8
 	TriggerFromOther,
 	ChangeInteractorCharacterMovementMode,
 };
+
+UENUM(BlueprintType)
+enum class EITTSwitchExecuteType : uint8
+{
+	None,
+
+	ChangeScene,
+	ActiveOtherComponent,
+	PlaySequence,
+};
 // ============================== //
 // ============================================== //
 

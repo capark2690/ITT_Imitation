@@ -23,12 +23,8 @@ public class ITT : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
-			"CommonUI", "Slate", "SlateCore", "UMG"
-		});
-		
-		PrivateDependencyModuleNames.AddRange(new string[]
-		{
-			
+			"CommonUI", "Slate", "SlateCore", "UMG",
+			"LevelSequence", "MovieScene"
 		});
 		// ============================= //
 	}

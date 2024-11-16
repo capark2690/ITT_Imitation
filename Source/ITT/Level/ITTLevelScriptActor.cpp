@@ -3,9 +3,6 @@
 
 #include "ITTLevelScriptActor.h"
 
-#include "GameBase/GameManager/GameBase/ITTSceneManager.h"
-#include "Scene/ITTSceneBase.h"
-
 
 AITTLevelScriptActor::AITTLevelScriptActor()
 {

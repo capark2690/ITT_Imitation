@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Actor/ITTDefine_Actor.h"
-#include "Character/ITTDefine_Character.h"
+#include "GameBase/ITTDefine_GameBase.h"
 #include "ITTSwitchComponent.generated.h"
 
 /**
@@ -52,6 +52,15 @@ public:
 
 	
 protected:
+	UPROPERTY(Category=ITT, EditAnywhere)
+	EITTSwitchExecuteType SwitchExecuteType;
+
+	// ========== Scene ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	EITTSceneType SwitChExecuteSceneType;
+	// =========================== //
+	
+	
 	// ========== Target Componet ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
 	FName Tag_TargetComponet;

@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 
 #include "GameBase/BasicUtility/ITTBasicUtility.h"
+#include "GameBase/GameManager/GameBase/ITTSceneManager.h"
 
 #include "Component/ComponentInterface/Actor/ITTSwitchTargetComponentInterface.h"
 
@@ -164,13 +165,34 @@ void UITTSwitchComponent::SwitchOn()
 	if (!bSwitchOn)
 	{
 		bSwitchOn = true;
-	
-		for (TWeakObjectPtr<UActorComponent> TargetComponent : TargetComponents)
+
+		switch (SwitchExecuteType)
 		{
-			if (IITTSwitchTargetComponentInterface* SwitchTargetComponent = Cast<IITTSwitchTargetComponentInterface>(TargetComponent.Get()))
+		case EITTSwitchExecuteType::ChangeScene :
 			{
-				SwitchTargetComponent->ActiveComponent();
+				if (SceneMgr)
+				{
+					SceneMgr->ChangeScene(SwitChExecuteSceneType, EITTLoadingType::None, true);
+				}
+				
+				break;
 			}
+			
+		case EITTSwitchExecuteType::ActiveOtherComponent :
+			{
+				for (TWeakObjectPtr<UActorComponent> TargetComponent : TargetComponents)
+				{
+					if (IITTSwitchTargetComponentInterface* SwitchTargetComponent = Cast<IITTSwitchTargetComponentInterface>(TargetComponent.Get()))
+					{
+						SwitchTargetComponent->ActiveComponent();
+					}
+				}
+
+				break;
+			}
+
+			default:
+				break;
 		}
 	}
 }

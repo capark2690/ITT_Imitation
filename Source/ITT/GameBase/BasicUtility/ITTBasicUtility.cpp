@@ -102,6 +102,25 @@ UWorld* UITTBasicUtility::GetITTWorld()
 	return nullptr;
 }
 
+AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTCharacter_Player PlayerCharacter)
+{
+	if (UWorld* World = UITTBasicUtility::GetITTWorld())
+	{
+		for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
+		{
+			if (AITTPlayerController_InGame* Player_InGame = Cast<AITTPlayerController_InGame>(Iterator->Get()))
+			{
+				if (Player_InGame->GetPlayerCharacter() == PlayerCharacter)
+				{
+					return Player_InGame;
+				}
+			}
+		}
+	}
+	
+	return nullptr;
+}
+
 AITTCharacter_Player* UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player PlayerCharacter)
 {
 	if (UWorld* World = UITTBasicUtility::GetITTWorld())

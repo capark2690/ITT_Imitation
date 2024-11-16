@@ -44,6 +44,8 @@ public:
 	
 	static class UWorld* GetITTWorld();
 
+	static class AITTPlayerController_InGame* GetPlayerController(EITTCharacter_Player PlayerCharacter);
+	
 	static class AITTCharacter_Player* GetPlayerCharacter(EITTCharacter_Player PlayerCharacter);
 	// ================================== //
 
