@@ -115,13 +115,13 @@ public:
 
 	
 	// -- Wall Slide -- //
-	virtual void WallSlide();
+	virtual void WallSlide(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial);
 	
 	virtual void OnStartWallSlide();
 	
 	virtual void OnStopWallSlide();
 	
-	virtual bool CanWallSlide() const;
+	virtual bool CanWallSlide(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const;
 	
 	virtual bool IsWallSlide() const;
 
@@ -129,13 +129,13 @@ public:
 
 
 	// -- Ledge Grab -- //
-	virtual void LedgeGrab();
+	virtual void LedgeGrab(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial);
 	
 	virtual void OnStartLedgeGrab();
 	
 	virtual void OnStopLedgeGrab();
 	
-	virtual bool CanLedgeGrab() const;
+	virtual bool CanLedgeGrab(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const;
 	
 	virtual bool IsLedgeGrab() const;
 

@@ -10,6 +10,7 @@
 #include "Character/ITTCharacterBase.h"
 #include "Component/Character/Stat/ITTCharacterStatComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 
 #include "StateMachine/ITTStateMachine.h"
@@ -437,12 +438,13 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 
 			FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
 			CollisionQueryParams.AddIgnoredActor(CharacterBase);
+			CollisionQueryParams.bReturnPhysicalMaterial = true;
 
 			FVector RightAttachLocation = CharacterBase->GetMesh()->GetBoneLocation(FName("RightAttach"));
 			FVector LeftAttachLocation = CharacterBase->GetMesh()->GetBoneLocation(FName("LeftAttach"));
 
-			DrawDebugLine(GetWorld(), RightAttachLocation, RightAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
-			DrawDebugLine(GetWorld(), LeftAttachLocation, LeftAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
+			// DrawDebugLine(GetWorld(), RightAttachLocation, RightAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
+			// DrawDebugLine(GetWorld(), LeftAttachLocation, LeftAttachLocation + ForwardOffset, FColor::Yellow, false, 1.f, 0, 1);
 			
 			if (GetWorld()->LineTraceSingleByChannel(OutHit_Right, RightAttachLocation, RightAttachLocation + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
 			{
@@ -462,8 +464,8 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 						FVector RightAttachLocation_Up = RightAttachLocation + FVector(0.f, 0.f, 30.f);
 						FVector LeftAttachLocation_Up = LeftAttachLocation + FVector(0.f, 0.f, 30.f);
 
-						DrawDebugLine(GetWorld(), RightAttachLocation_Up, RightAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
-						DrawDebugLine(GetWorld(), LeftAttachLocation_Up, LeftAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
+						//DrawDebugLine(GetWorld(), RightAttachLocation_Up, RightAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
+						//DrawDebugLine(GetWorld(), LeftAttachLocation_Up, LeftAttachLocation_Up + ForwardOffset, FColor::Red, false, 1.f, 0, 1);
 						
 						if (!GetWorld()->LineTraceSingleByChannel(OutHit_Right_Up, RightAttachLocation_Up, RightAttachLocation_Up + ForwardOffset, ECollisionChannel::ECC_WorldStatic, CollisionQueryParams))
 						{
@@ -471,7 +473,7 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 							{
 								if (!IsLedgeGrab())
 								{
-									LedgeGrab();
+									LedgeGrab(OutHit_Right.PhysMaterial);
 									return;
 								}
 							}
@@ -480,7 +482,7 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 						
 						if (!IsWallSlide())
 						{
-							WallSlide();
+							WallSlide(OutHit_Right.PhysMaterial);
 						}
 
 						return;
@@ -498,9 +500,9 @@ void UITTCharacterMovementComponent::CheckCollideWall_OnFalling()
 
 
 // -- Wall Slide -- //
-void UITTCharacterMovementComponent::WallSlide()
+void UITTCharacterMovementComponent::WallSlide(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial)
 {
-	if (CanWallSlide())
+	if (CanWallSlide(PhysicalMaterial))
 	{
 		SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_WallSlide);
 	}
@@ -514,9 +516,16 @@ void UITTCharacterMovementComponent::OnStopWallSlide()
 {
 }
 
-bool UITTCharacterMovementComponent::CanWallSlide() const
+bool UITTCharacterMovementComponent::CanWallSlide(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const
 {
-	return true;
+	if (PhysicalMaterial != nullptr)
+	{
+		return PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType1
+		|| PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType2
+		|| PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType30;
+	}
+
+	return false;
 }
 
 bool UITTCharacterMovementComponent::IsWallSlide() const
@@ -534,9 +543,9 @@ bool UITTCharacterMovementComponent::IsWallSlideMode(const FITTMovementMode& InM
 
 
 // -- Ledge Grab -- //
-void UITTCharacterMovementComponent::LedgeGrab()
+void UITTCharacterMovementComponent::LedgeGrab(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial)
 {
-	if (CanLedgeGrab())
+	if (CanLedgeGrab(PhysicalMaterial))
 	{
 		SetITTMovementMode<EITTSubMovementMode_Custom>(EMovementMode::MOVE_Custom, EITTSubMovementMode_Custom::Custom_LedgeGrab);
 	}
@@ -550,9 +559,16 @@ void UITTCharacterMovementComponent::OnStopLedgeGrab()
 {
 }
 
-bool UITTCharacterMovementComponent::CanLedgeGrab() const
+bool UITTCharacterMovementComponent::CanLedgeGrab(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const
 {
-	return true;
+	if (PhysicalMaterial != nullptr)
+	{
+		return PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType1
+		|| PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType2
+		|| PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType30;
+	}
+
+	return false;
 }
 
 bool UITTCharacterMovementComponent::IsLedgeGrab() const
