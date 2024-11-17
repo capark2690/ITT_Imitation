@@ -13,6 +13,7 @@
 #include "Component/Character/Stat/ITTCharacterStatComponent_Player.h"
 
 #include "Data/DataAssets/Camera/CameraSettings/ITTData_CameraSettings_WithSpringArm.h"
+#include "GameBase/BasicUtility/ITTBasicUtility.h"
 
 
 AITTCharacter_Player::AITTCharacter_Player(const FObjectInitializer& ObjectInitializer)
@@ -56,6 +57,8 @@ void AITTCharacter_Player::BeginPlay()
 void AITTCharacter_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	CheckInfraredCamera();
 }
 
 
@@ -76,6 +79,66 @@ void AITTCharacter_Player::SetCameraSettings(UITTData_CameraSettings* Data_Camer
 		}
 	}
 }
+
+void AITTCharacter_Player::CheckInfraredCamera()
+{
+	if (FollowCamera)
+	{
+		AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody);
+		AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May);
+		
+		if (IsValid(Cody) && IsValid(May))
+		{
+			bool InfraredCameraOn_Cody = false;
+			bool InfraredCameraOn_May = false;
+			
+			FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+			CollisionQueryParams.AddIgnoredActor(Cody);
+			CollisionQueryParams.AddIgnoredActor(May);
+
+			FVector CameraLocation = FollowCamera->GetComponentLocation();
+			FVector CodyLocation = Cody->GetActorLocation();
+			FVector MayLocation = May->GetActorLocation();
+			
+			FHitResult OutHit_Cody;
+			FHitResult OutHit_May;
+
+			if (GetWorld()->LineTraceSingleByChannel(OutHit_Cody, CameraLocation, CodyLocation, ECollisionChannel::ECC_Visibility, CollisionQueryParams))
+			{
+				InfraredCameraOn_Cody = true;
+			}
+
+			if (GetWorld()->LineTraceSingleByChannel(OutHit_May, CameraLocation, MayLocation, ECollisionChannel::ECC_Visibility, CollisionQueryParams))
+			{
+				InfraredCameraOn_May = true;
+			}
+			
+			FollowCamera->PostProcessSettings.WeightedBlendables.Array.Reset();
+
+			if (InfraredCameraOn_Cody && InfraredCameraOn_May)
+			{
+				if (InfraredCameraMaterials.Contains(FName("Both")))
+				{
+					FollowCamera->PostProcessSettings.AddBlendable(*InfraredCameraMaterials.Find(FName("Both")), 1.f);
+				}
+			}
+			else if (InfraredCameraOn_Cody)
+			{
+				if (InfraredCameraMaterials.Contains(FName("Cody")))
+				{
+					FollowCamera->PostProcessSettings.AddBlendable(*InfraredCameraMaterials.Find(FName("Cody")), 1.f);
+				}
+			}
+			else if (InfraredCameraOn_May)
+			{
+				if (InfraredCameraMaterials.Contains(FName("May")))
+				{
+					FollowCamera->PostProcessSettings.AddBlendable(*InfraredCameraMaterials.Find(FName("May")), 1.f);
+				}
+			}
+		}
+	}
+}
 // ============================ //
 
 
@@ -87,7 +150,7 @@ void AITTCharacter_Player::Jump()
 	{
 		if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
 		{
-			if (MovementComponent_Player->IsWallSlide() || MovementComponent_Player->IsLedgeGrab())
+			if (MovementComponent_Player->IsWallSlide())
 			{
 				MovementComponent_Player->SetITTMovementMode<EITTSubMovementMode_Falling>(EMovementMode::MOVE_Falling, EITTSubMovementMode_Falling::Falling_InAir);
 				
@@ -106,6 +169,13 @@ void AITTCharacter_Player::Jump()
 
 bool AITTCharacter_Player::CanJumpInternal_Implementation() const
 {
+	if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
+		
+	if (MovementComponent_Player->IsLedgeGrab())
+	{
+		return true;
+	}
+	
 	return Super::CanJumpInternal_Implementation();
 }
 // ============================== //

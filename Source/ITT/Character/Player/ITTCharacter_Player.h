@@ -32,9 +32,13 @@ public:
 
 	// ========== Camera ========== //
 	virtual void SetCameraSettings(class UITTData_CameraSettings* Data_CameraSettings);
+
+protected:
+	virtual void CheckInfraredCamera();
 	// ============================ //
 
-	
+
+public:
 	// ========== Movement ========== //
 	// -- Jump -- //
 	virtual void Jump() override;
@@ -89,4 +93,8 @@ protected:
 	UPROPERTY(Category = ITTComponent, VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class UITTPlayerInteractionComponent> PlayerInteractionComponent;
 	// =============================== //
+
+
+	UPROPERTY(Category = ITTComponent, EditAnywhere)
+	TMap<FName, TScriptInterface<class IBlendableInterface>> InfraredCameraMaterials;
 };
