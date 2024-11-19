@@ -30,6 +30,7 @@ enum class EITTSubMovementMode_Walking : uint8
 	Walking_Sprint,
 	Walking_Dash,
 	Walking_Crouch,
+	Walking_Landing,
 
 	EITTSubMovementMode_Walking_Max
 };

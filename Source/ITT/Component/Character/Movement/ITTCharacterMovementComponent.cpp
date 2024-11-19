@@ -392,6 +392,23 @@ bool UITTCharacterMovementComponent::DoJump(bool bReplayingMoves)
 }
 
 
+// -- Land -- //
+void UITTCharacterMovementComponent::SetPostLandedPhysics(const FHitResult& Hit)
+{
+	// Call SetITTMovementMode before the parent's to prevent changes to previous values due to duplicate calls
+	
+	if( CharacterOwner )
+	{
+		if (!CanEverSwim() || !IsInWater())
+		{
+			SetITTMovementMode<EITTSubMovementMode_Walking>(EMovementMode::MOVE_Walking, EITTSubMovementMode_Walking::Walking_Landing);
+		}
+	}
+	
+	Super::SetPostLandedPhysics(Hit);
+}
+
+
 // -- Dash -- //
 void UITTCharacterMovementComponent::Dash()
 {

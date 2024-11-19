@@ -99,7 +99,10 @@ public:
 	virtual bool DoJump(bool bReplayingMoves) override;
 
 	
-public:
+	// -- Land -- //
+	virtual void SetPostLandedPhysics(const FHitResult& Hit) override;
+
+	
 	// -- Dash -- //
 	virtual void Dash();
 	
