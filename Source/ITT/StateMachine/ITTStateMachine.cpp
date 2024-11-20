@@ -62,11 +62,9 @@ void UITTStateMachine::SetState_Internal(uint32 Id)
 // ============================ //
 
 
-// ==================== Getter ==================== //
 // ========== State ========== //
 bool UITTStateMachine::IsStateDirty() const
 {
 	return NextStateId >= 0 && CurrentStateId != NextStateId;
 }
 // =========================== //
-// ================================================ //

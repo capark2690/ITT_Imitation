@@ -58,15 +58,10 @@ void UITTWidget_Key::UpdateKeyImage(int8 ControllerId)
 		}
 	}
 }
-// ================================== //
 
-
-// ==================== Getter / Setter ==================== //
-// ========== Key ========== //
 void UITTWidget_Key::SetKey(const FKey& _Key_Keyboard, const FKey& _Key_Gamepad)
 {
 	Key_Keyboard = _Key_Keyboard;
 	Key_Gamepad = _Key_Gamepad;
 }
 // ================================== //
-// ========================================================= //

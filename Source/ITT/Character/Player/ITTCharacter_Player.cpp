@@ -84,8 +84,8 @@ void AITTCharacter_Player::CheckInfraredCamera()
 {
 	if (FollowCamera)
 	{
-		AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody);
-		AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May);
+		AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::Cody);
+		AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::May);
 		
 		if (IsValid(Cody) && IsValid(May))
 		{

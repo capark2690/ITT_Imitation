@@ -56,8 +56,8 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 
 
 // ========== Character Select State ========== //
-void UITTScene_LocalPlay_SelectCharacter::GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
-	EITTCharacter_Player& OutSelectCharacter_Player2) const
+void UITTScene_LocalPlay_SelectCharacter::GetCharacterSelectState(EITTPlayerCharacterType& OutSelectCharacter_Player1,
+	EITTPlayerCharacterType& OutSelectCharacter_Player2) const
 {
 	if (IsValid(Widget_CharacterSelect))
 	{

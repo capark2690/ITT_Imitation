@@ -26,7 +26,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	
-	// ==================== Getter ==================== //
 	// ========== Component ========== //
 	// -- Stat -- //
 	class UITTCharacterStatComponent* GetCharacterStatComponent() const { return CharacterStatComponent; }
@@ -35,7 +34,6 @@ public:
 	// -- Animation -- //
 	class UITTAnimationHelperComponent* GetAnimationHelperComponent() const { return AnimationHelperComponent; }
 	// =============================== //
-	// ================================================ //
 
 	
 protected:

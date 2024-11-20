@@ -18,17 +18,15 @@ class ITT_API AITTPlayerController_InGame : public AITTPlayerControllerBase
 public:
 	AITTPlayerController_InGame(const FObjectInitializer& ObjectInitializer);
 	
-
-	// ==================== Getter ==================== //
+	
 	// ========== Character ========== //
-	EITTCharacter_Player GetPlayerCharacter() const { return PlayerCharacter; }
+	EITTPlayerCharacterType GetPlayerCharacterType() const { return PlayerCharacterType; }
 	// =============================== //
-	// ================================================ //
 
 	
 protected:
 	// ========== Character ========== //
 	UPROPERTY(Category = ITT, EditAnywhere)
-	EITTCharacter_Player PlayerCharacter;
+	EITTPlayerCharacterType PlayerCharacterType;
 	// =============================== //
 };

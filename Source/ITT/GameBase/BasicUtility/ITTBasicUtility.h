@@ -38,15 +38,14 @@ private:
 	
 	
 public:
-	// ==================== Getter ==================== //
 	// ========== BasicUtility ========== //
 	static TWeakObjectPtr<class UITTGameInstanceBase> GetITTGameInstance();
 	
 	static class UWorld* GetITTWorld();
 
-	static class AITTPlayerController_InGame* GetPlayerController(EITTCharacter_Player PlayerCharacter);
+	static class AITTPlayerController_InGame* GetPlayerController(EITTPlayerCharacterType PlayerCharacterType);
 	
-	static class AITTCharacter_Player* GetPlayerCharacter(EITTCharacter_Player PlayerCharacter);
+	static class AITTCharacter_Player* GetPlayerCharacter(EITTPlayerCharacterType PlayerCharacterType);
 	// ================================== //
 
 	
@@ -54,7 +53,6 @@ public:
 	// -- Table -- //
 	static const FString& GetTableListPath();
 	// ================================ //
-	// ================================================ //
 
 	
 private:

@@ -40,18 +40,13 @@ void UITTTextBlock::OnFontChanged()
 }
 
 
-// ==================== Getter / Setter ==================== //
 // ========== String Index ========== //
 void UITTTextBlock::SetStringIndex(int32 _StringIndex)
 {
 	StringIndex = _StringIndex;
 	OnChangeStringIndex();
 }
-// ================================== //
-// ========================================================= //
 
-
-// ========== String Index ========== //
 void UITTTextBlock::OnChangeStringIndex()
 {
 	if (TableMgr == nullptr)

@@ -18,12 +18,9 @@ public:
 	UITTGameConfig();
 	
 	
-	// ==================== Getter ==================== //
 	// ========== Table ========== //
-	// === Getter === //
 	const FString& GetTableListPath() const { return TableListPath; }
 	// =========================== //
-	// ================================================ //
 	
 	
 private:

@@ -16,7 +16,6 @@ class ITT_API UITTData_CharacterStat : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	// ==================== Getter ==================== //
 	// ========== Stat Data ========== //
 	virtual const FITTCharacterStat* GetCharacterStats() const { return nullptr; }
 
@@ -38,5 +37,4 @@ public:
 		return nullptr;
 	}
 	// =============================== //
-	// ================================================ //
 };

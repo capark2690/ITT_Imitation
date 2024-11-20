@@ -35,6 +35,6 @@ protected:
 protected:
 	// ========== Player ========== //
 	UPROPERTY(Category = ITT, EditAnywhere)
-	TMap<EITTCharacter_Player, TSubclassOf<class AITTCharacter_Player>> PlayerCharacterClasses;
+	TMap<EITTPlayerCharacterType, TSubclassOf<class AITTCharacter_Player>> PlayerCharacterClasses;
 	// ============================ //
 };

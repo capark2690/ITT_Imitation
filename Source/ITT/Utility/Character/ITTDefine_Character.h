@@ -9,7 +9,7 @@
 // ==================== Enum ==================== //
 // ========== Player ========== //
 UENUM(BlueprintType)
-enum class EITTCharacter_Player : uint8
+enum class EITTPlayerCharacterType : uint8
 {
 	None,
 	

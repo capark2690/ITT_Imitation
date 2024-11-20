@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GUI/Widget/ITTWidget.h"
-#include "Character/ITTDefine_Character.h"
 #include "GameBase/ITTDefine_GameBase.h"
+#include "Character/ITTDefine_Character.h"
 #include "ITTWidget_CharacterSelect.generated.h"
 
 /**
@@ -93,12 +93,10 @@ public:
 	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
 	// ====================================== //
 
-
-	// ==================== Getter ==================== //
+	
 	// ========== Character Select State ========== //
-	void GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1, EITTCharacter_Player& OutSelectCharacter_Player2) const;
+	void GetCharacterSelectState(EITTPlayerCharacterType& OutSelectPlayerCharacterType1, EITTPlayerCharacterType& OutSelectPlayerCharacterType2) const;
 	// ============================================ //
-	// ================================================ //
 	
 	
 protected:
@@ -124,8 +122,8 @@ protected:
 
 
 	// ========== Progress ========== //
-	EITTCharacter_Player SelectCharacter_Player1;
-	EITTCharacter_Player SelectCharacter_Player2;
+	EITTPlayerCharacterType SelectPlayerCharacterType1;
+	EITTPlayerCharacterType SelectPlayerCharacterType2;
 	
 	bool bConfirm_Player1;
 	bool bConfirm_Player2;

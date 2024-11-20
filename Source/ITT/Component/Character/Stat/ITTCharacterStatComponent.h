@@ -39,14 +39,9 @@ public:
 	}
 
 	float GetCharacterStat(const EITTCharacterStat StatName) const;
-	// =============================== //
 	
-	
-	// ==================== Getter ==================== //
-	// ========== Stat Data ========== //
 	class UITTData_CharacterStat* GetCharacterStatData() const { return CharacterStatData; }
 	// =============================== //
-	// ================================================ //
 
 	
 protected:

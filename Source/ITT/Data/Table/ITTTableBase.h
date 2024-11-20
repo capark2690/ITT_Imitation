@@ -24,12 +24,10 @@ public:
 	
 	virtual void Finalize();
 
-
-	// ==================== Getter ==================== //
+	
 	// ========== Table ========== //
 	UDataTable* GetDataTable() const { return DataTable; }
 	// =========================== //
-	// ================================================ //
 
 	
 protected:

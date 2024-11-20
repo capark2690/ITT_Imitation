@@ -17,7 +17,7 @@ class ITT_API UITTData_SwitchCondition_PlayerMovementMode : public UITTData_Swit
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	EITTCharacter_Player TargetPlayer;
+	EITTPlayerCharacterType TargetPlayerCharacterType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<FITTMovementMode> MovementModes;

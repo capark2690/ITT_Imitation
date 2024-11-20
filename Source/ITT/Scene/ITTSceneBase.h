@@ -31,12 +31,10 @@ public:
 	virtual void TransferData(TObjectPtr<UITTSceneBase>& NextScene) {}
 	// ============================ //
 
-
-	// ==================== Getter ==================== //
+	
 	// ========== Scene ========== //
 	EITTSceneType GetSceneType() const { return SceneType; }
 	// =========================== //
-	// ================================================ //
 
 
 protected:

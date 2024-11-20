@@ -7,21 +7,21 @@
 // ========== Character ========== //
 void UITTGameProcessManager::ResetControllerIdToCharacter()
 {
-	ControllerIdToCharacter.Reset();
+	ControllerIdToCharacterType.Reset();
 }
 
-void UITTGameProcessManager::AddControllerIdToCharacter(uint8 ContollerId, EITTCharacter_Player Character)
+void UITTGameProcessManager::AddControllerIdToCharacterType(uint8 ContollerId, EITTPlayerCharacterType Character)
 {
-	ControllerIdToCharacter.Emplace(ContollerId, Character);
+	ControllerIdToCharacterType.Emplace(ContollerId, Character);
 }
 
-EITTCharacter_Player UITTGameProcessManager::GetControllerCharacter(uint8 ContollerId)
+EITTPlayerCharacterType UITTGameProcessManager::GetControllerCharacterType(uint8 ContollerId)
 {
-	if (ControllerIdToCharacter.Contains(ContollerId))
+	if (ControllerIdToCharacterType.Contains(ContollerId))
 	{
-		return *ControllerIdToCharacter.Find(ContollerId);
+		return *ControllerIdToCharacterType.Find(ContollerId);
 	}
 
-	return EITTCharacter_Player::None;
+	return EITTPlayerCharacterType::None;
 }
 // =============================== //

@@ -32,8 +32,8 @@ private:
 
 public:
 	// ========== Character Select State ========== //
-	void GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
-	EITTCharacter_Player& OutSelectCharacter_Player2) const;
+	void GetCharacterSelectState(EITTPlayerCharacterType& OutSelectCharacter_Player1,
+	EITTPlayerCharacterType& OutSelectCharacter_Player2) const;
 	// ============================================ //
 
 	

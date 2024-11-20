@@ -79,7 +79,6 @@ void UITTBasicUtility::DestroyCompositionObjects()
 // ================================= //
 
 
-// ==================== Getter ==================== //
 // ========== BasicUtility ========== //
 TWeakObjectPtr<UITTGameInstanceBase> UITTBasicUtility::GetITTGameInstance()
 {
@@ -102,7 +101,7 @@ UWorld* UITTBasicUtility::GetITTWorld()
 	return nullptr;
 }
 
-AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTCharacter_Player PlayerCharacter)
+AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTPlayerCharacterType PlayerCharacterType)
 {
 	if (UWorld* World = UITTBasicUtility::GetITTWorld())
 	{
@@ -110,7 +109,7 @@ AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTCharacter
 		{
 			if (AITTPlayerController_InGame* Player_InGame = Cast<AITTPlayerController_InGame>(Iterator->Get()))
 			{
-				if (Player_InGame->GetPlayerCharacter() == PlayerCharacter)
+				if (Player_InGame->GetPlayerCharacterType() == PlayerCharacterType)
 				{
 					return Player_InGame;
 				}
@@ -121,21 +120,15 @@ AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTCharacter
 	return nullptr;
 }
 
-AITTCharacter_Player* UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player PlayerCharacter)
+AITTCharacter_Player* UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType PlayerCharacterType)
 {
-	if (UWorld* World = UITTBasicUtility::GetITTWorld())
+	if (AITTPlayerController_InGame* PlayerController = UITTBasicUtility::GetPlayerController(PlayerCharacterType))
 	{
-		for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
+		if (PlayerController->GetPlayerCharacterType() == PlayerCharacterType)
 		{
-			if (AITTPlayerController_InGame* Player_InGame = Cast<AITTPlayerController_InGame>(Iterator->Get()))
+			if (AITTCharacter_Player* Character = Cast<AITTCharacter_Player>(PlayerController->GetPawn()))
 			{
-				if (Player_InGame->GetPlayerCharacter() == PlayerCharacter)
-				{
-					if (AITTCharacter_Player* Character = Cast<AITTCharacter_Player>(Player_InGame->GetPawn()))
-					{
-						return Character;
-					}
-				}
+				return Character;
 			}
 		}
 	}
@@ -155,4 +148,3 @@ const FString& UITTBasicUtility::GetTableListPath()
 	return Instance->ITTGameConfig->GetTableListPath();
 }
 // ================================ //
-// ================================================ //

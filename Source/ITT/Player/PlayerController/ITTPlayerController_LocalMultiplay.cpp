@@ -19,18 +19,18 @@ void AITTPlayerController_LocalMultiplay::PreInitialize(ULocalPlayer* LocalPlaye
 
 	if (GameProcessMgr)
 	{
-		PlayerCharacter = GameProcessMgr->GetControllerCharacter(LocalPlayer->GetPlatformUserId().GetInternalId());
+		PlayerCharacterType = GameProcessMgr->GetControllerCharacterType(LocalPlayer->GetPlatformUserId().GetInternalId());
 	}
 
-	if (PlayerCharacter == EITTCharacter_Player::None)
+	if (PlayerCharacterType == EITTPlayerCharacterType::None)
 	{
 		if (LocalPlayer->GetPlatformUserId().GetInternalId() == 0)
 		{
-			PlayerCharacter = EITTCharacter_Player::Cody;
+			PlayerCharacterType = EITTPlayerCharacterType::Cody;
 		}
 		else
 		{
-			PlayerCharacter = EITTCharacter_Player::May;
+			PlayerCharacterType = EITTPlayerCharacterType::May;
 		}
 	}
 }

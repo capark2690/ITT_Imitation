@@ -36,7 +36,6 @@ private:
 	
 	
 public:
-	// ==================== Getter ==================== //
 	// ========== State Machine ========== //
 	const FName& GetStateMachineName() const { return StateMachineName; }
 	// =================================== //
@@ -51,7 +50,6 @@ public:
 
 	bool IsStateDirty() const;
 	// =========================== //
-	// ================================================ //
 	
 	
 private:

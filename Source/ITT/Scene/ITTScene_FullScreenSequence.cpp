@@ -29,11 +29,11 @@ void UITTScene_FullScreenSequence::Initialize(EITTSceneType _SceneType, FITTTabl
 
 	PlayLevelSequence();
 
-	if (AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody))
+	if (AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::Cody))
 	{
 		Cody->GetMesh()->SetVisibility(false);
 	}
-	if (AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May))
+	if (AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::May))
 	{
 		May->GetMesh()->SetVisibility(false);
 	}
@@ -79,11 +79,11 @@ void UITTScene_FullScreenSequence::OnLevelSequenceEndPlay(AActor* Actor, EEndPla
 		SceneMgr->ChangeScene(SceneRow->DefaultNextSceneType, EITTLoadingType::None, true);
 	}
 
-	if (AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody))
+	if (AITTCharacter_Player* Cody = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::Cody))
 	{
 		Cody->GetMesh()->SetVisibility(true);
 	}
-	if (AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May))
+	if (AITTCharacter_Player* May = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::May))
 	{
 		May->GetMesh()->SetVisibility(true);
 	}

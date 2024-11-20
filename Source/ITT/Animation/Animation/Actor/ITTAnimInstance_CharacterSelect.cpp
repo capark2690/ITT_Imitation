@@ -30,19 +30,19 @@ void UITTAnimInstance_CharacterSelect::UpdateCharacterSelectState()
 {
 	if (SceneMgr)
 	{
-		EITTCharacter_Player SelectCharacter_Player1 = EITTCharacter_Player::None;
-		EITTCharacter_Player SelectCharacter_Player2 = EITTCharacter_Player::None;
+		EITTPlayerCharacterType SelectPlayerCharacterType1 = EITTPlayerCharacterType::None;
+		EITTPlayerCharacterType SelectPlayerCharacterType2 = EITTPlayerCharacterType::None;
 		
 		if (UITTScene_LocalPlay_SelectCharacter* CharacterSelectScene = Cast<UITTScene_LocalPlay_SelectCharacter>(SceneMgr->GetCurrentScene()))
 		{
-			CharacterSelectScene->GetCharacterSelectState(SelectCharacter_Player1, SelectCharacter_Player2);
+			CharacterSelectScene->GetCharacterSelectState(SelectPlayerCharacterType1, SelectPlayerCharacterType2);
 		}
 		
-		bCharacterSelect_Cody = SelectCharacter_Player1 == EITTCharacter_Player::Cody;
-		bCharacterSelect_May = SelectCharacter_Player1 == EITTCharacter_Player::May;
+		bCharacterSelect_Cody = SelectPlayerCharacterType1 == EITTPlayerCharacterType::Cody;
+		bCharacterSelect_May = SelectPlayerCharacterType1 == EITTPlayerCharacterType::May;
 
-		bCharacterSelect_Cody = SelectCharacter_Player2 == EITTCharacter_Player::Cody ? true : bCharacterSelect_Cody;
-		bCharacterSelect_May = SelectCharacter_Player2 == EITTCharacter_Player::May ? true : bCharacterSelect_May;
+		bCharacterSelect_Cody = SelectPlayerCharacterType2 == EITTPlayerCharacterType::Cody ? true : bCharacterSelect_Cody;
+		bCharacterSelect_May = SelectPlayerCharacterType2 == EITTPlayerCharacterType::May ? true : bCharacterSelect_May;
 	}
 }
 // ============================================ //

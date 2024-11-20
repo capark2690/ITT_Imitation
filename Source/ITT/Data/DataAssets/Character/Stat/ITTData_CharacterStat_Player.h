@@ -16,11 +16,9 @@ class ITT_API UITTData_CharacterStat_Player : public UITTData_CharacterStat
 	GENERATED_BODY()
 
 public:
-	// ==================== Getter ==================== //
 	// ========== Stat Data ========== //
 	virtual const FITTCharacterStat* GetCharacterStats() const override { return &CharacterStats_Player; }
 	// =============================== //
-	// ================================================ //
 
 	
 protected:

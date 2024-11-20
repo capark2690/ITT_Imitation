@@ -54,7 +54,6 @@ protected:
 
 	
 public:
-	// ==================== Getter ==================== //
 	bool IsManaged() const { return bManaged; }
 	const FName& GetWidgetKey() const { return WidgetKey; }
 
@@ -63,7 +62,6 @@ public:
 	bool IsActive() const { return bActive; }
 	bool IsAddToViewport() const { return bAddToViewport; }
 	// ========================== //
-	// ================================================ //
 
 	
 protected:

@@ -5,6 +5,6 @@
 
 
 AITTPlayerController_InGame::AITTPlayerController_InGame(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), PlayerCharacter(EITTCharacter_Player::Cody)
+	: Super(ObjectInitializer), PlayerCharacterType(EITTPlayerCharacterType::Cody)
 {
 }

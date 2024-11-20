@@ -25,9 +25,9 @@ UClass* AITTGameMode_InGame::GetDefaultPawnClassForController_Implementation(ACo
 {
 	if (AITTPlayerController_InGame* ITTPlayerController = Cast<AITTPlayerController_InGame>(InController))
 	{
-		if (PlayerCharacterClasses.Contains(ITTPlayerController->GetPlayerCharacter()))
+		if (PlayerCharacterClasses.Contains(ITTPlayerController->GetPlayerCharacterType()))
 		{
-			return *PlayerCharacterClasses.Find(ITTPlayerController->GetPlayerCharacter());
+			return *PlayerCharacterClasses.Find(ITTPlayerController->GetPlayerCharacterType());
 		}
 	}
 

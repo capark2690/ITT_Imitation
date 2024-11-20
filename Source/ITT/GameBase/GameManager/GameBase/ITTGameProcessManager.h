@@ -20,15 +20,15 @@ public:
 	// ========== Character ========== //
 	void ResetControllerIdToCharacter();
 	
-	void AddControllerIdToCharacter(uint8 ContollerId, EITTCharacter_Player Character);
+	void AddControllerIdToCharacterType(uint8 ContollerId, EITTPlayerCharacterType CharacterType);
 
-	EITTCharacter_Player GetControllerCharacter(uint8 ContollerId);
+	EITTPlayerCharacterType GetControllerCharacterType(uint8 ContollerId);
 	// =============================== //
 
 	
 private:
 	// ========== Character ========== //
-	TMap<uint8, EITTCharacter_Player> ControllerIdToCharacter;
+	TMap<uint8, EITTPlayerCharacterType> ControllerIdToCharacterType;
 	// =============================== //
 
 	

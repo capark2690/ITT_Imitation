@@ -137,7 +137,7 @@ void UITTWidget_CharacterSelect::ClearInputActionBindings()
 // -- Player1 -- //
 void UITTWidget_CharacterSelect::InputConfirm_Player1()
 {
-	if (SelectCharacter_Player1 != EITTCharacter_Player::None)
+	if (SelectPlayerCharacterType1 != EITTPlayerCharacterType::None)
 	{
 		bConfirm_Player1 = true;
 		CheckConfirm();
@@ -148,14 +148,14 @@ void UITTWidget_CharacterSelect::InputConfirm_Player1()
 
 void UITTWidget_CharacterSelect::InputRight_Player1()
 {
-	if (SelectCharacter_Player1 == EITTCharacter_Player::None && SelectCharacter_Player2 != EITTCharacter_Player::Cody)
+	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectPlayerCharacterType2 != EITTPlayerCharacterType::Cody)
 	{
-		SelectCharacter_Player1 = EITTCharacter_Player::Cody;
+		SelectPlayerCharacterType1 = EITTPlayerCharacterType::Cody;
 	}
 	
-	if (SelectCharacter_Player1 == EITTCharacter_Player::May)
+	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::May)
 	{
-		SelectCharacter_Player1 = EITTCharacter_Player::None;
+		SelectPlayerCharacterType1 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player1 = false;
 	}
@@ -165,14 +165,14 @@ void UITTWidget_CharacterSelect::InputRight_Player1()
 
 void UITTWidget_CharacterSelect::InputLeft_Player1()
 {
-	if (SelectCharacter_Player1 == EITTCharacter_Player::None && SelectCharacter_Player2 != EITTCharacter_Player::May)
+	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectPlayerCharacterType2 != EITTPlayerCharacterType::May)
 	{
-		SelectCharacter_Player1 = EITTCharacter_Player::May;
+		SelectPlayerCharacterType1 = EITTPlayerCharacterType::May;
 	}
 	
-	if (SelectCharacter_Player1 == EITTCharacter_Player::Cody)
+	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::Cody)
 	{
-		SelectCharacter_Player1 = EITTCharacter_Player::None;
+		SelectPlayerCharacterType1 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player1 = false;
 	}
@@ -184,7 +184,7 @@ void UITTWidget_CharacterSelect::InputLeft_Player1()
 // -- Player2 -- //
 void UITTWidget_CharacterSelect::InputConfirm_Player2()
 {
-	if (SelectCharacter_Player2 != EITTCharacter_Player::None)
+	if (SelectPlayerCharacterType2 != EITTPlayerCharacterType::None)
 	{
 		bConfirm_Player2 = true;
 		CheckConfirm();
@@ -195,14 +195,14 @@ void UITTWidget_CharacterSelect::InputConfirm_Player2()
 
 void UITTWidget_CharacterSelect::InputRight_Player2()
 {
-	if (SelectCharacter_Player2 == EITTCharacter_Player::None && SelectCharacter_Player1 != EITTCharacter_Player::Cody)
+	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectPlayerCharacterType1 != EITTPlayerCharacterType::Cody)
 	{
-		SelectCharacter_Player2 = EITTCharacter_Player::Cody;
+		SelectPlayerCharacterType2 = EITTPlayerCharacterType::Cody;
 	}
 	
-	if (SelectCharacter_Player2 == EITTCharacter_Player::May)
+	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::May)
 	{
-		SelectCharacter_Player2 = EITTCharacter_Player::None;
+		SelectPlayerCharacterType2 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player2 = false;
 	}
@@ -212,14 +212,14 @@ void UITTWidget_CharacterSelect::InputRight_Player2()
 
 void UITTWidget_CharacterSelect::InputLeft_Player2()
 {
-	if (SelectCharacter_Player2 == EITTCharacter_Player::None && SelectCharacter_Player1 != EITTCharacter_Player::May)
+	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectPlayerCharacterType1 != EITTPlayerCharacterType::May)
 	{
-		SelectCharacter_Player2 = EITTCharacter_Player::May;
+		SelectPlayerCharacterType2 = EITTPlayerCharacterType::May;
 	}
 	
-	if (SelectCharacter_Player2 == EITTCharacter_Player::Cody)
+	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::Cody)
 	{
-		SelectCharacter_Player2 = EITTCharacter_Player::None;
+		SelectPlayerCharacterType2 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player2 = false;
 	}
@@ -246,8 +246,8 @@ void UITTWidget_CharacterSelect::CheckConfirm()
 		{
 			GameProcessMgr->ResetControllerIdToCharacter();
 
-			GameProcessMgr->AddControllerIdToCharacter(0, SelectCharacter_Player1);
-			GameProcessMgr->AddControllerIdToCharacter(1, SelectCharacter_Player2);
+			GameProcessMgr->AddControllerIdToCharacterType(0, SelectPlayerCharacterType1);
+			GameProcessMgr->AddControllerIdToCharacterType(1, SelectPlayerCharacterType2);
 		}
 
 		NextSceneType = EITTSceneType::Ch1_Awakening;
@@ -268,15 +268,15 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 	bool bConfirm_ConfirmBTN_Right = false;
 	bool bConfirm_ConfirmBTN_Left = false;
 	
-	switch (SelectCharacter_Player1)
+	switch (SelectPlayerCharacterType1)
 	{
-	case EITTCharacter_Player::None:
+	case EITTPlayerCharacterType::None:
 		{
 			Visibility_SelectBTN_Player1 = ESlateVisibility::SelfHitTestInvisible;
 			break;
 		}
 		
-	case EITTCharacter_Player::Cody:
+	case EITTPlayerCharacterType::Cody:
 		{
 			Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
 			WBP_ConfirmBTN_Right->SetControllerId(0);
@@ -285,7 +285,7 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 			break;
 		}
 
-	case EITTCharacter_Player::May:
+	case EITTPlayerCharacterType::May:
 		{
 			Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
 			WBP_ConfirmBTN_Left->SetControllerId(0);
@@ -295,15 +295,15 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 		}
 	}
 	
-	switch (SelectCharacter_Player2)
+	switch (SelectPlayerCharacterType2)
 	{
-	case EITTCharacter_Player::None:
+	case EITTPlayerCharacterType::None:
 		{
 			Visibility_SelectBTN_Player2 = ESlateVisibility::SelfHitTestInvisible;
 			break;
 		}
 		
-	case EITTCharacter_Player::Cody:
+	case EITTPlayerCharacterType::Cody:
 		{
 			Visibility_ConfirmBTN_Right = ESlateVisibility::SelfHitTestInvisible;
 			WBP_ConfirmBTN_Right->SetControllerId(1);
@@ -312,7 +312,7 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 			break;
 		}
 
-	case EITTCharacter_Player::May:
+	case EITTPlayerCharacterType::May:
 		{
 			Visibility_ConfirmBTN_Left = ESlateVisibility::SelfHitTestInvisible;
 			WBP_ConfirmBTN_Left->SetControllerId(1);
@@ -351,13 +351,11 @@ void UITTWidget_CharacterSelect::OnAnimationFinished_Implementation(const UWidge
 // ====================================== //
 
 
-// ==================== Getter ==================== //
 // ========== Character Select State ========== //
-void UITTWidget_CharacterSelect::GetCharacterSelectState(EITTCharacter_Player& OutSelectCharacter_Player1,
-	EITTCharacter_Player& OutSelectCharacter_Player2) const
+void UITTWidget_CharacterSelect::GetCharacterSelectState(EITTPlayerCharacterType& OutSelectPlayerCharacterType1,
+	EITTPlayerCharacterType& OutSelectPlayerCharacterType2) const
 {
-	OutSelectCharacter_Player1 = SelectCharacter_Player1;
-	OutSelectCharacter_Player2 = SelectCharacter_Player2;
+	OutSelectPlayerCharacterType1 = SelectPlayerCharacterType1;
+	OutSelectPlayerCharacterType2 = SelectPlayerCharacterType2;
 }
 // ============================================ //
-// ================================================ //

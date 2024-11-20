@@ -34,17 +34,12 @@ void UITTButton::NativeOnCurrentTextStyleChanged()
 }
 
 
-// ==================== Getter / Setter ==================== //
 // ========== String Index ========== //
 void UITTButton::SetStringIndex(int32 _StringIndex)
 {
 	StringIndex = _StringIndex;
 }
-// ================================== //
-// ========================================================= //
 
-
-// ========== String Index ========== //
 void UITTButton::OnChangeStringIndex()
 {
 	if (TXT_Button)

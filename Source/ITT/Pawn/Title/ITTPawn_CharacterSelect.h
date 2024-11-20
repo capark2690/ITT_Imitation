@@ -26,13 +26,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// =========================== //
 
-
-	// ==================== Getter ==================== //
+	
 	// ========== Component ========== //
 	// -- Input -- //
 	class UITTInputHelperComponent_GUI* GetInputHelperComponent_GUI() const { return InputHelperComponent_GUI; }
 	// =============================== //
-	// ================================================ //
 	
 	
 protected:

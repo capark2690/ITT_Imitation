@@ -31,6 +31,8 @@ public:
 
 	
 	// ========== Movement Mode Machine ========== //
+	class UITTStateMachine* GetMovementModeMachine() const { return MovementModeMachine; }
+	
 	void CreateMovementModeMachine();
 
 	void DestroyMovementModeMachine();
@@ -152,13 +154,6 @@ public:
 	virtual void AttachCharacterTransformTo(const FVector& BasePoint1, const FVector& BasePoint2,
 		const FVector& TargetPoint1, const FVector& TargetPoint2);
 	// ========================================= //
-	
-	
-	// ==================== Getter ==================== //
-	// ========== Movement Mode Machine ========== //
-	class UITTStateMachine* GetMovementModeMachine() const { return MovementModeMachine; }
-	// =========================================== //
-	// ================================================ //
 
 	
 protected:

@@ -49,8 +49,7 @@ protected:
 
 	
 public:
-	// ==================== Getter ==================== //
-	EITTCharacter_Player GetCharacterType() const { return CharacterType; }
+	EITTPlayerCharacterType GetCharacterType() const { return CharacterType; }
 
 	
 	// ========== Component ========== //
@@ -67,12 +66,11 @@ public:
 	// -- Interaction -- //
 	class UITTPlayerInteractionComponent* GetPlayerInteractionComponent() const { return PlayerInteractionComponent; }
 	// =============================== //
-	// ================================================ //
 
 	
 protected:
 	UPROPERTY(Category = ITT, EditAnywhere, BlueprintReadOnly)
-	EITTCharacter_Player CharacterType;
+	EITTPlayerCharacterType CharacterType;
 
 	
 	// ========== Component ========== //

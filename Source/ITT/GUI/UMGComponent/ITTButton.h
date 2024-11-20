@@ -29,19 +29,14 @@ public:
 	// ================================ //
 
 	
-	// ==================== Getter / Setter ==================== //
 	// ========== String Index ========== //
 	UFUNCTION(Category=ITT, BlueprintCallable)
 	void SetStringIndex(int32 _StringIndex);
 
 	UFUNCTION(Category=ITT, BlueprintPure)
 	int32 GetStringIndex() const { return StringIndex; }
-	// ================================== //
-	// ========================================================= //
-
 	
 protected:
-	// ========== String Index ========== //
 	void OnChangeStringIndex();
 	// ================================== //
 

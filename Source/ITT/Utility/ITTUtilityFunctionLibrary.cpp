@@ -30,7 +30,7 @@ float UITTUtilityFunctionLibrary::CalculateMiddleAngle(FVector BaseVector, FVect
 		TargetVector.Z = 0.f;
 	}
 	
-	//내적 후 아크 코사인을 통해 각을 구함(0~180)
+	//내적 후 아크 코사인을 통해 각을 구함 (0~180)
 	float InnerProduct = FVector::DotProduct(BaseVector,TargetVector);
 	float Degree = UKismetMathLibrary::DegAcos(InnerProduct);
     

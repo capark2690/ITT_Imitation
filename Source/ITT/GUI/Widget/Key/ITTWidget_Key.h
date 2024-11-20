@@ -23,15 +23,10 @@ public:
 
 	// ========== Key ========== //
 	void UpdateKeyImage(int8 ControllerId);
-	// ========================= //
 
-	
-	// ==================== Getter / Setter ==================== //
-	// ========== Key ========== //
 	UFUNCTION(Category=ITT, BlueprintCallable)
 	void SetKey(const FKey& _Key_Keyboard, const FKey& _Key_Gamepad);
 	// ========================= //
-	// ========================================================= //
 
 	
 protected:

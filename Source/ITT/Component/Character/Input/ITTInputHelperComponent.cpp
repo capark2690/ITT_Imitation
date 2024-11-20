@@ -218,13 +218,13 @@ void UITTInputHelperComponent::InputFindOtherPlayer(const FInputActionValue& Val
 	
 	if (Character != nullptr)
 	{
-		if (Character->GetCharacterType() == EITTCharacter_Player::Cody)
+		if (Character->GetCharacterType() == EITTPlayerCharacterType::Cody)
 		{
-			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::May);
+			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::May);
 		}
 		else
 		{
-			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTCharacter_Player::Cody);
+			OtherPlayerCharacter = UITTBasicUtility::GetPlayerCharacter(EITTPlayerCharacterType::Cody);
 		}
 
 		if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetOwner()))

@@ -137,7 +137,7 @@ void UITTSwitchComponent::CheckCondition()
 			{
 				if (UITTData_SwitchCondition_PlayerMovementMode* CastData = Cast<UITTData_SwitchCondition_PlayerMovementMode>(TestData))
 				{
-					if (AITTCharacter_Player* PlayerCharacter = UITTBasicUtility::GetPlayerCharacter(CastData->TargetPlayer))
+					if (AITTCharacter_Player* PlayerCharacter = UITTBasicUtility::GetPlayerCharacter(CastData->TargetPlayerCharacterType))
 					{
 						if (UITTCharacterMovementComponent* MovementComponent = Cast<UITTCharacterMovementComponent>(PlayerCharacter->GetCharacterMovement()))
 						{
