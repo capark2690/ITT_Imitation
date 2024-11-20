@@ -32,6 +32,9 @@ struct FITTTableRow_Scene : public FTableRowBase
 	FName LevelName;
 
 	UPROPERTY(EditAnywhere)
+	EITTSceneType DefaultNextSceneType;
+	
+	UPROPERTY(EditAnywhere)
 	class UITTData_SceneCamera* SceneCameraData;
 };
 
@@ -53,12 +56,8 @@ public:
 
 	// ========== Scene ========== //
 	const TArray<EITTSceneType>& GetEntireSceneTypes() const { return EntireSceneTypes; }
-	
-	TSubclassOf<class UITTSceneBase> GetSceneClass(EITTSceneType SceneType);
-	
-	FName GetSceneLevelName(EITTSceneType SceneType);
-	
-	class UITTData_SceneCamera* GetSceneCameraData(EITTSceneType SceneType);
+
+	FITTTableRow_Scene* GetSceneRow(EITTSceneType SceneType);
 	// =========================== //
 	
 	
@@ -69,14 +68,8 @@ private:
 	// ========== Scene ========== //
 	UPROPERTY()
 	TArray<EITTSceneType> EntireSceneTypes;
-	
-	UPROPERTY()
-	TMap<EITTSceneType, TSubclassOf<class UITTSceneBase>> SceneClasses;
 
 	UPROPERTY()
-	TMap<EITTSceneType, FName> SceneLevelNames;
-
-	UPROPERTY()
-	TMap<EITTSceneType, class UITTData_SceneCamera*> SceneCameraDatas;
+	TMap<EITTSceneType, FITTTableRow_Scene> SceneTypeToRow;
 	// =========================== //
 };

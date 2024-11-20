@@ -64,7 +64,7 @@ void UITTWidget_GameLogo::ChangeScene()
 {
 	if (SceneMgr)
 	{
-		SceneMgr->ChangeScene(EITTSceneType::Title, EITTLoadingType::None, true);
+		SceneMgr->ChangeScene(EITTSceneType::Title_MainMenu, EITTLoadingType::None, true);
 	}
 }
 // ============================ //

@@ -20,12 +20,8 @@ public:
 	
 	// ==================== Getter ==================== //
 	// ========== Table ========== //
+	// === Getter === //
 	const FString& GetTableListPath() const { return TableListPath; }
-	// =========================== //
-
-
-	// ========== Scene ========== //
-	uint32 GetFirstSceneIndex() const { return FirstSceneIndex; }
 	// =========================== //
 	// ================================================ //
 	
@@ -34,11 +30,5 @@ private:
 	// ========== Table ========== //
 	UPROPERTY(Config)
 	FString TableListPath;
-	// =========================== //
-
-
-	// ========== Scene ========== //
-	UPROPERTY(Config)
-	uint32 FirstSceneIndex;
 	// =========================== //
 };

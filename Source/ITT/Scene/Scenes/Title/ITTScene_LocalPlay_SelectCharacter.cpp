@@ -18,9 +18,9 @@ UITTScene_LocalPlay_SelectCharacter::UITTScene_LocalPlay_SelectCharacter()
 }
 
 
-void UITTScene_LocalPlay_SelectCharacter::Initialize(EITTSceneType _SceneType)
+void UITTScene_LocalPlay_SelectCharacter::Initialize(EITTSceneType _SceneType, FITTTableRow_Scene* _SceneRow)
 {
-	Super::Initialize(_SceneType);
+	Super::Initialize(_SceneType, _SceneRow);
 	
 	CreateWidget();
 }

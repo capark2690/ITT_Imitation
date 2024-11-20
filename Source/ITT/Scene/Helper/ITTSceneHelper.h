@@ -23,11 +23,6 @@ public:
 	void Deinitialize();
 
 	
-	// ========== Scene ========== //
-	EITTSceneType GetFirstSceneType() const;
-	// =========================== //
-
-	
 private:
 	bool bInitialized;
 };

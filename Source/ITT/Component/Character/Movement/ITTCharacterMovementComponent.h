@@ -39,10 +39,12 @@ public:
 
 	virtual void SetITTMovementMode(FITTMovementMode ITTMovementMode, bool bChangeImmediately = true);
 	
-	virtual void SetITTMovementMode(uint8 MainMode,  uint8 SubMode = 0, uint8 AdditiveMode1 = 0, uint8 AdditiveMode2 = 0, bool bChangeImmediately = true);
+	virtual void SetITTMovementMode(uint8 MainMode,  uint8 SubMode = 0, uint8 AdditiveMode1 = 0, uint8 AdditiveMode2 = 0,
+		bool bChangeImmediately = true);
 
 	template<typename T>
-	void SetITTMovementMode(EMovementMode MainMode,  T SubMode, uint8 AdditiveMode1 = 0, uint8 AdditiveMode2 = 0, bool bChangeImmediately = true)
+	void SetITTMovementMode(EMovementMode MainMode,  T SubMode, uint8 AdditiveMode1 = 0, uint8 AdditiveMode2 = 0,
+		bool bChangeImmediately = true)
 	{
 		SetITTMovementMode(static_cast<uint8>(MainMode), static_cast<uint8>(SubMode), AdditiveMode1, AdditiveMode2, bChangeImmediately);
 	}

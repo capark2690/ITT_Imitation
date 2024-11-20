@@ -30,9 +30,20 @@ public:
 	// ============================ //
 
 	
+	// ========== Level Sequences ========== //
+	class ALevelSequenceActor* GetLevelSequenceActor(const FName& Key) const;
+	// ===================================== //
+
+	
 protected:
 	// ========== Camera ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
 	TMap<FName, AActor*> ViewTargetActors;
 	// ============================ //
+
+	
+	// ========== Level Sequences ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	TMap<FName, class ALevelSequenceActor*> LevelSequenceActors;
+	// ===================================== //
 };

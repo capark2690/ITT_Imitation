@@ -18,8 +18,7 @@ void UITTTable_Scene::Initialize()
 	ITTCHECK(GetDataTable());
 
 	EntireSceneTypes.Empty();
-	SceneClasses.Empty();
-	SceneLevelNames.Empty();
+	SceneTypeToRow.Empty();
 	
 	TArray<FITTTableRow_Scene*> Rows;
 	GetDataTable()->GetAllRows<FITTTableRow_Scene>(ITTTEXT_FUNC, Rows);
@@ -35,55 +34,20 @@ void UITTTable_Scene::Initialize()
 		
 		EntireSceneTypes.Emplace(Row->SceneType);
 		
-		SceneClasses.Emplace(Row->SceneType, Row->ITTSceneClass);
-		
-		SceneLevelNames.Emplace(Row->SceneType, Row->LevelName);
-
-		SceneCameraDatas.Emplace(Row->SceneType, Row->SceneCameraData);
+		SceneTypeToRow.Emplace(Row->SceneType, *Row);
 	}
 }
 
 
 // ========== Scene ========== //
-TSubclassOf<UITTSceneBase> UITTTable_Scene::GetSceneClass(EITTSceneType SceneType)
+FITTTableRow_Scene* UITTTable_Scene::GetSceneRow(EITTSceneType SceneType)
 {
-	ITTCHECK(GetDataTable());
-
-	if (!SceneClasses.Contains(SceneType))
+	if (!SceneTypeToRow.Contains(SceneType))
 	{
 		FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(TEXT("EITTSceneType"), static_cast<uint32>(SceneType));
-		ITTLOG(Error, TEXT("[%s] SceneType doesn't exist in SceneClasses [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
-		return nullptr;
+		ITTLOG(Error, TEXT("[%s] SceneType doesn't exist in SceneTypeToRow [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
 	}
-	
-	return *SceneClasses.Find(SceneType);
-}
 
-FName UITTTable_Scene::GetSceneLevelName(EITTSceneType SceneType)
-{
-	ITTCHECK(GetDataTable());
-
-	if (!SceneLevelNames.Contains(SceneType))
-	{
-		FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(TEXT("EITTSceneType"), static_cast<uint32>(SceneType));
-		ITTLOG(Error, TEXT("[%s] SceneType doesn't exist in SceneLevelNames [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
-		return FName();
-	}
-	
-	return *SceneLevelNames.Find(SceneType);
-}
-
-UITTData_SceneCamera* UITTTable_Scene::GetSceneCameraData(EITTSceneType SceneType)
-{
-	ITTCHECK(GetDataTable());
-
-	if (!SceneCameraDatas.Contains(SceneType))
-	{
-		FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(TEXT("EITTSceneType"), static_cast<uint32>(SceneType));
-		ITTLOG(Error, TEXT("[%s] SceneType doesn't exist in SceneCameraDatas [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
-		return nullptr;
-	}
-	
-	return *SceneCameraDatas.Find(SceneType);
+	return SceneTypeToRow.Find(SceneType);
 }
 // =========================== //

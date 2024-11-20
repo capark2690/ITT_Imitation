@@ -19,7 +19,7 @@ public:
 	UITTSceneBase();
 
 	
-	virtual void Initialize(EITTSceneType _SceneType);
+	virtual void Initialize(EITTSceneType _SceneType, struct FITTTableRow_Scene* _SceneRow);
 	virtual void Finalize();
 	virtual void Tick(float DeltaTime);
 
@@ -40,17 +40,29 @@ public:
 
 
 protected:
+	// ========== Level ========== //
+	void SetLevelScriptActor();
+	// =========================== //
+
+	
 	// ========== Camera ========== //
 	void SetSceneCamera();
 	// ============================ //
 
 	
-private:
+protected:
 	// ========== Scene ========== //
 	EITTSceneType SceneType;
+
+	struct FITTTableRow_Scene* SceneRow;
 	// =========================== //
 	
 
+	// ========== Level ========== //
+	class AITTLevelScriptActor* LevelScriptActor;
+	// =========================== //
+
+	
 public:
 	// ==================== Delegate ==================== //
 	// ========== Finish ========== //

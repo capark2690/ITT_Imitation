@@ -11,9 +11,9 @@ UITTScene_LocalPlay_SelectInput::UITTScene_LocalPlay_SelectInput()
 }
 
 
-void UITTScene_LocalPlay_SelectInput::Initialize(EITTSceneType _SceneType)
+void UITTScene_LocalPlay_SelectInput::Initialize(EITTSceneType _SceneType, FITTTableRow_Scene* _SceneRow)
 {
-	Super::Initialize(_SceneType);
+	Super::Initialize(_SceneType, _SceneRow);
 
 	// Temp
 	if (SceneMgr)

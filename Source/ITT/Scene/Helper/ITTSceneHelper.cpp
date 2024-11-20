@@ -3,8 +3,6 @@
 
 #include "ITTSceneHelper.h"
 
-#include "GameBase/BasicUtility/ITTBasicUtility.h"
-
 
 UITTSceneHelper::UITTSceneHelper()
 	: bInitialized(false)
@@ -28,11 +26,5 @@ void UITTSceneHelper::Deinitialize()
 {
 	if (!bInitialized)
 	{
-		return;
 	}
-}
-
-EITTSceneType UITTSceneHelper::GetFirstSceneType() const
-{
-	return static_cast<EITTSceneType>(UITTBasicUtility::GetFirstSceneIndex());
 }

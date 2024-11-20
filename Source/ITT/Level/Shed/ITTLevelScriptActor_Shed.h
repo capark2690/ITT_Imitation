@@ -23,16 +23,4 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
-
-	// ========== Level Sequences ========== //
-	class ALevelSequenceActor* GetLevelSequenceActor(const FName& Key) const;
-	// ===================================== //
-
-	
-protected:
-	// ========== Level Sequences ========== //
-	UPROPERTY(Category=ITT, EditAnywhere)
-	TMap<FName, class ALevelSequenceActor*> LevelSequenceActors;
-	// ===================================== //
 };

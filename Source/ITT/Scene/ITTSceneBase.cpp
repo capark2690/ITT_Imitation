@@ -6,7 +6,6 @@
 #include "Engine/Level.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/Pawn.h"
 
 #include "ITTUtilityFunctionLibrary.h"
 #include "GameBase/BasicUtility/ITTBasicUtility.h"
@@ -27,12 +26,15 @@ UITTSceneBase::UITTSceneBase()
 }
 
 
-void UITTSceneBase::Initialize(EITTSceneType _SceneType)
+void UITTSceneBase::Initialize(EITTSceneType _SceneType, FITTTableRow_Scene* _SceneRow)
 {
 	SceneType = _SceneType;
+	SceneRow = _SceneRow;
 
 	FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(FString("EITTSceneType"), SceneType);
 	ITTLOG(Log, TEXT("[%s] Initialize scene [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
+
+	SetLevelScriptActor();
 	
 	SetSceneCamera();
 }
@@ -75,68 +77,76 @@ void UITTSceneBase::PrepareToFinish_Immediately(EITTSceneType NextSceneType, EIT
 // ============================ //
 
 
+// ========== Level ========== //
+void UITTSceneBase::SetLevelScriptActor()
+{
+	UWorld* World = UITTBasicUtility::GetITTWorld();
+	ITTCHECK(World);
+
+	LevelScriptActor = Cast<AITTLevelScriptActor>(World->GetLevel(0)->GetLevelScriptActor());
+	ITTCHECK (LevelScriptActor);
+}
+// =========================== //
+
+
 // ========== Camera ========== //
 void UITTSceneBase::SetSceneCamera()
 {
 	UWorld* World = UITTBasicUtility::GetITTWorld();
-	if (!World)
-	{
-		return;
-	}
+	ITTCHECK (World);
 	
-	if (!TableMgr || !CameraMgr)
-	{
-		return;
-	}
+	ITTCHECK (TableMgr && CameraMgr);
 	
 	if (UITTTable_Scene* SceneTable = TableMgr->GetITTTable<UITTTable_Scene>(UITTTable_Scene::GetTableName()))
 	{
-		UITTData_SceneCamera* SceneCameraData = SceneTable->GetSceneCameraData(SceneType);
-
-		if (SceneCameraData)
+		if (SceneRow != nullptr)
 		{
-			CameraMgr->SetForceDisableSplitscreen(SceneCameraData->bForceDisableSplitscreen);
+			UITTData_SceneCamera* SceneCameraData = SceneRow->SceneCameraData;
 
-			AITTLevelScriptActor* LevelScriptActor = Cast<AITTLevelScriptActor>(World->GetLevel(0)->GetLevelScriptActor());
-			if (LevelScriptActor)
+			if (SceneCameraData)
 			{
-				if (APlayerController* Player1 = UGameplayStatics::GetPlayerControllerFromID(World, 0))
+				CameraMgr->SetForceDisableSplitscreen(SceneCameraData->bForceDisableSplitscreen);
+			
+				if (LevelScriptActor)
 				{
-					if (SceneCameraData->bViewTargetPlayer1IsPawn)
+					if (APlayerController* Player1 = UGameplayStatics::GetPlayerControllerFromID(World, 0))
 					{
-						if (AITTCharacter_Player* Player1Character = Cast<AITTCharacter_Player>(Player1->GetPawn()))
+						if (SceneCameraData->bViewTargetPlayer1IsPawn)
 						{
-							Player1->SetViewTarget(Player1Character);
+							if (AITTCharacter_Player* Player1Character = Cast<AITTCharacter_Player>(Player1->GetPawn()))
+							{
+								Player1->SetViewTarget(Player1Character);
 
-							Player1Character->SetCameraSettings(SceneCameraData->CameraSettings_Player1);
-						}
+								Player1Character->SetCameraSettings(SceneCameraData->CameraSettings_Player1);
+							}
 						
-					}
-					else
-					{
-						if (AActor* ViewTarget_Player1 = LevelScriptActor->GetViewTargetActor(SceneCameraData->ViewTargetName_Player1))
+						}
+						else
 						{
-							Player1->SetViewTarget(ViewTarget_Player1);
+							if (AActor* ViewTarget_Player1 = LevelScriptActor->GetViewTargetActor(SceneCameraData->ViewTargetName_Player1))
+							{
+								Player1->SetViewTarget(ViewTarget_Player1);
+							}
 						}
 					}
-				}
 
-				if (APlayerController* Player2 = UGameplayStatics::GetPlayerControllerFromID(World, 1))
-				{
-					if (SceneCameraData->bViewTargetPlayer2IsPawn)
+					if (APlayerController* Player2 = UGameplayStatics::GetPlayerControllerFromID(World, 1))
 					{
-						if (AITTCharacter_Player* Player2Character = Cast<AITTCharacter_Player>(Player2->GetPawn()))
+						if (SceneCameraData->bViewTargetPlayer2IsPawn)
 						{
-							Player2->SetViewTarget(Player2Character);
+							if (AITTCharacter_Player* Player2Character = Cast<AITTCharacter_Player>(Player2->GetPawn()))
+							{
+								Player2->SetViewTarget(Player2Character);
 
-							Player2Character->SetCameraSettings(SceneCameraData->CameraSettings_Player2);
+								Player2Character->SetCameraSettings(SceneCameraData->CameraSettings_Player2);
+							}
 						}
-					}
-					else
-					{
-						if (AActor* ViewTarget_Player2 = LevelScriptActor->GetViewTargetActor(SceneCameraData->ViewTargetName_Player2))
+						else
 						{
-							Player2->SetViewTarget(ViewTarget_Player2);
+							if (AActor* ViewTarget_Player2 = LevelScriptActor->GetViewTargetActor(SceneCameraData->ViewTargetName_Player2))
+							{
+								Player2->SetViewTarget(ViewTarget_Player2);
+							}
 						}
 					}
 				}

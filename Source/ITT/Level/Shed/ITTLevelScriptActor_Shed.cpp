@@ -19,16 +19,3 @@ void AITTLevelScriptActor_Shed::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-
-
-// ========== Level Sequences ========== //
-ALevelSequenceActor* AITTLevelScriptActor_Shed::GetLevelSequenceActor(const FName& Key) const
-{
-	if (LevelSequenceActors.Contains(Key))
-	{
-		return *LevelSequenceActors.Find(Key);
-	}
-
-	return nullptr;
-}
-// ===================================== //

@@ -19,7 +19,7 @@ public:
 	UITTScene_LocalPlay_SelectCharacter();
 
 	
-	virtual void Initialize(EITTSceneType _SceneType) override;
+	virtual void Initialize(EITTSceneType _SceneType, struct FITTTableRow_Scene* _SceneRow) override;
 	virtual void Finalize() override;
 	virtual void Tick(float DeltaTime) override;
 

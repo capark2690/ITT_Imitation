@@ -183,13 +183,9 @@ void UITTSceneManager::OnChangeSceneState(int64 PreviousSceneId, int64 CurrentSc
 	
 	ITTCHECK(IsValid(TableMgr));
 	ITTCHECK(IsValid(LevelMgr));
-
-	const FName& SceneTableName = UITTTable_Scene::GetTableName();
-	UITTTable_Scene* ITTTable_Scene = TableMgr->GetITTTable<UITTTable_Scene>(SceneTableName);
-	ITTCHECK(IsValid(ITTTable_Scene));
 	
 	TWeakObjectPtr<UITTSceneBase> PreviousScene = CurrentScene;
-	EITTSceneType PreviousSceneType = static_cast<EITTSceneType>(PreviousSceneId);
+	EITTSceneType PreviousSceneType = PreviousSceneId < 0 ? EITTSceneType::None : static_cast<EITTSceneType>(PreviousSceneId);
 
 	if (PreviousScene != nullptr && PreviousSceneType != PreviousScene->GetSceneType())
 	{
@@ -212,7 +208,11 @@ void UITTSceneManager::OnChangeSceneState(int64 PreviousSceneId, int64 CurrentSc
 	FITTOnLoadLevelComplete OnLoadLevelComplete;
 	OnLoadLevelComplete.BindLambda([this, CurrentSceneType](const FString& Context)
 	{
-		CurrentScene->Initialize(CurrentSceneType);
+		const FName& SceneTableName = UITTTable_Scene::GetTableName();
+		UITTTable_Scene* ITTTable_Scene = TableMgr->GetITTTable<UITTTable_Scene>(SceneTableName);
+		ITTCHECK(IsValid(ITTTable_Scene));
+		
+		CurrentScene->Initialize(CurrentSceneType, ITTTable_Scene->GetSceneRow(CurrentSceneType));
 		bool bDelegateBound = EndLoadingDelegate.ExecuteIfBound();
 	});
 
@@ -233,8 +233,11 @@ TObjectPtr<UITTSceneBase> UITTSceneManager::CreateScene(EITTSceneType SceneType)
 	const FName& SceneTableName = UITTTable_Scene::GetTableName();
 	UITTTable_Scene* ITTTable_Scene = TableMgr->GetITTTable<UITTTable_Scene>(SceneTableName);
 	ITTCHECK(IsValid(ITTTable_Scene));
+
+	FITTTableRow_Scene* SceneRow = ITTTable_Scene->GetSceneRow(SceneType);
+	ITTCHECK(SceneRow != nullptr);
 	
-	TWeakObjectPtr<UClass> SceneClass = ITTTable_Scene->GetSceneClass(SceneType);
+	TWeakObjectPtr<UClass> SceneClass = SceneRow->ITTSceneClass;
 	ITTCHECK(SceneClass != nullptr);
 	
 	TObjectPtr<UITTSceneBase> NewScene = ITTNewObject<UITTSceneBase>(this, SceneClass.Get());
@@ -260,9 +263,15 @@ bool UITTSceneManager::TryOpenLevel(const FITTOnLoadLevelComplete& Delegate, EIT
 	const FName& SceneTableName = UITTTable_Scene::GetTableName();
 	UITTTable_Scene* ITTTable_Scene = TableMgr->GetITTTable<UITTTable_Scene>(SceneTableName);
 	ITTCHECK(IsValid(ITTTable_Scene));
+
+	FITTTableRow_Scene* PreviousSceneRow = ITTTable_Scene->GetSceneRow(PreviousSceneType);
+	ITTCHECK(PreviousSceneType == EITTSceneType::None || PreviousSceneRow != nullptr);
 	
-	const FName& CurrentSceneLevelName = ITTTable_Scene->GetSceneLevelName(CurrentSceneType);
-	const FName& PreviousSceneLevelName = PreviousSceneType != EITTSceneType::None ? ITTTable_Scene->GetSceneLevelName(PreviousSceneType) : FName();
+	FITTTableRow_Scene* CurrentSceneRow = ITTTable_Scene->GetSceneRow(CurrentSceneType);
+	ITTCHECK(CurrentSceneRow != nullptr);
+	
+	const FName& CurrentSceneLevelName = CurrentSceneRow->LevelName;
+	const FName& PreviousSceneLevelName = PreviousSceneType != EITTSceneType::None ? PreviousSceneRow->LevelName : FName();
 
 	if (CurrentSceneLevelName != FName() && CurrentSceneLevelName != PreviousSceneLevelName)
 	{
@@ -278,8 +287,6 @@ bool UITTSceneManager::TryOpenLevel(const FITTOnLoadLevelComplete& Delegate, EIT
 // ========== Scene ========== //
 void UITTSceneManager::LoadFirstScene()
 {
-	ITTCHECK(SceneHelper);
-	
-	ChangeScene(SceneHelper->GetFirstSceneType(), EITTLoadingType::None, true);
+	ChangeScene(EITTSceneType::ProductionLogo, EITTLoadingType::None, true);
 }
 // =========================== //

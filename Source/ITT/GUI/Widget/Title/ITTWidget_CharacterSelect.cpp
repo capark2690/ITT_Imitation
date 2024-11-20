@@ -16,7 +16,7 @@
 
 
 UITTWidget_CharacterSelect::UITTWidget_CharacterSelect(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), NextSceneType(EITTSceneType::Title), bConfirm_Player1(false), bConfirm_Player2(false)
+	: Super(ObjectInitializer), NextSceneType(EITTSceneType::Title_MainMenu), bConfirm_Player1(false), bConfirm_Player2(false)
 {
 }
 
@@ -231,7 +231,7 @@ void UITTWidget_CharacterSelect::InputLeft_Player2()
 // -- Both -- //
 void UITTWidget_CharacterSelect::InputBack()
 {
-	NextSceneType = EITTSceneType::Title;
+	NextSceneType = EITTSceneType::Title_MainMenu;
 	ITTCloseWidget(true);
 }
 // =========================== //
@@ -250,7 +250,7 @@ void UITTWidget_CharacterSelect::CheckConfirm()
 			GameProcessMgr->AddControllerIdToCharacter(1, SelectCharacter_Player2);
 		}
 
-		NextSceneType = EITTSceneType::Ch1_Start;
+		NextSceneType = EITTSceneType::Ch1_Awakening;
 		ITTCloseWidget(false);
 	}
 }

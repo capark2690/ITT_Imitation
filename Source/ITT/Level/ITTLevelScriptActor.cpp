@@ -34,3 +34,15 @@ AActor* AITTLevelScriptActor::GetViewTargetActor(const FName& Key)
 }
 // ============================ //
 
+
+// ========== Level Sequences ========== //
+ALevelSequenceActor* AITTLevelScriptActor::GetLevelSequenceActor(const FName& Key) const
+{
+	if (LevelSequenceActors.Contains(Key))
+	{
+		return *LevelSequenceActors.Find(Key);
+	}
+
+	return nullptr;
+}
+// ===================================== //
