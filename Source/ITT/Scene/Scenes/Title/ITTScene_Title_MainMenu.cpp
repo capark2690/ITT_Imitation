@@ -45,7 +45,7 @@ void UITTScene_Title_MainMenu::CreateWidget()
 {
 	if (WidgetMgr)
 	{
-		TObjectPtr<UITTWidget> Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_Title::GetClassWidgetKey());
+		Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_Title::GetClassWidgetKey());
 
 		if (IsValid(Widget))
 		{
@@ -56,9 +56,9 @@ void UITTScene_Title_MainMenu::CreateWidget()
 
 void UITTScene_Title_MainMenu::DestroyWidget()
 {
-	if (WidgetMgr)
+	if (IsValid(Widget))
 	{
-		WidgetMgr->ITTDestroyWidget(UITTWidget_Title::GetClassWidgetKey());
+		Widget->ITTCloseWidget(true);
 	}
 }
 // ============================ //

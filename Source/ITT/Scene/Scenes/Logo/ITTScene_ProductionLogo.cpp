@@ -37,7 +37,7 @@ void UITTScene_ProductionLogo::CreateWidget()
 {
 	if (WidgetMgr)
 	{
-		TObjectPtr<UITTWidget> Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_ProductionLogo::GetClassWidgetKey());
+		Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_ProductionLogo::GetClassWidgetKey());
 
 		if (IsValid(Widget))
 		{
@@ -48,9 +48,9 @@ void UITTScene_ProductionLogo::CreateWidget()
 
 void UITTScene_ProductionLogo::DestroyWidget()
 {
-	if (WidgetMgr)
+	if (IsValid(Widget))
 	{
-		WidgetMgr->ITTDestroyWidget(UITTWidget_ProductionLogo::GetClassWidgetKey());
+		Widget->ITTCloseWidget(true);
 	}
 }
 // ============================ //

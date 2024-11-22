@@ -23,7 +23,6 @@ public:
 	virtual void Finalize() override;
 
 	
-public:
 	// ========== Create Widget ========== //
 	TObjectPtr<class UITTWidget> ITTCreateWidgetByTable(const FName& WidgetName, APlayerController* WidgetOwner = nullptr, bool bManaged = true, const FName& ManagedWidgetKey = FName());
 
@@ -44,20 +43,10 @@ public:
 private:
 	TObjectPtr<class UITTWidget> ITTCreateWidget_Internal(TSubclassOf<class UITTWidget> WidgetClass, const FName& WidgetName, APlayerController* WidgetOwner, bool bManaged, const FName& ManagedWidgetKey, int32 ZOrder);
 	// =================================== //
-
-	
-public:
-	// ========== Destroy Widget ========== //
-	bool ITTDestroyWidget(const FName& ManagedWidgetKey, bool bImmediately = false);
-	// ==================================== //
 	
 	
 private:
 	bool bBuiltInInitialized;
-
-	
-	UPROPERTY()
-	TMap<FName, TWeakObjectPtr<UITTWidget>> ManagedWidgets;
 
 
 #define WidgetMgr UITTWidgetManager::GetInstance()

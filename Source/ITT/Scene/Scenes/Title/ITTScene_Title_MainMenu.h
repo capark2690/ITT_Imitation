@@ -23,9 +23,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-private:
+protected:
 	// ========== Widget ========== //
 	void CreateWidget();
 	void DestroyWidget();
+	// ============================ //
+
+	
+protected:
+	// ========== Widget ========== //
+	TObjectPtr<class UITTWidget> Widget;
 	// ============================ //
 };

@@ -52,7 +52,8 @@ void AITTHUD::CreateHudWidgets()
         UITTWidgetManager* WidgetManager = UITTWidgetManager::GetInstance();
         ITTCHECK(WidgetManager != nullptr);
 
-        TObjectPtr<UITTWidget> HudWidget = WidgetManager->ITTCreateWidgetByTable(Key);
+        APlayerController* HUDOwner = Cast<APlayerController>(GetOwner());
+        TObjectPtr<UITTWidget> HudWidget = WidgetManager->ITTCreateWidgetByTable(Key, HUDOwner);
         ITTCHECK(IsValid(HudWidget));
 			
         HudWidgets.Emplace(Key, HudWidget);

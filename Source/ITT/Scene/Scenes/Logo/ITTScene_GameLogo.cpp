@@ -37,7 +37,7 @@ void UITTScene_GameLogo::CreateWidget()
 {
 	if (WidgetMgr)
 	{
-		TObjectPtr<UITTWidget> Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_GameLogo::GetClassWidgetKey());
+		Widget = WidgetMgr->ITTCreateWidgetByTable(UITTWidget_GameLogo::GetClassWidgetKey());
 
 		if (IsValid(Widget))
 		{
@@ -48,9 +48,9 @@ void UITTScene_GameLogo::CreateWidget()
 
 void UITTScene_GameLogo::DestroyWidget()
 {
-	if (WidgetMgr)
+	if (IsValid(Widget))
 	{
-		WidgetMgr->ITTDestroyWidget(UITTWidget_GameLogo::GetClassWidgetKey());
+		Widget->ITTCloseWidget(true);
 	}
 }
 // ============================ //

@@ -24,7 +24,7 @@ public:
 	virtual void NativeDestruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	
-	virtual void BuiltInInitialize(bool _bManaged, const FName& _WidgetKey, int32 _ZOrder);
+	virtual void BuiltInInitialize(int32 _ZOrder);
 
 
 	// ========== View ========== //
@@ -39,10 +39,6 @@ protected:
 public:
 	// ========== Close ========== //
 	virtual void ITTCloseWidget(bool bImmediately = false);
-	
-	// Call only with ITTCloseWidget or WidgetManager
-	UFUNCTION()
-	virtual void AskToFinish(bool bImmediately = false);
 
 protected:
 	virtual void PrepareToFinish();
@@ -54,10 +50,6 @@ protected:
 
 	
 public:
-	bool IsManaged() const { return bManaged; }
-	const FName& GetWidgetKey() const { return WidgetKey; }
-
-	
 	// ========== View ========== //
 	bool IsActive() const { return bActive; }
 	bool IsAddToViewport() const { return bAddToViewport; }
@@ -65,10 +57,6 @@ public:
 
 	
 protected:
-	bool bManaged;
-	FName WidgetKey;
-
-	
 	// ========== View ========== //
 	bool bActive;
 	bool bAddToViewport;

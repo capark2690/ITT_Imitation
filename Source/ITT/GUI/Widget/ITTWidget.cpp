@@ -7,7 +7,7 @@
 
 
 UITTWidget::UITTWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bManaged(true), WidgetKey(FName()), bActive(false), bAddToViewport(false)
+	: Super(ObjectInitializer), bActive(false), bAddToViewport(false)
 	, VisibilityOnActivate(ESlateVisibility::SelfHitTestInvisible), ZOrder(0)
 {
 }
@@ -38,10 +38,8 @@ void UITTWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	Super::NativeTick(MyGeometry, InDeltaTime);
 }
 
-void UITTWidget::BuiltInInitialize(bool _bManaged, const FName& _WidgetKey, int32 _ZOrder)
+void UITTWidget::BuiltInInitialize(int32 _ZOrder)
 {
-	bManaged = _bManaged;
-	WidgetKey = _WidgetKey;
 	ZOrder = _ZOrder;
 }
 
@@ -69,7 +67,8 @@ void UITTWidget::Activate_Internal()
 	if (!bAddToViewport)
 	{
 		bAddToViewport = true;
-		AddToViewport(ZOrder);
+		//AddToViewport(ZOrder);
+		AddToPlayerScreen(ZOrder);
 	}
 
 	if (!IsVisible())
@@ -91,24 +90,6 @@ void UITTWidget::Deactive_Internal()
 // ========== Close ========== //
 void UITTWidget::ITTCloseWidget(bool bImmediately)
 {
-	bool bSuccessToAsk = false;
-	
-	if (bManaged)
-	{
-		UITTWidgetManager* WidgetManager = UITTWidgetManager::GetInstance();
-		ITTCHECK(WidgetManager);
-		
-		bSuccessToAsk = WidgetManager->ITTDestroyWidget(WidgetKey, bImmediately);
-	}
-
-	if (!bSuccessToAsk)
-	{
-		AskToFinish(bImmediately);
-	}
-}
-
-void UITTWidget::AskToFinish(bool bImmediately)
-{
 	OnReadyToFinishDelegate = FITTOnReadyToFinishDelegate::CreateUObject(this, &UITTWidget::Finish);
 
 	if (bImmediately)
@@ -126,8 +107,8 @@ void UITTWidget::PrepareToFinish()
 	bool bDelegateBound = OnReadyToFinishDelegate.ExecuteIfBound();	// Call UITTWidget::Finish()
 	if (!bDelegateBound)
 	{
-		ITTLOG(Error, TEXT("[%s] OnReadyToFinishDelegate isn't bound [WidgetKey : %s]")
-			, *ITTSTRING_FUNC, *WidgetKey.ToString());
+		ITTLOG(Error, TEXT("[%s] OnReadyToFinishDelegate isn't bound [WidgetName : %s]")
+			, *ITTSTRING_FUNC, *GetName());
 	}
 }
 
@@ -136,8 +117,8 @@ void UITTWidget::PrepareToFinish_Immediately()
 	bool bDelegateBound = OnReadyToFinishDelegate.ExecuteIfBound();	// Call UITTWidget::Finish()
 	if (!bDelegateBound)
 	{
-		ITTLOG(Error, TEXT("[%s] OnReadyToFinishDelegate isn't bound [WidgetKey : %s]")
-			, *ITTSTRING_FUNC, *WidgetKey.ToString());
+		ITTLOG(Error, TEXT("[%s] OnReadyToFinishDelegate isn't bound [WidgetName : %s]")
+			, *ITTSTRING_FUNC, *GetName());
 	}
 }
 

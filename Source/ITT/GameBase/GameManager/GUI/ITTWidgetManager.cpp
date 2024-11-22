@@ -82,22 +82,6 @@ TObjectPtr<UITTWidget> UITTWidgetManager::ITTCreateWidget_Internal(TSubclassOf<c
 		return nullptr;
 	}
 	
-	if (bManaged)
-	{
-		if (ManagedWidgets.Contains(ManagedWidgetKey))
-		{
-			const TWeakObjectPtr<UITTWidget>& Widget = *ManagedWidgets.Find(ManagedWidgetKey);
-			
-			if (Widget.IsValid())
-			{
-				return Widget.Get();
-			}
-
-			ITTLOG(Warning, TEXT("[%s] ManagedWidgetMap has WidgetKey, But Widget is not valid [ManagedWidgetKey : %s]"), *ITTSTRING_FUNC, *ManagedWidgetKey.ToString());
-			ManagedWidgets.Remove(ManagedWidgetKey);
-		}
-	}
-	
 	TObjectPtr<UITTWidget> Widget;
 	
 	if (IsValid(WidgetOwner))
@@ -111,36 +95,9 @@ TObjectPtr<UITTWidget> UITTWidgetManager::ITTCreateWidget_Internal(TSubclassOf<c
 
 	if (Widget != nullptr)
 	{
-		Widget->BuiltInInitialize(bManaged, ManagedWidgetKey, ZOrder);
-	}
-
-	if (bManaged)
-	{
-		ManagedWidgets.Emplace(ManagedWidgetKey.IsNone() ? WidgetName : ManagedWidgetKey, Widget);
+		Widget->BuiltInInitialize(ZOrder);
 	}
 	
 	return Widget;
 }
 // =================================== //
-
-
-// ========== Destroy Widget ========== //
-bool UITTWidgetManager::ITTDestroyWidget(const FName& ManagedWidgetKey, bool bImmediately)
-{
-	if (ManagedWidgets.Contains(ManagedWidgetKey))
-	{
-		const TWeakObjectPtr<UITTWidget>& Widget = *ManagedWidgets.Find(ManagedWidgetKey);
-			
-		if (Widget.IsValid())
-		{
-			Widget->AskToFinish(bImmediately);
-		}
-			
-		ManagedWidgets.Remove(ManagedWidgetKey);
-
-		return true;
-	}
-
-	return false;
-}
-// ==================================== //
