@@ -30,7 +30,8 @@ void AITTHUD_ForEditor::CreateHudWidgets()
         UITTWidgetManager* WidgetManager = UITTWidgetManager::GetInstance();
         ITTCHECK(WidgetManager != nullptr);
 
-        TObjectPtr<UITTWidget> HudWidget = WidgetManager->ITTCreateWidgetByClass(WidgetClass, GetFNameSafe(WidgetClass));
+        APlayerController* HUDOwner = Cast<APlayerController>(GetOwner());
+        TObjectPtr<UITTWidget> HudWidget = WidgetManager->ITTCreateWidgetByClass(WidgetClass, GetFNameSafe(WidgetClass), HUDOwner);
         ITTCHECK(IsValid(HudWidget));
 			
         HudWidgets.Emplace(GetFNameSafe(WidgetClass), HudWidget);
