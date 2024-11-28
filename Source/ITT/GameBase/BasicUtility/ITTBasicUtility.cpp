@@ -101,6 +101,16 @@ UWorld* UITTBasicUtility::GetITTWorld()
 	return nullptr;
 }
 
+AITTPlayerControllerBase* UITTBasicUtility::GetFirstPlayerController()
+{
+	if (UITTBasicUtility::GetITTWorld())
+	{
+		return Cast<AITTPlayerControllerBase>(UITTBasicUtility::GetITTWorld()->GetFirstPlayerController());
+	}
+
+	return nullptr;
+}
+
 AITTPlayerController_InGame* UITTBasicUtility::GetPlayerController(EITTPlayerCharacterType PlayerCharacterType)
 {
 	if (UWorld* World = UITTBasicUtility::GetITTWorld())

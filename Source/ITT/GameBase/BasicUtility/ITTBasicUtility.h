@@ -43,6 +43,8 @@ public:
 	
 	static class UWorld* GetITTWorld();
 
+	static class AITTPlayerControllerBase* GetFirstPlayerController();
+	
 	static class AITTPlayerController_InGame* GetPlayerController(EITTPlayerCharacterType PlayerCharacterType);
 	
 	static class AITTCharacter_Player* GetPlayerCharacter(EITTPlayerCharacterType PlayerCharacterType);
