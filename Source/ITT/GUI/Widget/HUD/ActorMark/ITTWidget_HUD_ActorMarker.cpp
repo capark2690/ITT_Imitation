@@ -109,9 +109,9 @@ void UITTWidget_HUD_ActorMarker::UpdateMakerLocations()
 			if (!IsOwnerPlayerTypeMakerable(Iter.Value()))
 			{
 				Iter.Key()->SetVisibility(ESlateVisibility::Collapsed);
-				return;
+				continue;
 			}
-
+			
 			FSceneViewProjectionData ProjectionData;
 			FVector ScreenLocation;
 			
@@ -119,43 +119,111 @@ void UITTWidget_HUD_ActorMarker::UpdateMakerLocations()
 
 			bool bIsInsideView = GetTargetScreenLocation(TargetActorLocation, ScreenLocation, ProjectionData);
 
-			//ITTLOG(Warning, TEXT("[%s] [WidgetName : %s] ScreenLocation_Test : %f, %f, %f"), *ITTSTRING_FUNC, *Iter.Key()->GetName(),
-			//ScreenLocation.X, ScreenLocation.Y, ScreenLocation.Z);
+			ITTLOG(Verbose, TEXT("[%s] [WidgetName : %s] ScreenLocation : %f, %f, %f"), *ITTSTRING_FUNC, *Iter.Key()->GetName(),
+			ScreenLocation.X, ScreenLocation.Y, ScreenLocation.Z);
 			
-			if (bIsInsideView)
+			bool bOutside_Left = ScreenLocation.X < 0.f;
+			bool bOutside_Right = ScreenLocation.X > ProjectionData.GetViewRect().Width();
+			bool bOutside_Top = ScreenLocation.Y < 0.f;
+			bool bOutside_Bottom = ScreenLocation.Y > ProjectionData.GetViewRect().Height();
+			bool bOutside = bOutside_Left || bOutside_Right || bOutside_Top || bOutside_Bottom;
+			
+			if (!bIsInsideView || bOutside)
 			{
-				Iter.Key()->SetPositionInViewport(FVector2d(ScreenLocation.X, ScreenLocation.Y));
-				
-				bool bOutside_Left = ScreenLocation.X < 0.f;
-				bool bOutside_Right = ScreenLocation.X > ProjectionData.GetViewRect().Width();
-				bool bOutside_Top = ScreenLocation.Y < 0.f;
-				bool bOutside_Bottom = ScreenLocation.Y > ProjectionData.GetViewRect().Height();
+				if (!Iter.Value()->GetMarkOffScreen())
+				{
+					Iter.Key()->SetVisibility(ESlateVisibility::Collapsed);
+					continue;
+				}
+			}
+			else
+			{
+				if (!Iter.Value()->GetMarkOnScreen())
+				{
+					Iter.Key()->SetVisibility(ESlateVisibility::Collapsed);
+					continue;
+				}
+			}
+			
+			Iter.Key()->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
+			if (!bIsInsideView && !bOutside)
+			{
 				// SetImageRotation
 				float RotationAngle = 0.f;
+			
+				float DiffValue_X = 0.f;
+				float DiffValue_Y = 0.f;
 				
+				DiffValue_X = FMath::Min(ScreenLocation.X, ProjectionData.GetViewRect().Width() - ScreenLocation.X);
+				DiffValue_Y = FMath::Min(ScreenLocation.Y, ProjectionData.GetViewRect().Height() - ScreenLocation.Y);
+
+				if (DiffValue_X <= DiffValue_Y)
+				{
+					RotationAngle = ScreenLocation.X < ProjectionData.GetViewRect().Width() - ScreenLocation.X ? 90.f : -90.f;
+				}
+				else
+				{
+					RotationAngle = ScreenLocation.Y < ProjectionData.GetViewRect().Height() - ScreenLocation.Y ? 180.f : 0.f;
+				}
+
+				Iter.Key()->SetImageRotation(RotationAngle);
+			
+				// SetPositionInViewport
+				FVector2d WidgetPosition = FVector2d(ScreenLocation.X, ScreenLocation.Y);
+
+				if (DiffValue_X <= DiffValue_Y)
+				{
+					if (ScreenLocation.X < ProjectionData.GetViewRect().Width() - ScreenLocation.X)
+					{
+						WidgetPosition.X = 0.f;
+					}
+					else
+					{
+						WidgetPosition.X = ProjectionData.GetViewRect().Width() - Iter.Key()->GetCachedGeometry().GetDrawSize().X;
+					}
+				}
+				else
+				{
+					if (ScreenLocation.Y < ProjectionData.GetViewRect().Height() - ScreenLocation.Y)
+					{
+						WidgetPosition.Y = 0.f;
+					}
+					else
+					{
+						WidgetPosition.Y = ProjectionData.GetViewRect().Height() - Iter.Key()->GetCachedGeometry().GetDrawSize().Y;
+					}
+				}
+
+				Iter.Key()->SetPositionInViewport(WidgetPosition);
+			}
+			
+			else
+			{
+				// SetImageRotation
+				float RotationAngle = 0.f;
+			
 				float OutsideValue_X = 0.f;
 				float OutsideValue_Y = 0.f;
-				
+			
 				if (bOutside_Left)
 				{
 					OutsideValue_X = -ScreenLocation.X;
 				}
 				else if (bOutside_Right)
 				{
-					OutsideValue_X = ProjectionData.GetViewRect().Width() - ScreenLocation.X;
+					OutsideValue_X = ScreenLocation.X - ProjectionData.GetViewRect().Width();
 				}
-				
+			
 				if (bOutside_Top)
 				{
 					OutsideValue_Y = -ScreenLocation.Y;
 				}
 				else if (bOutside_Bottom)
 				{
-					OutsideValue_Y = ProjectionData.GetViewRect().Height() - ScreenLocation.Y;
+					OutsideValue_Y = ScreenLocation.Y - ProjectionData.GetViewRect().Height();
 				}
-
-
+				
 				if (bOutside_Left)
 				{
 					if (bOutside_Top)
@@ -199,17 +267,17 @@ void UITTWidget_HUD_ActorMarker::UpdateMakerLocations()
 				}
 
 				Iter.Key()->SetImageRotation(RotationAngle);
-				
+			
 				// SetPositionInViewport
 				FVector2d WidgetPosition = FVector2d(ScreenLocation.X, ScreenLocation.Y);
-				
+			
 				if (bOutside_Left)
 				{
 					WidgetPosition.X = 0.f;
 				}
 				else if (bOutside_Right)
 				{
-    				WidgetPosition.X = ProjectionData.GetViewRect().Width() - Iter.Key()->GetCachedGeometry().GetDrawSize().X;
+					WidgetPosition.X = ProjectionData.GetViewRect().Width() - Iter.Key()->GetCachedGeometry().GetDrawSize().X;
 				}
 
 				if (bOutside_Top)
@@ -227,7 +295,7 @@ void UITTWidget_HUD_ActorMarker::UpdateMakerLocations()
 	}
 }
 
-bool UITTWidget_HUD_ActorMarker::GetTargetScreenLocation(const FVector& InWorldLocation, FVector& OutScreenLocation, FSceneViewProjectionData& ProjectionData)
+bool UITTWidget_HUD_ActorMarker::  GetTargetScreenLocation(const FVector& InWorldLocation, FVector& OutScreenLocation, FSceneViewProjectionData& ProjectionData)
 {
 	bool bIsInsideView = false;
 	

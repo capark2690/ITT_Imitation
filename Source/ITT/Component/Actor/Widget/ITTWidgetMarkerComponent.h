@@ -45,17 +45,17 @@ public:
 
 	
 	// ========== Mark Condition ========== //
-	bool GetMarkOnCodyScreen() const{ return MarkOnCodyScreen; }
+	bool GetMarkOnCodyScreen() const { return MarkOnCodyScreen; }
 	
-	bool GetMarkOnMayScreen() const{ return MarkOnMayScreen; }
+	bool GetMarkOnMayScreen() const { return MarkOnMayScreen; }
 	
-	bool GetMarkOnFullScreen() const{ return MarkOnFullScreen; }
+	bool GetMarkOnFullScreen() const { return MarkOnFullScreen; }
 	
-	bool GetMarkOnSinematicFullScreen() const{ return MarkOnSinematicFullScreen; }
+	bool GetMarkOnSinematicFullScreen() const { return MarkOnSinematicFullScreen; }
 	
-	bool GetMarkComponentOnScreen() const{ return MarkComponentOnScreen; }
+	bool GetMarkOnScreen() const { return MarkOnScreen; }
 	
-	bool GetMarkComponentOffScreen() const{ return MarkComponentOffScreen; }
+	bool GetMarkOffScreen() const { return MarkOffScreen; }
 	// ==================================== //
 
 
@@ -86,9 +86,9 @@ protected:
 	bool MarkOnSinematicFullScreen;
 
 	UPROPERTY(Category=ITT, EditAnywhere)
-	bool MarkComponentOnScreen;
+	bool MarkOnScreen;
 
 	UPROPERTY(Category=ITT, EditAnywhere)
-	bool MarkComponentOffScreen;
+	bool MarkOffScreen;
 	// ==================================== //
 };

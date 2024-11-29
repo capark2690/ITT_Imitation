@@ -8,7 +8,7 @@
 
 UITTWidgetMarkerComponent::UITTWidgetMarkerComponent()
 	: bActivateMarker(true), MarkOnCodyScreen(true), MarkOnMayScreen(true)
-	, MarkOnFullScreen(true), MarkOnSinematicFullScreen(false), MarkComponentOnScreen(true), MarkComponentOffScreen(true)
+	, MarkOnFullScreen(true), MarkOnSinematicFullScreen(false), MarkOnScreen(true), MarkOffScreen(true)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
