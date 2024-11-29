@@ -7,7 +7,7 @@
 
 
 UITTWidget::UITTWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bActive(false), bAddToViewport(false)
+	: Super(ObjectInitializer), bFullScreenWidget(false), bActive(false), bAddToViewport(false)
 	, VisibilityOnActivate(ESlateVisibility::SelfHitTestInvisible), ZOrder(0)
 {
 }
@@ -67,8 +67,15 @@ void UITTWidget::Activate_Internal()
 	if (!bAddToViewport)
 	{
 		bAddToViewport = true;
-		//AddToViewport(ZOrder);
-		AddToPlayerScreen(ZOrder);
+
+		if (bFullScreenWidget)
+		{
+			AddToViewport(ZOrder);
+		}
+		else
+		{
+			AddToPlayerScreen(ZOrder);
+		}
 	}
 
 	if (!IsVisible())
@@ -81,7 +88,7 @@ void UITTWidget::Deactive_Internal()
 {
 	if (bAddToViewport)
 	{
-		SetVisibility(ESlateVisibility::Hidden);
+		SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 // ========================== //

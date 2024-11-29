@@ -58,6 +58,9 @@ public:
 	
 protected:
 	// ========== View ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	bool bFullScreenWidget;
+	
 	bool bActive;
 	bool bAddToViewport;
 	

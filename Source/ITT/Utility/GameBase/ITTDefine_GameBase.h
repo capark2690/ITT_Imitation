@@ -96,6 +96,8 @@ UENUM()
 enum class EITTLoadingType : uint8
 {
 	None = 0,
+
+	LoadingWidget,
 };
 // =========================== //
 // ============================================== //

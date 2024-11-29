@@ -61,7 +61,14 @@ void UITTWidget_CharacterSelect::Finish()
 
 	if (SceneMgr)
 	{
-		SceneMgr->ChangeScene(NextSceneType, EITTLoadingType::None, true);
+		if (NextSceneType == EITTSceneType::Ch1_Awakening)
+		{
+			SceneMgr->ChangeScene(NextSceneType, EITTLoadingType::LoadingWidget, true);
+		}
+		else
+		{
+			SceneMgr->ChangeScene(NextSceneType, EITTLoadingType::None, true);
+		}
 	}
 }
 // =========================== //

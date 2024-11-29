@@ -31,4 +31,7 @@ public:
 	
 private:
 	bool bInitialized;
+	
+	UPROPERTY()
+	TObjectPtr<class UITTWidget_Loading> LoadingWidget;
 };
