@@ -14,7 +14,7 @@ class ITT_API UITTData_SubAnim_Jog : public UITTData_SubAnim
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bUse180;
 	

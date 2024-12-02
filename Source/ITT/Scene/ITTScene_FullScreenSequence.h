@@ -29,7 +29,7 @@ protected:
 	void PlayLevelSequence();
 
 	UFUNCTION()
-	void OnLevelSequenceEndPlay(AActor* Actor , EEndPlayReason::Type Reason);
+	void OnStopLevelSequence();
 	// ============================== //
 
 

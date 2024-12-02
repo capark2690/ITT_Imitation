@@ -94,6 +94,7 @@ void UITTWidget_HUD_ActorMarker::UpdateMakerList()
 		{
 			UITTWidget_ActorMarker* NewMarker = WidgetMgr->ITTCreateWidgetByTable_WithOwnerWidget<UITTWidget_ActorMarker>(MarkerComponent->GetMarkerWidgetKey(), this);
 			NewMarker->ChangeActivation(true);
+			NewMarker->SetVisibility(ESlateVisibility::Collapsed);
 			
 			MarkerWidgetToMarkerComponents.Emplace(NewMarker, MarkerComponent);
 		}

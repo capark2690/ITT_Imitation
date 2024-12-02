@@ -3,6 +3,8 @@
 
 #include "ITTActorInteractionRoot.h"
 
+#include "Character/ITTCharacterBase.h"
+
 
 UITTActorInteractionRoot::UITTActorInteractionRoot()
 {
@@ -21,3 +23,27 @@ void UITTActorInteractionRoot::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+
+// ========== Interact ========== //
+void UITTActorInteractionRoot::InputInteract(AITTCharacterBase* Interactor, bool bStop)
+{
+	if (bStop)
+	{
+		StopInteract();
+	}
+	else
+	{
+		Interact(Interactor);
+	}
+}
+
+void UITTActorInteractionRoot::Interact(AITTCharacterBase* Interactor)
+{
+	InteractorCharacter = Interactor;
+}
+
+void UITTActorInteractionRoot::StopInteract()
+{
+	InteractorCharacter = nullptr;
+}
+// ============================== //

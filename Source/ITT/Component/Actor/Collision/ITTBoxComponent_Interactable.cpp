@@ -3,6 +3,8 @@
 
 #include "ITTBoxComponent_Interactable.h"
 
+#include "Component/Actor/InteractionRoot/ITTActorInteractionRoot.h"
+
 
 UITTBoxComponent_Interactable::UITTBoxComponent_Interactable()
 {
@@ -25,6 +27,11 @@ void UITTBoxComponent_Interactable::TickComponent(float DeltaTime, ELevelTick Ti
 // ========== Interact ========== //
 void UITTBoxComponent_Interactable::Interact(AITTCharacterBase* InteractorCharacter)
 {
+	if (UITTActorInteractionRoot* Parent = Cast<UITTActorInteractionRoot>(GetAttachParent()))
+	{
+		Parent->Interact(InteractorCharacter);
+	}
+	
 	OnActorComponentInteractDelegate.Broadcast(this, InteractorCharacter);
 }
 

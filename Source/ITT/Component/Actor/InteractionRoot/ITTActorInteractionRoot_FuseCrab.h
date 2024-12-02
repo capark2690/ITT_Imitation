@@ -3,19 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
-#include "ITTActorInteractionRoot.generated.h"
+#include "ITTActorInteractionRoot.h"
+#include "ITTActorInteractionRoot_FuseCrab.generated.h"
 
 /**
  * 
  */
 UCLASS(ClassGroup=ITTComponent, meta=(BlueprintSpawnableComponent))
-class ITT_API UITTActorInteractionRoot : public USceneComponent
+class ITT_API UITTActorInteractionRoot_FuseCrab : public UITTActorInteractionRoot
 {
 	GENERATED_BODY()
 
 public:
-	UITTActorInteractionRoot();
+	UITTActorInteractionRoot_FuseCrab();
 
 	
 protected:
@@ -25,16 +25,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
-	
 	// ========== Interact ========== //
-	virtual void InputInteract(class AITTCharacterBase* Interactor, bool bStop);
+	virtual void Interact(class AITTCharacterBase* Interactor) override;
 	
-	virtual void Interact(class AITTCharacterBase* Interactor);
-	
-	virtual void StopInteract();
+	virtual void StopInteract() override;
 	// ============================== //
-
-	
-private:
-	TWeakObjectPtr<class AITTCharacterBase> InteractorCharacter;
 };

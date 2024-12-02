@@ -80,8 +80,32 @@ enum class EITTSubMovementMode_Custom : uint8
 	Custom_LedgeGrab,
 	
 	Custom_JumpTo,
+
+	Custom_PickUp,
 	
 	EITTSubMovementMode_Custom_Max
+};
+
+
+// -- Additive Movement Mode1 -- //
+UENUM(BlueprintType)
+enum class EITTAdditiveMovementMode1 : uint8
+{
+	PreviousValue,
+	None,
+	
+	PickUp,
+	
+	EITTAdditiveMovementMode1_Max
+};
+
+UENUM(BlueprintType)
+enum class EITTAdditiveMovementMode2 : uint8
+{
+	PreviousValue,
+	None,
+	
+	EITTAdditiveMovementMode2_Max
 };
 // =================================== //
 
@@ -125,7 +149,7 @@ struct FITTMovementMode
 		: MainMode(_MainMode), SubMode(_SubMode), AdditiveMode1(0), AdditiveMode2(0)
 	{
 	}
-
+	
 	FITTMovementMode(uint8 _MainMode, uint8 _SubMode, uint8 _AdditiveMode1, uint8 _AdditiveMode2)
 		: MainMode(_MainMode), SubMode(_SubMode), AdditiveMode1(_AdditiveMode1), AdditiveMode2(_AdditiveMode2)
 	{
@@ -174,6 +198,8 @@ struct FITTSprintModeData
 	GENERATED_BODY()
 	
 	FITTSprintModeData()
+		: NoneSprintMode(FITTMovementMode()), SprintMode(FITTMovementMode()),
+		NoneSprintSpeedStat(EITTCharacterStat::MaxJogSpeed), SprintSpeedStat(EITTCharacterStat::MaxSprintSpeed)
 	{
 	}
 	

@@ -45,10 +45,11 @@ public:
 		bool bChangeImmediately = true);
 
 	template<typename T>
-	void SetITTMovementMode(EMovementMode MainMode,  T SubMode, uint8 AdditiveMode1 = 0, uint8 AdditiveMode2 = 0,
+	void SetITTMovementMode(EMovementMode MainMode,  T SubMode,
+		EITTAdditiveMovementMode1 AdditiveMode1 = EITTAdditiveMovementMode1::PreviousValue, EITTAdditiveMovementMode2 AdditiveMode2 = EITTAdditiveMovementMode2::PreviousValue,
 		bool bChangeImmediately = true)
 	{
-		SetITTMovementMode(static_cast<uint8>(MainMode), static_cast<uint8>(SubMode), AdditiveMode1, AdditiveMode2, bChangeImmediately);
+		SetITTMovementMode(static_cast<uint8>(MainMode), static_cast<uint8>(SubMode), static_cast<uint8>(AdditiveMode1), static_cast<uint8>(AdditiveMode2), bChangeImmediately);
 	}
 
 
@@ -147,6 +148,20 @@ public:
 	virtual bool IsLedgeGrab() const;
 
 	virtual bool IsLedgeGrabMode(const FITTMovementMode& InMovementMode) const;
+
+
+	// -- PickUp -- //
+	virtual void PickUp(TObjectPtr<AActor> Target);
+	
+	virtual void OnStartPickUp();
+	
+	virtual void OnStopPickUp();
+
+	virtual bool CanPickUp(TObjectPtr<AActor> Target) const;
+	
+	virtual bool IsPickUp() const;
+	
+	virtual bool IsPickUpMode(const FITTMovementMode& InMovementMode) const;
 	// ============================== //
 
 
@@ -182,4 +197,9 @@ protected:
 	UPROPERTY(Category="ITT|WallSlide", EditAnywhere)
 	float ZVelocityMultiplyOnWallSlide;
 	// ============================== //
+
+
+	// ========== PickUp ========== //
+	TObjectPtr<AActor> PickUpTarget;
+	// ============================ //
 };

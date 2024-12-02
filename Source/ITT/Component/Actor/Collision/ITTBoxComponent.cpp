@@ -3,8 +3,6 @@
 
 #include "ITTBoxComponent.h"
 
-#include "Component/Actor/Widget/ITTWidgetComponent.h"
-
 
 UITTBoxComponent::UITTBoxComponent()
 	: Priority(0)

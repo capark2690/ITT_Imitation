@@ -52,6 +52,11 @@ AITTCharacter_Player::AITTCharacter_Player(const FObjectInitializer& ObjectIniti
 void AITTCharacter_Player::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
+	{
+		MovementComponent_Player->SetITTMovementMode<EITTSubMovementMode_Walking>(EMovementMode::MOVE_Walking, EITTSubMovementMode_Walking::Walking_Jogging, EITTAdditiveMovementMode1::None, EITTAdditiveMovementMode2::None);
+	}
 }
 
 void AITTCharacter_Player::Tick(float DeltaTime)
@@ -170,10 +175,11 @@ void AITTCharacter_Player::Jump()
 bool AITTCharacter_Player::CanJumpInternal_Implementation() const
 {
 	if (UITTCharacterMovementComponent_Player* MovementComponent_Player = Cast<UITTCharacterMovementComponent_Player>(GetMovementComponent()))
-		
-	if (MovementComponent_Player->IsLedgeGrab())
 	{
-		return true;
+		if (MovementComponent_Player->IsLedgeGrab())
+		{
+			return true;
+		}
 	}
 	
 	return Super::CanJumpInternal_Implementation();

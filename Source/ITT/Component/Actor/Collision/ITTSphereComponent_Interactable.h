@@ -3,19 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
-#include "ITTActorInteractionRoot.generated.h"
+#include "ITTSphereComponent.h"
+#include "Component/ComponentInterface/Actor/ITTInteractionInputInterface.h"
+#include "ITTSphereComponent_Interactable.generated.h"
 
 /**
  * 
  */
 UCLASS(ClassGroup=ITTComponent, meta=(BlueprintSpawnableComponent))
-class ITT_API UITTActorInteractionRoot : public USceneComponent
+class ITT_API UITTSphereComponent_Interactable : public UITTSphereComponent, public IITTInteractionInput
 {
 	GENERATED_BODY()
 
 public:
-	UITTActorInteractionRoot();
+	UITTSphereComponent_Interactable();
 
 	
 protected:
@@ -27,14 +28,6 @@ public:
 
 	
 	// ========== Interact ========== //
-	virtual void InputInteract(class AITTCharacterBase* Interactor, bool bStop);
-	
-	virtual void Interact(class AITTCharacterBase* Interactor);
-	
-	virtual void StopInteract();
+	virtual void InputInteract(class AITTCharacterBase* InteractorCharacter) override;
 	// ============================== //
-
-	
-private:
-	TWeakObjectPtr<class AITTCharacterBase> InteractorCharacter;
 };

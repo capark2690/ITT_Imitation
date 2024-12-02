@@ -93,17 +93,27 @@ void UITTCharacterMovementComponent::SetMovementMode(EMovementMode NewMovementMo
 	{
 		uint8 MainMode = static_cast<uint8>(NewMovementMode);
 		uint8 SubMode = NewCustomMode;
-
+		
 		if (UITTCharacterFunctionLibrary::CheckMovementModeValid(FITTMovementMode(MainMode, SubMode)))
 		{
-			FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
-		
-			if (CurrentMovementMode.MainMode != MainMode)
-			{
-				MovementModeMachine->SetNextState(FITTMovementMode(MainMode, SubMode).GetFullMode());
+			int64 CurrentMovementModeValue = MovementModeMachine->GetCurrentStateId();
 
-				ITTLOG(Warning, TEXT("[%s] Set Movement Mode [Main : %d, Sub: %d, Additive1 : %d, Additive2 : %d"), *ITTSTRING_FUNC,
-					MainMode, SubMode, 0, 0);
+			if (CurrentMovementModeValue >= 0)
+			{
+				FITTMovementMode CurrentMovementMode(static_cast<uint32>(CurrentMovementModeValue));
+		
+				if (CurrentMovementMode.MainMode != MainMode)
+				{
+					MovementModeMachine->SetNextState
+					(FITTMovementMode(MainMode, SubMode, CurrentMovementMode.AdditiveMode1, CurrentMovementMode.AdditiveMode2).GetFullMode());
+
+					ITTLOG(Warning, TEXT("[%s] Set Movement Mode [Main : %d, Sub: %d, Additive1 : %d, Additive2 : %d"), *ITTSTRING_FUNC,
+						MainMode, SubMode, 0, 0);
+				}
+			}
+			else
+			{
+				MovementModeMachine->SetNextState(FITTMovementMode(MainMode, SubMode, 1, 1).GetFullMode());
 			}
 		}
 	}
@@ -118,6 +128,16 @@ void UITTCharacterMovementComponent::SetITTMovementMode(FITTMovementMode ITTMove
 		if (UITTCharacterFunctionLibrary::CheckMovementModeValid(ITTMovementMode))
 		{
 			FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+			if (ITTMovementMode.AdditiveMode1 == static_cast<uint8>(EITTAdditiveMovementMode1::PreviousValue))
+			{
+				ITTMovementMode.AdditiveMode1 = CurrentMovementMode.AdditiveMode1;
+			}
+
+			if (ITTMovementMode.AdditiveMode2 == static_cast<uint8>(EITTAdditiveMovementMode2::PreviousValue))
+			{
+				ITTMovementMode.AdditiveMode2 = CurrentMovementMode.AdditiveMode2;
+			}
 			
 			MovementModeMachine->SetNextState(ITTMovementMode.GetFullMode(), bChangeImmediately);
 			
@@ -165,6 +185,11 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 	{
 		OnStopLedgeGrab();
 	}
+
+	if (IsPickUpMode(PreviousMovementMode) && !IsPickUpMode(CurrentMovementMode))
+	{
+		OnStopPickUp();
+	}
 	
 	// Current Movement Mode
 	if (IsSprintMode(CurrentMovementMode, DataIndex))
@@ -180,6 +205,11 @@ void UITTCharacterMovementComponent::OnChangeMovementMode(int64 PreviousMovement
 	else if (IsLedgeGrabMode(CurrentMovementMode))
 	{
 		OnStartLedgeGrab();
+	}
+
+	if (!IsPickUpMode(PreviousMovementMode) && IsPickUpMode(CurrentMovementMode))
+	{
+		OnStartPickUp();
 	}
 }
 // =========================================== //
@@ -266,6 +296,11 @@ bool UITTCharacterMovementComponent::CanSprint(FITTMovementMode& OutSprintMode) 
 	
 	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
 
+	if (static_cast<EITTAdditiveMovementMode1>(CurrentMovementMode.AdditiveMode1) != EITTAdditiveMovementMode1::None)
+	{
+		return false;
+	}
+	
 	if (IsNoneSprintMode(CurrentMovementMode, DataIndex))
 	{
 		OutSprintMode = SprintModeDatas[DataIndex].SprintMode;
@@ -426,6 +461,11 @@ void UITTCharacterMovementComponent::DoDash()
 bool UITTCharacterMovementComponent::CanDash() const
 {
 	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	if (static_cast<EITTAdditiveMovementMode1>(CurrentMovementMode.AdditiveMode1) != EITTAdditiveMovementMode1::None)
+	{
+		return false;
+	}
 	
 	return static_cast<EMovementMode>(CurrentMovementMode.MainMode) == EMovementMode::MOVE_Walking
 		&& static_cast<EITTSubMovementMode_Walking>(CurrentMovementMode.SubMode) == EITTSubMovementMode_Walking::Walking_Jogging
@@ -535,6 +575,13 @@ void UITTCharacterMovementComponent::OnStopWallSlide()
 
 bool UITTCharacterMovementComponent::CanWallSlide(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const
 {
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	if (static_cast<EITTAdditiveMovementMode1>(CurrentMovementMode.AdditiveMode1) != EITTAdditiveMovementMode1::None)
+	{
+		return false;
+	}
+	
 	if (PhysicalMaterial != nullptr)
 	{
 		return PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType1
@@ -578,6 +625,13 @@ void UITTCharacterMovementComponent::OnStopLedgeGrab()
 
 bool UITTCharacterMovementComponent::CanLedgeGrab(TWeakObjectPtr<UPhysicalMaterial> PhysicalMaterial) const
 {
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	if (static_cast<EITTAdditiveMovementMode1>(CurrentMovementMode.AdditiveMode1) != EITTAdditiveMovementMode1::None)
+	{
+		return false;
+	}
+	
 	if (PhysicalMaterial != nullptr)
 	{
 		return PhysicalMaterial->SurfaceType == EPhysicalSurface::SurfaceType1
@@ -599,6 +653,84 @@ bool UITTCharacterMovementComponent::IsLedgeGrabMode(const FITTMovementMode& InM
 {
 	return InMovementMode.MainMode == static_cast<uint8>(EMovementMode::MOVE_Custom)
 		&& InMovementMode.SubMode == static_cast<uint8>(EITTSubMovementMode_Custom::Custom_LedgeGrab);
+}
+
+
+// -- PickUp -- //
+void UITTCharacterMovementComponent::PickUp(TObjectPtr<AActor> Target)
+{
+	if (!IsValid(Target))
+	{
+		return;
+	}
+	
+	if (CanPickUp(Target))
+	{
+		PickUpTarget = Target;
+		SetITTMovementMode<EITTSubMovementMode_Custom>(EMovementMode::MOVE_Custom, EITTSubMovementMode_Custom::Custom_PickUp, EITTAdditiveMovementMode1::PickUp);
+	}
+}
+
+void UITTCharacterMovementComponent::OnStartPickUp()
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		if (IsValid(PickUpTarget))
+		{
+			CharacterBase->JumpMaxCount = 1;
+			
+			PickUpTarget->AttachToActor(CharacterBase, FAttachmentTransformRules::SnapToTargetIncludingScale);
+		}
+	}
+}
+
+void UITTCharacterMovementComponent::OnStopPickUp()
+{
+	if (AITTCharacterBase* CharacterBase = Cast<AITTCharacterBase>(GetOwner()))
+	{
+		CharacterBase->JumpMaxCount = 2;
+		
+		if (IsValid(PickUpTarget))
+		{
+			PickUpTarget->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+			TArray<UActorComponent*> ForcedComponents = PickUpTarget->GetComponentsByTag(UPrimitiveComponent::StaticClass(), FName("PickUpForced"));
+		
+			if (ForcedComponents.IsValidIndex(0))
+			{
+				UPrimitiveComponent* ForcedComponent = Cast<UPrimitiveComponent>(ForcedComponents[0]);
+				ForcedComponent->AddImpulse(FVector(100.f, 100.f, 100.f));
+			}
+			else
+			{
+				ITTLOG(Error, TEXT("Tag 'PickUpForced' To PickUpTarget's Primitive Component."));
+			}
+		
+			PickUpTarget = nullptr;
+		}
+	}
+}
+
+bool UITTCharacterMovementComponent::CanPickUp(TObjectPtr<AActor> Target) const
+{
+	if (IsPickUp())
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+bool UITTCharacterMovementComponent::IsPickUp() const
+{
+	FITTMovementMode CurrentMovementMode(static_cast<uint32>(MovementModeMachine->GetCurrentStateId()));
+
+	return CurrentMovementMode.AdditiveMode1 == static_cast<uint8>(EITTAdditiveMovementMode1::PickUp);
+}
+
+bool UITTCharacterMovementComponent::IsPickUpMode(const FITTMovementMode& InMovementMode) const
+{
+	return InMovementMode.AdditiveMode1 == static_cast<uint8>(EITTAdditiveMovementMode1::PickUp);
 }
 // ============================== //
 

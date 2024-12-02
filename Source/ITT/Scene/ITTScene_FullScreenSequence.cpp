@@ -66,13 +66,13 @@ void UITTScene_FullScreenSequence::PlayLevelSequence()
 		if (LevelSequenceActor)
 		{
 			LevelSequenceActor->GetSequencePlayer()->Play();
-
-			LevelSequenceActor->OnEndPlay.AddDynamic(this, &UITTScene_FullScreenSequence::OnLevelSequenceEndPlay);
+			
+			LevelSequenceActor->GetSequencePlayer()->OnStop.AddDynamic(this, &UITTScene_FullScreenSequence::OnStopLevelSequence);
 		}
 	}
 }
 
-void UITTScene_FullScreenSequence::OnLevelSequenceEndPlay(AActor* Actor, EEndPlayReason::Type Reason)
+void UITTScene_FullScreenSequence::OnStopLevelSequence()
 {
 	if (SceneMgr)
 	{
