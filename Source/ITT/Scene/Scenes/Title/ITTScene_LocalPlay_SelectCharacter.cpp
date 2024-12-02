@@ -3,8 +3,10 @@
 
 #include "ITTScene_LocalPlay_SelectCharacter.h"
 
+#include "Actor/ITTActor_LevelSpecific.h"
+#include "Animation/Animation/Actor/Title/ITTAnimInstance_CharacterSelect.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Engine/World.h"
-#include "GameFramework/Pawn.h"
 
 #include "GameBase/BasicUtility/ITTBasicUtility.h"
 #include "Level/Title/ITTLevelScriptActor_Title.h"
@@ -48,6 +50,7 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 			if (IsValid(Widget_CharacterSelect))
 			{
 				Widget_CharacterSelect->ChangeActivation(true);
+				BindToCharacterSelectWidget();
 			}
 		}
 	}
@@ -56,8 +59,40 @@ void UITTScene_LocalPlay_SelectCharacter::CreateWidget()
 
 
 // ========== Character Select State ========== //
+void UITTScene_LocalPlay_SelectCharacter::BindToCharacterSelectWidget()
+{
+	if (IsValid(Widget_CharacterSelect))
+	{
+		Widget_CharacterSelect->OnChangeCharacterSelectStateDelegate.BindUObject(this,
+			&UITTScene_LocalPlay_SelectCharacter::OnChangeCharacterSelectState);
+	}
+}
+
+void UITTScene_LocalPlay_SelectCharacter::OnChangeCharacterSelectState(
+	EITTPlayerCharacterType SelectedPlayerCharacterType1, EITTPlayerCharacterType SelectedPlayerCharacterType2)
+{
+	if (AITTLevelScriptActor* LevelScriptActor = UITTBasicUtility::GetITTLevelScriptActor())
+	{
+		if (AITTActor_LevelSpecific* CharacterSelectActor = LevelScriptActor->GetLevelSpecificActor<AITTActor_LevelSpecific>(FName(ActorKey_CharacterSelect)))
+		{
+			TArray<UActorComponent*> Components = CharacterSelectActor->GetComponentsByTag(USkeletalMeshComponent::StaticClass(), FName(ComponentTag_CharacterSelectMesh));
+
+			for (UActorComponent* Component : Components)
+			{
+				if (USkeletalMeshComponent* MeshComponent = Cast<USkeletalMeshComponent>(Component))
+				{
+					if (UITTAnimInstance_CharacterSelect* AnimInstance = Cast<UITTAnimInstance_CharacterSelect>(MeshComponent->GetAnimInstance()))
+					{
+						AnimInstance->UpdateCharacterSelectState(SelectedPlayerCharacterType1, SelectedPlayerCharacterType2);
+					}
+				}
+			}
+		}
+	}
+}
+
 void UITTScene_LocalPlay_SelectCharacter::GetCharacterSelectState(EITTPlayerCharacterType& OutSelectCharacter_Player1,
-	EITTPlayerCharacterType& OutSelectCharacter_Player2) const
+                                                                  EITTPlayerCharacterType& OutSelectCharacter_Player2) const
 {
 	if (IsValid(Widget_CharacterSelect))
 	{

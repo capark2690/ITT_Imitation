@@ -9,6 +9,8 @@
 #include "GameBase/GameInstance/ITTGameInstanceBase.h"
 #include "Player/PlayerController/ITTPlayerController_InGame.h"
 #include "Character/Player/ITTCharacter_Player.h"
+#include "Engine/Level.h"
+#include "Level/ITTLevelScriptActor.h"
 
 
 TObjectPtr<UITTBasicUtility> UITTBasicUtility::Instance = nullptr;
@@ -96,6 +98,20 @@ UWorld* UITTBasicUtility::GetITTWorld()
 	if (GameInstance != nullptr)
 	{
 		return GameInstance->GetWorld();
+	}
+
+	return nullptr;
+}
+
+AITTLevelScriptActor* UITTBasicUtility::GetITTLevelScriptActor()
+{
+	if (UWorld* World = UITTBasicUtility::GetITTWorld())
+	{
+		if (ULevel* Level = World->GetLevel(0))
+		{
+			ALevelScriptActor* LevelScriptActor = Level->GetLevelScriptActor();
+			return Cast<AITTLevelScriptActor>(LevelScriptActor);
+		}
 	}
 
 	return nullptr;

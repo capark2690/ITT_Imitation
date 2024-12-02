@@ -11,6 +11,9 @@
 /**
  * 
  */
+DECLARE_DELEGATE_TwoParams(FITTOnChangeCharacterSelectStateDelegate, EITTPlayerCharacterType, EITTPlayerCharacterType);
+
+
 UCLASS()
 class ITT_API UITTWidget_CharacterSelect : public UITTWidget
 {
@@ -95,11 +98,13 @@ public:
 
 	
 	// ========== Character Select State ========== //
+	void OnChangeCharacterSelectState();
+	
 	void GetCharacterSelectState(EITTPlayerCharacterType& OutSelectPlayerCharacterType1, EITTPlayerCharacterType& OutSelectPlayerCharacterType2) const;
 	// ============================================ //
 	
 	
-protected:
+private:
 	static constexpr char ClassWidgetKey[] = "WBP_CharacterSelect";
 
 	
@@ -122,8 +127,8 @@ protected:
 
 
 	// ========== Progress ========== //
-	EITTPlayerCharacterType SelectPlayerCharacterType1;
-	EITTPlayerCharacterType SelectPlayerCharacterType2;
+	EITTPlayerCharacterType SelectedPlayerCharacterType1;
+	EITTPlayerCharacterType SelectedPlayerCharacterType2;
 	
 	bool bConfirm_Player1;
 	bool bConfirm_Player2;
@@ -154,5 +159,13 @@ protected:
 	UPROPERTY(Transient, Meta = (BindWidgetAnim))
 	class UWidgetAnimation* WAnim_Disappearance;
 	// ====================================== //
+
+	
+public:
+	// ==================== Delegate ==================== //
+	// ========== Interact ========== //
+	FITTOnChangeCharacterSelectStateDelegate OnChangeCharacterSelectStateDelegate;
+	// ============================== //
+	// ================================================== //
 };
 // ToDo : Processing when using the same controller device

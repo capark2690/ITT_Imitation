@@ -29,6 +29,20 @@ public:
 	class AActor* GetViewTargetActor(const FName& Key);
 	// ============================ //
 
+
+	// ========== Actor ========== //
+	void AddLevelSpecificActor(const FName& Key, class AActor* Actor);
+	void RemoveLevelSpecificActor(const FName& Key);
+	
+	class AActor* GetLevelSpecificActor(const FName& Key) const;
+
+	template<typename TClass>
+	TClass* GetLevelSpecificActor(const FName& Key) const
+	{
+		return Cast<TClass>(GetLevelSpecificActor(Key));
+	}
+	// =========================== //
+
 	
 	// ========== Level Sequences ========== //
 	class ALevelSequenceActor* GetLevelSequenceActor(const FName& Key) const;
@@ -36,14 +50,20 @@ public:
 
 	
 protected:
-	// ========== Camera ========== //
+	// ========== Cameras ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
-	TMap<FName, AActor*> ViewTargetActors;
+	TMap<FName, TObjectPtr<AActor>> ViewTargetActors;
+	// ============================= //
+
+	
+	// ========== Actors ========== //
+	UPROPERTY(Category=ITT, EditAnywhere)
+	TMap<FName, TObjectPtr<class AActor>> LevelSpecificActors;
 	// ============================ //
 
 	
 	// ========== Level Sequences ========== //
 	UPROPERTY(Category=ITT, EditAnywhere)
-	TMap<FName, class ALevelSequenceActor*> LevelSequenceActors;
+	TMap<FName, TObjectPtr<class ALevelSequenceActor>> LevelSequenceActors;
 	// ===================================== //
 };

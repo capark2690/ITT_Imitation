@@ -38,11 +38,6 @@ public:
 
 
 protected:
-	// ========== Level ========== //
-	void SetLevelScriptActor();
-	// =========================== //
-
-	
 	// ========== Camera ========== //
 	void SetSceneCamera();
 	// ============================ //
@@ -53,11 +48,6 @@ protected:
 	EITTSceneType SceneType;
 
 	struct FITTTableRow_Scene* SceneRow;
-	// =========================== //
-	
-
-	// ========== Level ========== //
-	class AITTLevelScriptActor* LevelScriptActor;
 	// =========================== //
 
 	

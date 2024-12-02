@@ -21,7 +21,7 @@
 
 
 UITTSceneBase::UITTSceneBase()
-	: SceneType(EITTSceneType::None)
+	: SceneType(EITTSceneType::None), SceneRow(nullptr)
 {
 }
 
@@ -33,8 +33,6 @@ void UITTSceneBase::Initialize(EITTSceneType _SceneType, FITTTableRow_Scene* _Sc
 
 	FString SceneTypeName = UITTUtilityFunctionLibrary::ConvertEnumToString(FString("EITTSceneType"), SceneType);
 	ITTLOG(Log, TEXT("[%s] Initialize scene [SceneType : %s]"), *ITTSTRING_FUNC, *SceneTypeName);
-
-	SetLevelScriptActor();
 	
 	SetSceneCamera();
 }
@@ -77,18 +75,6 @@ void UITTSceneBase::PrepareToFinish_Immediately(EITTSceneType NextSceneType, EIT
 // ============================ //
 
 
-// ========== Level ========== //
-void UITTSceneBase::SetLevelScriptActor()
-{
-	UWorld* World = UITTBasicUtility::GetITTWorld();
-	ITTCHECK(World);
-
-	LevelScriptActor = Cast<AITTLevelScriptActor>(World->GetLevel(0)->GetLevelScriptActor());
-	ITTCHECK (LevelScriptActor);
-}
-// =========================== //
-
-
 // ========== Camera ========== //
 void UITTSceneBase::SetSceneCamera()
 {
@@ -107,7 +93,7 @@ void UITTSceneBase::SetSceneCamera()
 			{
 				CameraMgr->SetForceDisableSplitscreen(SceneCameraData->bForceDisableSplitscreen);
 			
-				if (LevelScriptActor)
+				if (AITTLevelScriptActor* LevelScriptActor = UITTBasicUtility::GetITTLevelScriptActor())
 				{
 					if (APlayerController* Player1 = UGameplayStatics::GetPlayerControllerFromID(World, 0))
 					{

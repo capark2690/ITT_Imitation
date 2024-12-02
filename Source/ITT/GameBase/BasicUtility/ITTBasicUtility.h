@@ -42,6 +42,8 @@ public:
 	static TWeakObjectPtr<class UITTGameInstanceBase> GetITTGameInstance();
 	
 	static class UWorld* GetITTWorld();
+	
+	static class AITTLevelScriptActor* GetITTLevelScriptActor();
 
 	static class AITTPlayerControllerBase* GetFirstPlayerController();
 	

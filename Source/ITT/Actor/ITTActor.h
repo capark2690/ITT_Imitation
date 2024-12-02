@@ -16,10 +16,12 @@ class ITT_API AITTActor : public AActor
 
 public:
 	AITTActor();
-
+	
 	
 protected:
 	virtual void BeginPlay() override;
+	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	virtual void Tick(float DeltaTime) override;

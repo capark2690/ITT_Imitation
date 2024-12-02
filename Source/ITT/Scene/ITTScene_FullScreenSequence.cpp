@@ -58,7 +58,7 @@ void UITTScene_FullScreenSequence::PlayLevelSequence()
 		return;
 	}
 	
-	if (LevelScriptActor)
+	if (AITTLevelScriptActor* LevelScriptActor = UITTBasicUtility::GetITTLevelScriptActor())
 	{
 		ITTCHECK(!SequenceName.IsNone());
 		

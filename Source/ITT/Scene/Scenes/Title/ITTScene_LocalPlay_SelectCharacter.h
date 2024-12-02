@@ -32,12 +32,21 @@ private:
 
 public:
 	// ========== Character Select State ========== //
+	void BindToCharacterSelectWidget();
+
+	void OnChangeCharacterSelectState(EITTPlayerCharacterType SelectedPlayerCharacterType1,
+		EITTPlayerCharacterType SelectedPlayerCharacterType2);
+	
 	void GetCharacterSelectState(EITTPlayerCharacterType& OutSelectCharacter_Player1,
-	EITTPlayerCharacterType& OutSelectCharacter_Player2) const;
+		EITTPlayerCharacterType& OutSelectCharacter_Player2) const;
 	// ============================================ //
 
 	
 private:
+	static constexpr char ActorKey_CharacterSelect[] = "BP_Rose_CharacterSelect";
+	static constexpr char ComponentTag_CharacterSelectMesh[] = "CharacterSelectMesh";
+
+	
 	// ========== Widget ========== //
 	TObjectPtr<class UITTWidget_CharacterSelect> Widget_CharacterSelect;
 	// ============================ //

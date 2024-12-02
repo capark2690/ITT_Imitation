@@ -32,7 +32,7 @@ void UITTWidget_CharacterSelect::NativeOnInitialized()
 void UITTWidget_CharacterSelect::NativeConstruct()
 {
 	Super::NativeConstruct();
-
+	
 	UpdateDesign_BTN();
 }
 
@@ -144,7 +144,7 @@ void UITTWidget_CharacterSelect::ClearInputActionBindings()
 // -- Player1 -- //
 void UITTWidget_CharacterSelect::InputConfirm_Player1()
 {
-	if (SelectPlayerCharacterType1 != EITTPlayerCharacterType::None)
+	if (SelectedPlayerCharacterType1 != EITTPlayerCharacterType::None)
 	{
 		bConfirm_Player1 = true;
 		CheckConfirm();
@@ -155,43 +155,43 @@ void UITTWidget_CharacterSelect::InputConfirm_Player1()
 
 void UITTWidget_CharacterSelect::InputRight_Player1()
 {
-	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectPlayerCharacterType2 != EITTPlayerCharacterType::Cody)
+	if (SelectedPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectedPlayerCharacterType2 != EITTPlayerCharacterType::Cody)
 	{
-		SelectPlayerCharacterType1 = EITTPlayerCharacterType::Cody;
+		SelectedPlayerCharacterType1 = EITTPlayerCharacterType::Cody;
 	}
 	
-	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::May)
+	if (SelectedPlayerCharacterType1 == EITTPlayerCharacterType::May)
 	{
-		SelectPlayerCharacterType1 = EITTPlayerCharacterType::None;
+		SelectedPlayerCharacterType1 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player1 = false;
 	}
-
-	UpdateDesign_BTN();
+	
+	OnChangeCharacterSelectState();
 }
 
 void UITTWidget_CharacterSelect::InputLeft_Player1()
 {
-	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectPlayerCharacterType2 != EITTPlayerCharacterType::May)
+	if (SelectedPlayerCharacterType1 == EITTPlayerCharacterType::None && SelectedPlayerCharacterType2 != EITTPlayerCharacterType::May)
 	{
-		SelectPlayerCharacterType1 = EITTPlayerCharacterType::May;
+		SelectedPlayerCharacterType1 = EITTPlayerCharacterType::May;
 	}
 	
-	if (SelectPlayerCharacterType1 == EITTPlayerCharacterType::Cody)
+	if (SelectedPlayerCharacterType1 == EITTPlayerCharacterType::Cody)
 	{
-		SelectPlayerCharacterType1 = EITTPlayerCharacterType::None;
+		SelectedPlayerCharacterType1 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player1 = false;
 	}
 
-	UpdateDesign_BTN();
+	OnChangeCharacterSelectState();
 }
 
 
 // -- Player2 -- //
 void UITTWidget_CharacterSelect::InputConfirm_Player2()
 {
-	if (SelectPlayerCharacterType2 != EITTPlayerCharacterType::None)
+	if (SelectedPlayerCharacterType2 != EITTPlayerCharacterType::None)
 	{
 		bConfirm_Player2 = true;
 		CheckConfirm();
@@ -202,36 +202,36 @@ void UITTWidget_CharacterSelect::InputConfirm_Player2()
 
 void UITTWidget_CharacterSelect::InputRight_Player2()
 {
-	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectPlayerCharacterType1 != EITTPlayerCharacterType::Cody)
+	if (SelectedPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectedPlayerCharacterType1 != EITTPlayerCharacterType::Cody)
 	{
-		SelectPlayerCharacterType2 = EITTPlayerCharacterType::Cody;
+		SelectedPlayerCharacterType2 = EITTPlayerCharacterType::Cody;
 	}
 	
-	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::May)
+	if (SelectedPlayerCharacterType2 == EITTPlayerCharacterType::May)
 	{
-		SelectPlayerCharacterType2 = EITTPlayerCharacterType::None;
+		SelectedPlayerCharacterType2 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player2 = false;
 	}
 
-	UpdateDesign_BTN();
+	OnChangeCharacterSelectState();
 }
 
 void UITTWidget_CharacterSelect::InputLeft_Player2()
 {
-	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectPlayerCharacterType1 != EITTPlayerCharacterType::May)
+	if (SelectedPlayerCharacterType2 == EITTPlayerCharacterType::None && SelectedPlayerCharacterType1 != EITTPlayerCharacterType::May)
 	{
-		SelectPlayerCharacterType2 = EITTPlayerCharacterType::May;
+		SelectedPlayerCharacterType2 = EITTPlayerCharacterType::May;
 	}
 	
-	if (SelectPlayerCharacterType2 == EITTPlayerCharacterType::Cody)
+	if (SelectedPlayerCharacterType2 == EITTPlayerCharacterType::Cody)
 	{
-		SelectPlayerCharacterType2 = EITTPlayerCharacterType::None;
+		SelectedPlayerCharacterType2 = EITTPlayerCharacterType::None;
 		
 		bConfirm_Player2 = false;
 	}
 
-	UpdateDesign_BTN();
+	OnChangeCharacterSelectState();
 }
 
 
@@ -253,8 +253,8 @@ void UITTWidget_CharacterSelect::CheckConfirm()
 		{
 			GameProcessMgr->ResetControllerIdToCharacter();
 
-			GameProcessMgr->AddControllerIdToCharacterType(0, SelectPlayerCharacterType1);
-			GameProcessMgr->AddControllerIdToCharacterType(1, SelectPlayerCharacterType2);
+			GameProcessMgr->AddControllerIdToCharacterType(0, SelectedPlayerCharacterType1);
+			GameProcessMgr->AddControllerIdToCharacterType(1, SelectedPlayerCharacterType2);
 		}
 
 		NextSceneType = EITTSceneType::Ch1_Awakening;
@@ -275,7 +275,7 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 	bool bConfirm_ConfirmBTN_Right = false;
 	bool bConfirm_ConfirmBTN_Left = false;
 	
-	switch (SelectPlayerCharacterType1)
+	switch (SelectedPlayerCharacterType1)
 	{
 	case EITTPlayerCharacterType::None:
 		{
@@ -302,7 +302,7 @@ void UITTWidget_CharacterSelect::UpdateDesign_BTN()
 		}
 	}
 	
-	switch (SelectPlayerCharacterType2)
+	switch (SelectedPlayerCharacterType2)
 	{
 	case EITTPlayerCharacterType::None:
 		{
@@ -359,10 +359,16 @@ void UITTWidget_CharacterSelect::OnAnimationFinished_Implementation(const UWidge
 
 
 // ========== Character Select State ========== //
+void UITTWidget_CharacterSelect::OnChangeCharacterSelectState()
+{
+	bool bDelegateBound = OnChangeCharacterSelectStateDelegate.ExecuteIfBound(SelectedPlayerCharacterType1, SelectedPlayerCharacterType2);
+	UpdateDesign_BTN();
+}
+
 void UITTWidget_CharacterSelect::GetCharacterSelectState(EITTPlayerCharacterType& OutSelectPlayerCharacterType1,
 	EITTPlayerCharacterType& OutSelectPlayerCharacterType2) const
 {
-	OutSelectPlayerCharacterType1 = SelectPlayerCharacterType1;
-	OutSelectPlayerCharacterType2 = SelectPlayerCharacterType2;
+	OutSelectPlayerCharacterType1 = SelectedPlayerCharacterType1;
+	OutSelectPlayerCharacterType2 = SelectedPlayerCharacterType2;
 }
 // ============================================ //

@@ -22,10 +22,10 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
-
-protected:
+	
 	// ========== Character Select State ========== //
-	virtual void UpdateCharacterSelectState();
+	UFUNCTION()
+	virtual void UpdateCharacterSelectState(EITTPlayerCharacterType SelectPlayerCharacterType1, EITTPlayerCharacterType SelectPlayerCharacterType2);
 	// ============================================ //
 
 
