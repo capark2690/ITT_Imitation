@@ -19,7 +19,8 @@ bool UITTCharacterFunctionLibrary::CheckMovementModeValid(const FITTMovementMode
 	
 	if (ITTMovementMode.MainMode >= static_cast<uint8>(EMovementMode::MOVE_MAX))
 	{
-		ITTENSUREF(false, TEXT("[%s] MainMovementMode is not valid [MainMode : %d]"), *ITTSTRING_FUNC, ITTMovementMode.MainMode);
+		ITTENSUREF(false, TEXT("[%s] MainMovementMode is not valid [MainMode : %d]"),
+			*ITTSTRING_FUNC, ITTMovementMode.MainMode);
 		return false;
 	}
 	
@@ -87,7 +88,8 @@ bool UITTCharacterFunctionLibrary::CheckMovementModeValid(const FITTMovementMode
 
 	if (!bIsValidSubMode)
 	{
-		ITTENSUREF(false, TEXT("[%s] SubMovementMode is not valid [MainMode : %d, SubMode : %d]"), *ITTSTRING_FUNC, ITTMovementMode.MainMode, ITTMovementMode.SubMode);
+		ITTENSUREF(false, TEXT("[%s] SubMovementMode is not valid [MainMode : %d, SubMode : %d]"),
+			*ITTSTRING_FUNC, ITTMovementMode.MainMode, ITTMovementMode.SubMode);
 	}
 
 	return bIsValidSubMode;

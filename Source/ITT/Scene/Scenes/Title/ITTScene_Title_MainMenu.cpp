@@ -4,12 +4,6 @@
 #include "ITTScene_Title_MainMenu.h"
 
 #include "Engine/World.h"
-#include "Engine/Level.h"
-#include "GameFramework/PlayerController.h"
-#include "Camera/CameraActor.h"
-
-#include "GameBase/BasicUtility/ITTBasicUtility.h"
-#include "Level/Title/ITTLevelScriptActor_Title.h"
 
 #include "GameBase/GameManager/GUI/ITTWidgetManager.h"
 #include "GUI/Widget/Title/ITTWidget_Title.h"
